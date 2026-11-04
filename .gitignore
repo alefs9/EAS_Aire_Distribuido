@@ -1,0 +1,40 @@
+# Datos completos y derivados por observacion; las tablas pequenas de evidencia se conservan.
+*.csv
+!**/Procesado_PM/**/[0-9][0-9]_*.csv
+*.parquet
+*.parquet.*
+*.duckdb
+*.duckdb.*
+*.db
+*.db-wal
+*.db-shm
+# Manifiestos locales generados por EDA y Vectores (no impedir su creacion).
+**/Procesado_PM/**/manifest.json
+**/Procesado_PM/**/ejecucion.json
+**/Procesado_PM/ultima_ejecucion.json
+**/Vectores_PM/**/resumen_vectores.json
+# Temporales, descargas, checkpoints y caches.
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+*.tmp
+*.temp
+*.log
+*.crdownload
+*.part
+*.swp
+*~
+tmp/
+temp/
+spill/
+audit_eas_*/
+.venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+# Ejecutables de las pruebas Go.
+*.exe
+kmeans_secuencial
+kmeans_concurrente

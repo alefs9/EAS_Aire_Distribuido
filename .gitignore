@@ -1,0 +1,21 @@
+# Datos completos; conservar las tablas pequenas de evidencia del EDA.
+*.csv
+!**/Procesado_PM/**/[0-9][0-9]_*.csv
+*.parquet
+*.parquet.*
+*.duckdb
+*.duckdb.*
+
+# Metadatos generados con rutas locales de Drive.
+**/Procesado_PM/**/manifest.json
+**/Procesado_PM/**/ejecucion.json
+**/Procesado_PM/ultima_ejecucion.json
+**/Vectores_PM/**/resumen_vectores.json
+
+# Checkpoints y temporales de ejecucion.
+.ipynb_checkpoints/
+__pycache__/
+*.tmp
+*.temp
+spill/
+audit_eas_*/

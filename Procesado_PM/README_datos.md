@@ -1,1 +1,0 @@
-Fuente: Evaluaciones Ambientales de Seguimiento - Aire, OEFA. Conservar URL oficial, fecha de descarga y archivo original. Las mediciones conservan periodo, identidad y trazabilidad. Los archivos grandes se mantienen fuera de Git. El cuaderno documenta cómo regenerarlos. 

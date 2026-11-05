@@ -1,6 +1,6 @@
 # EAS Aire Distribuido
 
-Análisis de mediciones ambientales de PM10 y PM2.5 para estudiar patrones espaciales y temporales de calidad del aire. Esta versión incorpora el análisis exploratorio de la fuente, sus diagnósticos de calidad y sus evidencias reproducibles.
+Análisis de mediciones ambientales de PM10 y PM2.5 para estudiar patrones espaciales y temporales de calidad del aire. Esta versión incorpora el análisis exploratorio, la limpieza definitiva de las mediciones PM y sus evidencias reproducibles.
 
 ## Fuente y cobertura
 
@@ -46,6 +46,18 @@ El cuaderno está adaptado a Colab; no se ejecuta directamente como un script de
 
 El EDA examina tipos de lectura, parámetros, unidades, periodos, cobertura temporal, información desconocida, identidades espaciales y distribuciones. Los años con más registros indican mayor disponibilidad en la fuente, no necesariamente mayor contaminación. Los valores extremos se señalan para revisión y no se eliminan automáticamente. Las coordenadas UTM no se interpretan como latitud y longitud; las variantes de zona y datum requieren validación.
 
-El notebook contiene una transformación exploratoria y conserva nombres históricos como `06_resumen_limpieza.csv` y `mediciones_PM_limpias`. En este directorio esos nombres describen únicamente el subconjunto exploratorio de 1 137 870 mediciones. El dataset de limpieza definitiva y la preparación de vectores se incorporan en sus etapas correspondientes.
+El notebook contiene una transformación exploratoria y conserva nombres históricos como `06_resumen_limpieza.csv` y `mediciones_PM_limpias`. En este directorio esos nombres describen únicamente el subconjunto exploratorio de 1 137 870 mediciones. El [dataset de limpieza definitiva](data/processed/README.md) se publica por separado y conserva 1 062 897 mediciones. La preparación de vectores corresponde a la etapa siguiente.
 
 Los CSV masivos y las bases temporales no forman parte del repositorio. No se incluyen implementaciones ni resultados de rendimiento de Go en esta versión.
+
+
+
+## Limpieza definitiva
+
+El [cuaderno de limpieza](notebooks/Limpieza.ipynb) procesa el CSV original y conserva 1 062 897 mediciones: 598 502 de PM10 y 464 395 de PM2.5. La auditoría conserva 517 733 exclusiones. Se mantienen todos los años disponibles; no se replican filas ni se imputan valores para completar observaciones.
+
+Los [resultados y criterios](results/limpieza/README.md) incluyen nueve tablas completas, evidencias y comprobaciones de los Parquet. Los archivos completos comprimidos y el manifiesto portátil están en [data/processed](data/processed/README.md). El CSV puede descargarse o regenerarse con `python scripts/exportar_csv_limpio.py`; permanece excluido de Git.
+
+Para reproducir la limpieza en Colab, abrir `notebooks/Limpieza.ipynb`, ajustar `DATA_DIR` a la carpeta del archivo original y ejecutar las celdas en orden. La configuración requiere al menos 10 GiB libres en `/content` y limita DuckDB a 3 GB de memoria. Sus resultados se guardan en `DATA_DIR/Limpieza_PM/<RUN_ID>/`. La ejecución conservada empleó DuckDB 1.3.2; el `requirements.txt` del repositorio ya incluye esa versión. El cuaderno original instala DuckDB sin fijar versión, por lo que puede usarse `%pip -q install duckdb==1.3.2` para igualarla.
+
+La preparación del paquete conserva el código y las salidas del notebook original. La validación de publicación comprueba los archivos descargados; no representa una nueva ejecución completa del CSV fuente.

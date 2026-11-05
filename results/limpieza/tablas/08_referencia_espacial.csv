@@ -1,0 +1,5 @@
+zona,datum,datum_reconocido,mediciones
+17,WGS84,True,262139
+18,WGS84,True,443897
+18,WSG84,False,109288
+19,WGS84,True,247573

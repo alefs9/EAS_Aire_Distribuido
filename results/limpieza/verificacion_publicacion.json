@@ -1,0 +1,18 @@
+{
+  "origen": "Verificacion local de los Parquet descargados; no es una nueva limpieza del CSV fuente",
+  "run_id": "20261105T003520_811897Z",
+  "filas_limpias": 1062897,
+  "filas_auditoria": 517733,
+  "entrada_PM": 1580630,
+  "balance_correcto": true,
+  "mediciones_por_contaminante": {
+    "PM10": 598502,
+    "PM2.5": 464395
+  },
+  "filas_que_incumplen_los_criterios_comprobados": 0,
+  "claves_ambiguas": 0,
+  "composicion_coincide_con_CSV": true,
+  "cobertura_coincide_con_CSV": true,
+  "datum_pendiente_revision": 109288,
+  "final_desconocido": 1025663
+}

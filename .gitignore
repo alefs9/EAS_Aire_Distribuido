@@ -19,3 +19,10 @@ __pycache__/
 venv/
 .DS_Store
 Thumbs.db
+
+# Dataset definitivo comprimido que se publica en Git
+!data/processed/PM25_PM10_limpio.parquet
+
+# Salidas de ejecuciones locales
+Limpieza_PM/
+*.csv.part

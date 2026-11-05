@@ -1,0 +1,5 @@
+contaminante,periodo,mediciones,identidades_espaciales,primera_fecha,ultima_fecha,datum_pendiente_revision,final_desconocido,concentraciones_cero
+PM10,1 hora,574224,44,2018-01-01,2024-12-31,52457,573986,41850
+PM10,24 horas,24278,49,2018-01-01,2024-12-31,2187,5002,1719
+PM2.5,1 hora,446002,39,2019-04-24,2024-12-31,52457,445764,16438
+PM2.5,24 horas,18393,42,2019-01-25,2024-12-31,2187,911,617

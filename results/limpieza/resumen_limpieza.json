@@ -1,0 +1,18 @@
+{
+  "registros_fuente": 11407394,
+  "mediciones_PM_entrada": 1580630,
+  "mediciones_PM_limpias": 1062897,
+  "mediciones_por_contaminante": {
+    "PM2.5": 464395,
+    "PM10": 598502
+  },
+  "exclusiones_PM": 517733,
+  "duplicados_eliminados": 0,
+  "mediciones_con_clave_ambigua": 0,
+  "datum_pendiente_revision": 109288,
+  "final_desconocido": 1025663,
+  "fecha_minima": "2018-01-01",
+  "fecha_maxima": "2024-12-31",
+  "filtro_de_antiguedad": null,
+  "porcentaje_conservado_PM": 67.25
+}

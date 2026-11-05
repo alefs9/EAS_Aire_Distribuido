@@ -1,0 +1,5 @@
+# DuckDB corresponde a la versión registrada en ejecucion.json.
+duckdb==1.3.2
+pandas
+matplotlib
+# El montaje de Drive utiliza google.colab, incluido en Google Colab.

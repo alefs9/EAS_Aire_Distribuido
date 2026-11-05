@@ -1,0 +1,21 @@
+# Datos de entrada y exportaciones masivas
+EAS_Aire_0.csv
+PM25_PM10_limpio.csv
+PM25_PM10_limpio.parquet
+vectores_PM10_PM25.csv
+metadatos_1_hora.csv
+data/raw/*
+!data/raw/README.md
+
+# Ejecuciones locales y bases temporales
+Procesado_PM/
+*.duckdb
+*.duckdb.wal
+spill/
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,57 @@
+{
+  "run_id": "20261105T005132_156935Z",
+  "etapa": "vectores",
+  "estado": "completado",
+  "origen_limpieza_run_id": "20261105T003520_811897Z",
+  "origen_manifest_sha256": "83c074f2ddd8bca61c4d0260f367f40ba5256115a1a70579712fde0eb63398ef",
+  "mediciones_limpias": 1062897,
+  "pares_reales": 463644,
+  "mediciones_sin_par": 135609,
+  "clave_observacion": [
+    "informe",
+    "evaluacion",
+    "punto",
+    "este",
+    "norte",
+    "zona",
+    "datum",
+    "fecha",
+    "hora",
+    "periodo",
+    "fecha_fin_clave",
+    "hora_fin_clave"
+  ],
+  "orden_features": [
+    "PM10",
+    "PM2.5"
+  ],
+  "unidad": "µg/m³",
+  "escalado": null,
+  "csv": "data/vectors/vectores_PM10_PM25.csv",
+  "parquet": "data/vectors/vectores_PM10_PM25.parquet",
+  "por_periodo": [
+    {
+      "periodo": "1 hora",
+      "filas": 445347,
+      "features_csv": "data/vectors/features_1_hora.csv",
+      "metadatos_csv": "data/vectors/metadatos_1_hora.csv",
+      "sha256_features": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204"
+    },
+    {
+      "periodo": "24 horas",
+      "filas": 18297,
+      "features_csv": "data/vectors/features_24_horas.csv",
+      "metadatos_csv": "data/vectors/metadatos_24_horas.csv",
+      "sha256_features": "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6"
+    }
+  ],
+  "observaciones_incompletas": "data/vectors/observaciones_incompletas.parquet",
+  "cobertura": "todos los años disponibles en la limpieza",
+  "base_rutas": "raiz del repositorio",
+  "csv_incluido_en_git": false,
+  "metadatos_csv_incluidos_en_git": false,
+  "manifiesto_original": "results/vectores/procedencia/manifest_original.json",
+  "origen_manifest_original": "results/limpieza/procedencia/manifest_original.json",
+  "sha256_parquet": "b12512b4aab472d309687deb287d45a5540ad14ff3d58bfb015e9b5c32fd6721",
+  "sha256_incompletas": "617fbbb184c65efe355fc43ad6e00db443e1e2b2a128abdbc9a6eac5f268d69c"
+}

@@ -26,3 +26,8 @@ Thumbs.db
 # Salidas de ejecuciones locales
 Limpieza_PM/
 *.csv.part
+
+# Exportaciones regenerables de vectores y metadatos
+metadatos_24_horas.csv
+Vectores_PM/
+*.part

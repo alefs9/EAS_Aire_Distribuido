@@ -1,0 +1,17 @@
+{
+  "origen": "Verificacion local desde el Parquet limpio y los archivos de vectores descargados",
+  "run_id_vectores": "20261105T005132_156935Z",
+  "run_id_limpieza": "20261105T003520_811897Z",
+  "mediciones_limpias": 1062897,
+  "pares_completos": 463644,
+  "mediciones_utilizadas_en_pares": 927288,
+  "mediciones_sin_par": 135609,
+  "balance_correcto": true,
+  "pares_coinciden_con_limpieza": true,
+  "incompletas_coinciden_con_limpieza": true,
+  "orden_de_features_verificado": true,
+  "vector_id_unicos": true,
+  "concentraciones_finitas_no_negativas": true,
+  "hash_manifiesto_original_limpieza_verificado": true,
+  "vectores_con_datum_pendiente_revision": 54644
+}

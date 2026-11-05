@@ -1,0 +1,325 @@
+parametro,unidad_original,periodo,registros,numericos_finitos
+Precipitación,mm,1 hora,791245,545709
+Temperatura,°C,1 hora,791245,548444
+Humedad Relativa,%,1 hora,789445,546336
+Presión Barométrica,mmHg,1 hora,544032,377256
+Dirección de Viento,°,1 hora,524713,365494
+Presión Barométrica,hPa,1 hora,524713,366408
+Material particulado con diámetro menor a 10 micras (PM10),µg/m³,1 hora,509694,326519
+Dióxido de Azufre (SO2),ppb,1 hora,304355,249871
+Velocidad del Viento,m/s,1 hora,289656,196655
+Velocidad Viento,m/s,1 hora,268681,189293
+Dirección del Viento,°,1 hora,264732,179541
+Presión barométrica,mmHg,1 hora,255974,177486
+Presión barométrica,hPa,1 hora,238452,162212
+Dióxido de Azufre (SO2),µg/m³,1 hora,233951,186983
+Velocidad del viento,m/s,1 hora,232908,160994
+"Material particulado con diámetro menor a 25 micras (PM2,5)",µg/m³,1 hora,212112,147265
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",µg/m³,1 hora,209982,137222
+Material particulado con diámetro menor a 10 micras (PM10),μg/m³,1 hora,188425,133552
+Dirección de Viento,°,-,187750,187750
+Precipitación,mm,-,187750,187750
+Presión Barométrica,mmHg,-,187750,187750
+Temperatura,°C,-,187750,187750
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",μg/m³,1 hora,179665,132329
+Humedad Relativa,%,-,178006,178006
+Velocidad Viento,m/s,-,178006,178006
+Dióxido de Azufre (SO2),µg/m³,3 horas móviles,166656,139312
+Material particulado con diámetro menor a 10 micras (PM10),μg/m3,1 hora,151030,151030
+Dióxido de Nitrógeno (NO2),ppb,1 hora,122760,77711
+Dióxido de azufre (SO2),ppb,1 hora,118111,118111
+Dióxido de azufre (SO2),μg/m3,1 hora,117199,117199
+Sulfuro de Hidrógeno (H2S),ppb,1 hora,111347,85500
+Dióxido de Nitrógeno (NO2),µg/m³,1 hora,96480,58909
+Sulfuro de Hidrógeno (H2S),µg/m³,1 hora,94927,67930
+Sulfuro de hidrógeno (H2S),ppb,1 hora,91680,91680
+Sulfuro de hidrógeno (H2S),μg/m3,1 hora,91680,91680
+Radiación Solar,W/m2,1 hora,87720,73750
+Monóxido de Carbono (CO),ppb,1 hora,87672,52569
+Monóxido de Carbono (CO),ppb,8 horas móviles,87672,0
+Monóxido de Carbono (CO),µg/m³,1 hora,87672,52569
+Monóxido de Carbono (CO),µg/m³,8 horas móviles,87672,52536
+Monóxido de carbono (CO),ppb,1 hora,84823,83088
+Dióxido de Azufre (SO2),ppb,3 horas móviles,78912,0
+Material particulado con diámetro menor a 25 micras (PM25),µg/m³,1 hora,70080,42250
+Radiación Solar,W/m²,1 hora,70080,63349
+Dióxido de Azufre (SO2),μg/m³,1 hora,68963,53681
+Ozono (O3),ppb,1 hora,67303,58543
+Monóxido de carbono (CO),μg/m3,1 hora,58543,58543
+Ozono (O3),μg/m3,1 hora,58543,58543
+Dióxido de Azufre (SO2),μg/m³,3 horas móviles,51443,46617
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",μg/m3,1 hora,48423,48423
+Sulfuro de Hidrogeno (H2S),ppb,1 hora,43920,36817
+Sulfuro de Hidrogeno (H2S),µg/m³,1 hora,43920,36817
+Dióxido de Azufre (SO2),μg/m3,1 hora,35064,35064
+Dióxido de Azufre (SO2),μg/m3,3 horas móviles,35064,35064
+Sulfuro de Hidrógeno (H2S),μg/m³,1 hora,33923,31604
+Dióxido de azufre (SO2),μg/m3,móvil 3 horas,33024,33024
+Monóxido de carbono (CO),ppb,móvil 8 horas,33024,33024
+Monóxido de carbono (CO),μg/m3,móvil 8 horas,33024,33024
+Dióxido de Nitrógeno (NO2),μg/m³,1 hora,26280,18802
+Monóxido de carbono (CO),μg/m³,1 hora,26280,24545
+Monóxido de carbono (CO),μg/m³,8 horas móviles,26280,24572
+Dióxido de azufre (SO2),μg/m3,3 horas móviles,23592,23592
+Material particulado con diámetro menor a 10 micras (PM10),µg/m³,24 horas,21261,13540
+Dióxido de Azufre (SO2),μg/m³,3 horas moviles,17520,6589
+Dióxido de Azufre (SO2),ppb,24 horas,12316,10231
+Humedad relativa,%,-,9744,9744
+Velocidad de Viento,m/s,-,9744,9744
+Dióxido de Azufre (SO2),µg/m³,24 horas,9077,7229
+"Material particulado con diámetro menor a 25 micras (PM2,5)",µg/m³,24 horas,8837,6109
+Dióxido de Azufre (SO2)_1 hora,ppb,1 hora,8760,0
+Dióxido de Azufre (SO2)_1 hora,µg/m³,1 hora,8760,0
+Dióxido de Azufre (SO2)_3 horas móviles,µg/m³,1 hora,8760,0
+Ozono (O3),µg/m³,1 hora,8760,0
+Sulfuro de Hidrógeno (H2S)_1 hora,ppb,1 hora,8760,0
+Sulfuro de Hidrógeno (H2S)_1 hora,µg/m³,1 hora,8760,0
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",µg/m³,24 horas,8734,5660
+Material particulado con diámetro menor a 10 micras (PM10),μg/m³,24 horas,7821,5521
+Dióxido de nitrógeno (NO2),ppb,1 hora,7643,7383
+Dióxido de nitrógeno (NO2),μg/m³,1 hora,7643,7383
+"Material Particulado PM2,5",μg/m³,1 hora,7643,6680
+Material particulado PM10,μg/m³,1 hora,7643,6737
+Radiación solar,W/m2,1 hora,7643,7380
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",μg/m³,24 horas,7456,5471
+Material particulado con diámetro menor a 10 micras (PM10),μg/m3,24 horas,6267,6267
+Dióxido de azufre (SO2),ppb,24 horas,4922,4922
+Dióxido de azufre (SO2),μg/m3,24 horas,4884,4884
+Sulfuro de Hidrógeno (H2S),ppb,24 horas,4639,3539
+Sulfuro de Hidrógeno (H2S),µg/m³,24 horas,3956,2809
+Material particulado con diámetro menor a 25 micras (PM25),µg/m³,24 horas,2920,1749
+Dióxido de Azufre (SO2),μg/m³,24 horas,2508,2095
+Sulfuro de hidrógeno (H2S),ppb,24 horas,2359,2359
+Sulfuro de hidrógeno (H2S),μg/m3,24 horas,2359,2359
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",μg/m3,24 horas,2017,2017
+Sulfuro de Hidrogeno (H2S),ppb,24 horas,1830,1524
+Sulfuro de Hidrogeno (H2S),µg/m³,24 horas,1830,1524
+Dirección del viento,°,1 hora,1800,1711
+Humedad relativa,%,1 hora,1800,1711
+Dióxido de Azufre (SO2),μg/m3,24 horas,1461,1461
+Sulfuro de Hidrógeno (H2S),μg/m³,24 horas,1413,1312
+Dióxido de azufre (SO2),ugm3,1 hora,912,912
+Dióxido de azufre (SO2),ugm3,3 horas móviles,912,912
+Material particulado con diámetro menor a 10 micras (PM10),ugm3,1 hora,912,912
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",ugm3,1 hora,912,912
+Radiación Solar,W/m2,-,912,912
+Material particulado con diámetro menor a 10 micras (PM10),µg/m3,24 horas,700,700
+Aluminio,µg/m3,mensual,695,695
+Antimonio,µg/m3,mensual,695,316
+Arsénico,µg/m3,mensual,695,422
+Bario,µg/m3,mensual,695,695
+Berilio,µg/m3,mensual,695,52
+Bismuto,µg/m3,mensual,695,266
+Boro,µg/m3,mensual,695,368
+Cadmio,µg/m3,mensual,695,499
+Calcio,µg/m3,mensual,695,695
+Cobalto,µg/m3,mensual,695,395
+Cobre,µg/m3,mensual,695,695
+Cromo,µg/m3,mensual,695,469
+Estaño,µg/m3,mensual,695,409
+Estroncio,µg/m3,mensual,695,695
+Fósforo,µg/m3,mensual,695,649
+Hierro,µg/m3,mensual,695,689
+Litio,µg/m3,mensual,695,384
+Magnesio,µg/m3,mensual,695,695
+Manganeso,µg/m3,mensual,695,695
+Mercurio,µg/m3,mensual,695,185
+Molibdeno,µg/m3,mensual,695,508
+Níquel,µg/m3,mensual,695,559
+Plata,µg/m3,mensual,695,284
+Plomo,µg/m3,mensual,695,695
+Potasio,µg/m3,mensual,695,695
+Selenio,µg/m3,mensual,695,320
+Silicio,µg/m3,mensual,695,538
+Sodio,µg/m3,mensual,695,695
+Talio,µg/m3,mensual,695,172
+Titanio,µg/m3,mensual,695,695
+Vanadio,µg/m3,mensual,695,686
+Zinc,µg/m3,mensual,695,688
+Uranio,µg/m3,mensual,449,173
+Dióxido de Azufre (SO2)_24 horas,ppb,24 horas,365,0
+Dióxido de Azufre (SO2)_24 horas,µg/m³,24 horas,365,0
+Material Particulado PM10,μg/m³,24 horas,318,275
+"Material Particulado PM2,5",μg/m³,24 horas,318,273
+Dióxido de Azufre (SO2),µg/m3,1 hora,257,186
+Material particulado con diámetro menor a 10 micras (PM10),µg/m3,1 hora,257,255
+Monóxido de carbono (CO),µg/m3,1 hora,257,256
+Monóxido de carbono (CO),µg/m3,media móvil de 8 horas,257,251
+Sulfuro de Hidrógeno (H2S),µg/m3,1 hora,257,186
+Aluminio,μg/m³,24 horas,143,128
+Antimonio,μg/m³,24 horas,143,0
+Arsénico,μg/m³,24 horas,143,111
+Bario,μg/m³,24 horas,143,120
+Berilio,μg/m³,24 horas,143,24
+Cadmio,μg/m³,24 horas,143,15
+Cobalto,μg/m³,24 horas,143,20
+Cobre,μg/m³,24 horas,143,136
+Cromo,μg/m³,24 horas,143,15
+Magnesio,μg/m³,24 horas,143,132
+Manganeso,μg/m³,24 horas,143,139
+Molibdeno,μg/m³,24 horas,143,15
+Níquel,μg/m³,24 horas,143,23
+Plata,μg/m³,24 horas,143,40
+Plomo,μg/m³,24 horas,143,101
+Selenio,μg/m³,24 horas,143,42
+Talio,μg/m³,24 horas,143,24
+Titanio,μg/m³,24 horas,143,106
+Vanadio,μg/m³,24 horas,143,35
+Zinc,μg/m³,24 horas,143,125
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",µg/m3,24 horas,127,125
+Antimonio,µg/m³,24 horas,110,17
+Arsénico,µg/m³,24 horas,110,66
+Berilio,µg/m³,24 horas,110,0
+Cadmio,µg/m³,24 horas,110,16
+Cobalto,µg/m³,24 horas,110,6
+Cobre,µg/m³,24 horas,110,95
+Cromo,µg/m³,24 horas,110,35
+Manganeso,µg/m³,24 horas,110,96
+Molibdeno,µg/m³,24 horas,110,40
+Níquel,µg/m³,24 horas,110,30
+Plata,µg/m³,24 horas,110,14
+Plomo,µg/m³,24 horas,110,91
+Selenio,µg/m³,24 horas,110,14
+Titanio,µg/m³,24 horas,110,89
+Vanadio,µg/m³,24 horas,110,28
+Zinc,µg/m³,24 horas,110,87
+Uranio,μg/m³,24 horas,98,17
+Aluminio,µg/m³,24 horas,95,90
+Bario,µg/m³,24 horas,95,87
+Boro,µg/m³,24 horas,95,52
+Calcio,µg/m³,24 horas,95,90
+Estaño,µg/m³,24 horas,95,11
+Estroncio,µg/m³,24 horas,95,87
+Hierro,µg/m³,24 horas,95,88
+Litio,µg/m³,24 horas,95,17
+Magnesio,µg/m³,24 horas,95,74
+Mercurio,µg/m³,24 horas,95,11
+Potasio,µg/m³,24 horas,95,73
+Silicio,µg/m³,24 horas,95,43
+Sodio,µg/m³,24 horas,95,64
+Talio,µg/m³,24 horas,95,5
+Bismuto,μg/m³,24 horas,90,11
+Boro,μg/m³,24 horas,90,37
+Calcio,μg/m³,24 horas,90,89
+Estaño,μg/m³,24 horas,90,1
+Estroncio,μg/m³,24 horas,90,77
+Fósforo,μg/m³,24 horas,90,66
+Hierro,μg/m³,24 horas,90,90
+Litio,μg/m³,24 horas,90,29
+Mercurio,μg/m³,24 horas,90,1
+Potasio,μg/m³,24 horas,90,82
+Silicio,μg/m³,24 horas,90,0
+Sodio,μg/m³,24 horas,90,69
+Aluminio,mg/kg,-,89,89
+Antimonio,mg/kg,-,89,8
+Arsénico,mg/kg,-,89,44
+Bario,mg/kg,-,89,89
+Berilio,mg/kg,-,89,0
+Bismuto,mg/kg,-,89,0
+Boro,mg/kg,-,89,70
+Cadmio,mg/kg,-,89,70
+Calcio,mg/kg,-,89,89
+Cobalto,mg/kg,-,89,89
+Cobre,mg/kg,-,89,89
+Cromo,mg/kg,-,89,89
+Estaño,mg/kg,-,89,4
+Estroncio,mg/kg,-,89,89
+Fósforo,mg/kg,-,89,89
+Hierro,mg/kg,-,89,89
+Litio,mg/kg,-,89,0
+Magnesio,mg/kg,-,89,89
+Manganeso,mg/kg,-,89,89
+Mercurio Total,mg/kg,-,89,21
+Molibdeno,mg/kg,-,89,34
+Níquel,mg/kg,-,89,89
+Plata,mg/kg,-,89,5
+Plomo,mg/kg,-,89,89
+Potasio,mg/kg,-,89,89
+Selenio,mg/kg,-,89,0
+Silicio,mg/kg,-,89,89
+Sodio,mg/kg,-,89,89
+Talio,mg/kg,-,89,0
+Titanio,mg/kg,-,89,89
+Vanadio,mg/kg,-,89,89
+Zinc,mg/kg,-,89,89
+Aluminio,μg/m3,-,70,70
+Antimonio,μg/m3,-,70,3
+Arsénico,μg/m3,-,70,4
+Bario,μg/m3,-,70,70
+Berilio,μg/m3,-,70,0
+Bismuto,μg/m3,-,70,3
+Boro,μg/m3,-,70,46
+Cadmio,μg/m3,-,70,8
+Calcio,μg/m3,-,70,70
+Cobalto,μg/m3,-,70,0
+Cobre,μg/m3,-,70,70
+Cromo,μg/m3,-,70,55
+Estaño,μg/m3,-,70,4
+Estroncio,μg/m3,-,70,70
+Fosforo,μg/m3,-,70,21
+Hierro,μg/m3,-,70,67
+Litio,μg/m3,-,70,6
+Magnesio,μg/m3,-,70,70
+Manganeso,μg/m3,-,70,70
+Molibdeno,μg/m3,-,70,9
+Níquel,μg/m3,-,70,0
+Plata,μg/m3,-,70,19
+Plomo,μg/m3,-,70,55
+Potasio,μg/m3,-,70,62
+Selenio,μg/m3,-,70,0
+Silicio,μg/m3,-,70,70
+Sodio,μg/m3,-,70,67
+Talio,μg/m3,-,70,2
+Titanio,μg/m3,-,70,63
+Vanadio,μg/m3,-,70,3
+Zinc,μg/m3,-,70,45
+Uranio,µg/m³,24 horas,68,10
+Mercurio,μg/m3,-,64,3
+Bismuto,µg/m³,24 horas,63,2
+Fósforo,µg/m³,24 horas,63,37
+Aluminio,µg/m3,-,58,58
+Antimonio,µg/m3,-,58,0
+Arsénico,µg/m3,-,58,5
+Bario,µg/m3,-,58,53
+Berilio,µg/m3,-,58,2
+Bismuto,µg/m3,-,58,5
+Boro,µg/m3,-,58,31
+Cadmio,µg/m3,-,58,1
+Calcio,µg/m3,-,58,58
+Cobalto,µg/m3,-,58,0
+Cobre,µg/m3,-,58,58
+Cromo,µg/m3,-,58,50
+Estaño,µg/m3,-,58,2
+Estroncio,µg/m3,-,58,58
+Hierro,µg/m3,-,58,58
+Litio,µg/m3,-,58,4
+Magnesio,µg/m3,-,58,58
+Manganeso,µg/m3,-,58,58
+Mercurio,µg/m3,-,58,0
+Molibdeno,µg/m3,-,58,17
+Níquel,µg/m3,-,58,40
+Plata,µg/m3,-,58,7
+Plomo,µg/m3,-,58,12
+Potasio,µg/m3,-,58,53
+Selenio,µg/m3,-,58,0
+Silicio,µg/m3,-,58,58
+Sodio,µg/m3,-,58,58
+Talio,µg/m3,-,58,0
+Titanio,µg/m3,-,58,57
+Vanadio,µg/m3,-,58,48
+Zinc,µg/m3,-,58,45
+Torio,μg/m³,24 horas,53,21
+Carbono Elemental,µg/m3,-,48,48
+Carbono Orgánico,µg/m3,-,48,48
+Carbono Total,µg/m3,-,48,48
+Fósforo,µg/m3,-,48,42
+Dióxido de azufre (SO2),ugm3,24 horas,38,38
+Material particulado con diámetro menor a 10 micras (PM10),ugm3,24 horas,38,38
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",ugm3,24 horas,38,38
+Arcilla,%,-,13,13
+Arena,%,-,13,13
+Clase Textural,Sin unidad,-,13,0
+Limo,%,-,13,13
+Potencial de hidrógeno,Unidad de pH,-,13,13
+Fosforo,µg/m3,-,10,0
+Uranio,μg/m3,-,3,3

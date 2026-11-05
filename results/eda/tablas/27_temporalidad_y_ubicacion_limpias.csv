@@ -1,0 +1,5 @@
+contaminante,periodo,mediciones,sin_hora_inicio,sin_final_interpretable,final_anterior_inicio,zona_por_revisar,datum_por_revisar
+PM10,1 hora,619005,0,618767,0,17718,52457
+PM10,24 horas,26341,198,7005,29,731,2187
+PM2.5,1 hora,472831,0,472593,0,17718,52457
+PM2.5,24 horas,19693,224,2180,0,731,2187

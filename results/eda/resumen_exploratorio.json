@@ -1,0 +1,22 @@
+{
+  "registros_fuente": 11407394,
+  "variables_originales": 23,
+  "mediciones_PM_seleccionadas": 1580630,
+  "mediciones_PM_limpias": 1137870,
+  "mediciones_por_contaminante": {
+    "PM2.5": 492524,
+    "PM10": 645346
+  },
+  "fecha_minima": "2018-01-01",
+  "fecha_maxima": "2024-12-31",
+  "porcentaje_conservado_PM": 71.99,
+  "duplicados_en_clave": 0,
+  "filtro_temporal": null,
+  "unidades_reconocidas": [
+    "µg/m3",
+    "ug/m3",
+    "µgm3",
+    "ugm3"
+  ],
+  "alcance": "exploratorio y preparacion de mediciones"
+}

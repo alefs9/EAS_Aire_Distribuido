@@ -1,0 +1,15 @@
+parametro,contaminante,unidad_original,unidad_norm,filas
+Material particulado con diámetro menor a 10 micras (PM10),PM10,µg/m³,µg/m3,530955
+"Material particulado con diámetro menor a 25 micras (PM2,5)",PM2.5,µg/m³,µg/m3,220949
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",PM2.5,µg/m³,µg/m3,218716
+Material particulado con diámetro menor a 10 micras (PM10),PM10,μg/m³,µg/m3,196246
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",PM2.5,μg/m³,µg/m3,187121
+Material particulado con diámetro menor a 10 micras (PM10),PM10,μg/m3,µg/m3,157297
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",PM2.5,μg/m3,µg/m3,50440
+"Material Particulado PM2,5",PM2.5,μg/m³,µg/m3,7961
+Material particulado PM10,PM10,μg/m³,µg/m3,7643
+Material particulado con diámetro menor a 10 micras (PM10),PM10,µg/m3,µg/m3,957
+Material particulado con diámetro menor a 10 micras (PM10),PM10,ugm3,ugm3,950
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",PM2.5,ugm3,ugm3,950
+Material Particulado PM10,PM10,μg/m³,µg/m3,318
+"Material particulado con diámetro menor a 2,5 micras (PM2,5)",PM2.5,µg/m3,µg/m3,127

@@ -1,0 +1,5 @@
+contaminante,periodo,mediciones,no_numericas_o_no_finitas,negativas,ceros,sin_fecha_interpretada,sin_hora_interpretada,otras_unidades
+PM10,1 hora,857961,238956,0,67298,0,0,0
+PM10,24 horas,36405,10064,0,2813,0,198,0
+PM2.5,1 hora,658737,185906,0,24544,0,0,0
+PM2.5,24 horas,27527,7834,0,990,0,224,0

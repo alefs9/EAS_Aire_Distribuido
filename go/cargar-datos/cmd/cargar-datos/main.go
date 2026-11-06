@@ -25,11 +25,13 @@ func main() {
 	defer csvReader.Close()
 
 	fmt.Println("CSV abierto correctamente.")
-	fmt.Println("Columnas PM10 y PM2.5 encontradas.")
-	fmt.Println("Unidad esperada según el dataset: µg/m³.")
+	fmt.Println("Columnas necesarias encontradas.")
+	fmt.Println("Contaminantes esperados: PM10 y PM2.5.")
+	fmt.Println("Unidad esperada: µg/m³.")
 	fmt.Println("Validando registros...")
 
 	var read, accepted, rejected int64
+	var pm10, pm25 int64
 	var errorCount int
 
 	for {
@@ -42,6 +44,7 @@ func main() {
 		if err != nil {
 			read++
 			rejected++
+
 			if errorCount < 10 {
 				fmt.Printf("Registro %d: error de lectura: %v\n", read, err)
 				errorCount++
@@ -53,6 +56,7 @@ func main() {
 
 		if err := dataset.ValidateRecord(record, csvReader.Columns); err != nil {
 			rejected++
+
 			if errorCount < 10 {
 				fmt.Printf("Registro %d: %v\n", read, err)
 				errorCount++
@@ -61,11 +65,20 @@ func main() {
 		}
 
 		accepted++
+
+		switch record[csvReader.Columns["contaminante"]] {
+		case "PM10":
+			pm10++
+		case "PM2.5":
+			pm25++
+		}
 	}
 
 	fmt.Println("\n--- RESULTADOS ---")
-	fmt.Printf("Registros leidos: %d\n", read)
+	fmt.Printf("Registros leídos: %d\n", read)
 	fmt.Printf("Registros aceptados: %d\n", accepted)
 	fmt.Printf("Registros rechazados: %d\n", rejected)
+	fmt.Printf("Mediciones PM10 aceptadas: %d\n", pm10)
+	fmt.Printf("Mediciones PM2.5 aceptadas: %d\n", pm25)
 	fmt.Printf("Conteos reconciliados: %v\n", read == accepted+rejected)
 }

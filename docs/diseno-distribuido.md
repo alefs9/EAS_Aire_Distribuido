@@ -80,3 +80,106 @@ Centroides y tamaño de cada clúster, periodo de 24 horas:
 - La inicialización es aleatoria y se probó una sola semilla: no se midió la estabilidad de los grupos frente a otras semillas.
 - Cada resultado y tiempo proviene de una sola ejecución en Colab; no es una mediana de varias ejecuciones.
 - Un par `[PM10, PM2.5]` no contiene el punto, la fecha ni la hora; esa interpretación requiere cruzar los metadatos.
+
+## 2. Arquitectura distribuida propuesta
+
+> **Estado.** Esta sección describe un diseño. Hasta este PR solo existen la preparación de vectores (Python) y la referencia secuencial en Go. No hay nodos, coordinador, API ni bases de datos operativos.
+
+### 2.1 Componentes y estado
+
+| Componente | Función | Estado |
+| --- | --- | --- |
+| Preparación de vectores (`EDA`, `Limpieza`, `Vectores.ipynb`) | Genera los 445 347 vectores horarios y 18 297 de 24 horas | Implementado |
+| K-Means secuencial (Go) | Referencia de comparación | Implementado |
+| Carga concurrente en Go | Lee el CSV en paralelo con workers y canales | Responsabilidad de otra integrante |
+| K-Means concurrente en un proceso | Reparte rangos entre goroutines dentro de un solo proceso | Propuesto (`feature/kmeans-concurrente`) |
+| Nodo ML (TCP) | Procesa una partición y devuelve sumas y conteos | Propuesto (entrega siguiente) |
+| Coordinador (API Go) | Reparte particiones, sincroniza iteraciones y consolida | Propuesto (entrega siguiente) |
+| MongoDB y Redis | Persistencia de resultados y caché | Propuesto (entrega siguiente) |
+| SPA | Visualización de resultados | Propuesto (entrega final) |
+| Docker Compose | Despliegue del conjunto | Propuesto |
+
+### 2.2 Diagrama
+
+![Arquitectura propuesta](diagramas/arquitectura-distribuida.png)
+
+```mermaid
+flowchart LR
+    subgraph HECHO["Implementado"]
+        V["Preparación de vectores (Python)"] --> S["K-Means secuencial (Go)"]
+    end
+    subgraph PROP["Propuesto"]
+        L["Carga concurrente (Go)"] --> C["Coordinador (API Go)"]
+        C <-->|"TCP: centroides / sumas y conteos"| N1["Nodo ML 1"]
+        C <-->|TCP| N2["Nodo ML 2"]
+        C <-->|TCP| N3["Nodo ML N"]
+        C --> DB[("MongoDB / Redis")]
+        DB --> UI["SPA"]
+    end
+    V -.->|"CSV de 2 columnas"| L
+    S -.->|"mismos datos, semilla y centroides"| C
+```
+
+### 2.3 Particiones
+
+El conjunto de `N` vectores se divide en `P` particiones de **filas contiguas**. Con `base = N / P` (división entera) y `resto = N mod P`, las primeras `resto` particiones reciben `base + 1` filas y las demás `base`. Cada observación pertenece a exactamente una partición. Ejemplos con `N = 445 347`:
+
+| Particiones `P` | Filas por partición |
+| --- | --- |
+| 3 | 148 449, 148 449, 148 449 |
+| 4 | 111 337, 111 337, 111 337, 111 336 |
+
+Si hay más particiones que filas, las sobrantes quedan vacías y no se asignan. Los datos de entrada son de solo lectura durante el entrenamiento, por lo que cada nodo puede leer su rango sin sincronizarse con los demás.
+
+### 2.4 Ciclo por iteración
+
+1. **Preparación del trabajo.** El coordinador recibe `K`, la tolerancia, el máximo de iteraciones y los **centroides iniciales**. Estos se calculan una sola vez con la misma función y semilla (`42`) de la referencia secuencial, de modo que todas las versiones partan del mismo punto.
+2. **Reparto.** El coordinador asigna a cada nodo un rango de filas y confirma que las filas cargadas suman `N`.
+3. **Envío de centroides.** En la iteración `t`, el coordinador envía a todos los nodos la misma instantánea de centroides.
+4. **Asignación local.** Cada nodo asigna sus observaciones al centroide más cercano (distancia euclidiana al cuadrado, menor índice en empates).
+5. **Acumulación local.** Cada nodo acumula, por clúster, un conteo y la suma de `PM10` y de `PM2.5`, más la inercia local.
+6. **Respuesta.** Cada nodo devuelve solo ese acumulador: `K` conteos, `K × 2` sumas y una inercia. No devuelve etiquetas ni observaciones.
+7. **Barrera y reducción.** Cuando llegaron las respuestas de todas las particiones, el coordinador suma conteos y sumas, calcula `nuevo centroide = suma / conteo` (si el conteo es 0 conserva el centroide anterior), mide el movimiento `sqrt(Σ‖Δμ‖²)` y compara con la tolerancia.
+8. **Cierre o repetición.** Si el movimiento es menor que la tolerancia o se alcanzó el máximo, el trabajo termina; si no, vuelve al paso 3 con `t + 1`.
+
+```mermaid
+sequenceDiagram
+    participant C as Coordinador
+    participant N1 as Nodo 1
+    participant N2 as Nodo 2
+    C->>N1: ASSIGN (partición 1, rango de filas)
+    C->>N2: ASSIGN (partición 2, rango de filas)
+    N1-->>C: READY (filas cargadas)
+    N2-->>C: READY (filas cargadas)
+    loop iteración t = 1 .. max_iter
+        C->>N1: ITER (t, centroides)
+        C->>N2: ITER (t, centroides)
+        N1-->>C: PARTIAL (conteos, sumas, inercia)
+        N2-->>C: PARTIAL (conteos, sumas, inercia)
+        Note over C: barrera: espera todas las particiones
+        Note over C: reduce, actualiza centroides, evalúa convergencia
+    end
+    C->>N1: STOP
+    C->>N2: STOP
+```
+
+Versión en imagen del ciclo (para el informe): ![Ciclo de una iteración](diagramas/ciclo-iteracion.png)
+
+### 2.5 Concurrencia, paralelismo y distribución
+
+Estos tres conceptos no son equivalentes y el proyecto los trata por separado:
+
+| Concepto | Qué significa aquí | Dónde aparece |
+| --- | --- | --- |
+| Concurrencia en un proceso | Varias goroutines dentro de un mismo proceso, con memoria compartida y sincronización (`WaitGroup`, canales, `Mutex`) | Versión concurrente (`feature/kmeans-concurrente`) |
+| Paralelismo efectivo | Ejecución simultánea real; depende de los núcleos disponibles. El entorno de la referencia tiene 2 CPU lógicas | Se medirá en las pruebas de rendimiento |
+| Distribución entre computadores | Procesos o contenedores distintos, sin memoria compartida, que se comunican por TCP | Diseño de esta sección; aún no implementado |
+
+Un nodo distribuido podría usar concurrencia internamente, pero eso es una combinación de las dos y no debe presentarse como una sola cosa. Las goroutines de un proceso no reemplazan la comunicación entre computadores.
+
+### 2.6 Costos esperados (hipótesis por medir)
+
+- **Comunicación por iteración.** Cada mensaje depende de `K` y `d`, no de `N`. Con `K = 4` y `d = 2`, una respuesta contiene 4 conteos, 8 sumas y 1 inercia: del orden de cientos de bytes aunque la partición tenga cientos de miles de filas.
+- **Cómputo por iteración.** En la referencia, 2,726 s entre 96 iteraciones equivalen a unos 28 ms por iteración con 445 347 vectores (ejecución única, sin repeticiones).
+- **Consecuencia.** Con tan poco cómputo por iteración, la latencia de red y la sincronización pueden pesar tanto como el cálculo. No se asume que la versión distribuida sea más rápida: será una medición de la entrega de distribución.
+- **Equivalencia.** Sumar parciales en otro orden cambia los últimos dígitos del punto flotante. La comparación con la referencia usará tolerancias numéricas, el mismo número de iteraciones (o su diferencia explicada) y permutaciones de etiquetas.

@@ -1,21 +1,27 @@
 package main
 
 import (
-	"errors"
+	"flag"
 	"fmt"
-	"io"
 	"os"
+	"time"
 
 	"eas-aire/cargar-datos/internal/dataset"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Uso: go run ./cmd/cargar-datos <archivo.csv>")
+	workers := flag.Int("workers", 4, "Número de workers concurrentes")
+	batchSize := flag.Int("batch", 1000, "Cantidad de registros por lote")
+	mode := flag.String("mode", "concurrent", "Modo de ejecución: sequential o concurrent")
+
+	flag.Parse()
+
+	if flag.NArg() < 1 {
+		fmt.Println("Uso: go run ./cmd/cargar-datos [opciones] <archivo.csv>")
 		os.Exit(1)
 	}
 
-	path := os.Args[1]
+	path := flag.Arg(0)
 
 	csvReader, err := dataset.OpenCSV(path)
 	if err != nil {
@@ -28,57 +34,49 @@ func main() {
 	fmt.Println("Columnas necesarias encontradas.")
 	fmt.Println("Contaminantes esperados: PM10 y PM2.5.")
 	fmt.Println("Unidad esperada: µg/m³.")
-	fmt.Println("Validando registros...")
+	fmt.Printf("Modo de ejecución: %s\n", *mode)
 
-	var read, accepted, rejected int64
-	var pm10, pm25 int64
-	var errorCount int
+	start := time.Now()
 
-	for {
-		record, err := csvReader.Read()
+	var stats dataset.Stats
 
-		if errors.Is(err, io.EOF) {
-			break
-		}
+	switch *mode {
+	case "sequential":
+		stats, err = dataset.ProcessCSVSequential(csvReader)
 
-		if err != nil {
-			read++
-			rejected++
+	case "concurrent":
+		fmt.Printf("Workers: %d\n", *workers)
+		fmt.Printf("Tamaño del lote: %d\n", *batchSize)
 
-			if errorCount < 10 {
-				fmt.Printf("Registro %d: error de lectura: %v\n", read, err)
-				errorCount++
-			}
-			continue
-		}
+		stats, err = dataset.ProcessCSVConcurrent(
+			csvReader,
+			*workers,
+			*batchSize,
+		)
 
-		read++
+	default:
+		fmt.Printf("Modo no reconocido: %s\n", *mode)
+		os.Exit(1)
+	}
 
-		if err := dataset.ValidateRecord(record, csvReader.Columns); err != nil {
-			rejected++
+	elapsed := time.Since(start)
 
-			if errorCount < 10 {
-				fmt.Printf("Registro %d: %v\n", read, err)
-				errorCount++
-			}
-			continue
-		}
+	if err != nil {
+		fmt.Printf("Error durante el procesamiento: %v\n", err)
+		os.Exit(1)
+	}
 
-		accepted++
-
-		switch record[csvReader.Columns["contaminante"]] {
-		case "PM10":
-			pm10++
-		case "PM2.5":
-			pm25++
-		}
+	for _, message := range stats.Errors {
+		fmt.Println(message)
 	}
 
 	fmt.Println("\n--- RESULTADOS ---")
-	fmt.Printf("Registros leídos: %d\n", read)
-	fmt.Printf("Registros aceptados: %d\n", accepted)
-	fmt.Printf("Registros rechazados: %d\n", rejected)
-	fmt.Printf("Mediciones PM10 aceptadas: %d\n", pm10)
-	fmt.Printf("Mediciones PM2.5 aceptadas: %d\n", pm25)
-	fmt.Printf("Conteos reconciliados: %v\n", read == accepted+rejected)
+	fmt.Printf("Registros leídos: %d\n", stats.Read)
+	fmt.Printf("Registros aceptados: %d\n", stats.Accepted)
+	fmt.Printf("Registros rechazados: %d\n", stats.Rejected)
+	fmt.Printf("Mediciones PM10 aceptadas: %d\n", stats.PM10)
+	fmt.Printf("Mediciones PM2.5 aceptadas: %d\n", stats.PM25)
+	fmt.Printf("Conteos reconciliados: %v\n",
+		stats.Read == stats.Accepted+stats.Rejected)
+	fmt.Printf("Tiempo de procesamiento: %v\n", elapsed)
 }

@@ -1,0 +1,95 @@
+# Protocolo de comunicación coordinador–nodos (diseño)
+
+> **Estado: diseño, no implementado.** Este documento define el contrato que seguirán el coordinador y los nodos ML en la entrega de distribución. Cuando se implemente, cualquier cambio debe actualizarse aquí.
+
+## 1. Transporte y formato
+
+- **Transporte:** TCP. El coordinador escucha y los nodos se conectan.
+- **Enmarcado:** cada mensaje es un prefijo de 4 bytes (entero sin signo, big-endian) con la longitud del cuerpo, seguido de un cuerpo JSON en UTF-8. El enmarcado evita depender de saltos de línea.
+- **Números:** los `float64` se serializan con la representación más corta que se recupera exactamente (comportamiento de `encoding/json` en Go), de modo que no se pierde precisión.
+- **Límite de tamaño:** el receptor rechaza mensajes mayores que un máximo configurable (valor inicial propuesto: 1 MiB) y cierra la conexión.
+
+## 2. Encabezado común
+
+Todo mensaje incluye estos campos:
+
+| Campo | Tipo | Descripción |
+| --- | --- | --- |
+| `proto` | entero | Versión del protocolo (inicial: `1`). |
+| `type` | cadena | Tipo de mensaje (sección 3). |
+| `job_id` | cadena | Identificador del entrenamiento. |
+| `iter` | entero | Iteración (0 en mensajes previos a la primera). |
+| `node_id` | cadena | Nodo emisor o destinatario. |
+
+## 3. Mensajes
+
+| Mensaje | Sentido | Campos propios |
+| --- | --- | --- |
+| `REGISTER` | nodo → coordinador | `capacity` (workers locales disponibles) |
+| `ASSIGN` | coordinador → nodo | `partition_id`, `row_start`, `row_end` (fin exclusivo), `k`, `periodo` |
+| `READY` | nodo → coordinador | `partition_id`, `rows_loaded` |
+| `ITER` | coordinador → nodo | `partition_id`, `attempt`, `centroids` (K × 2) |
+| `PARTIAL` | nodo → coordinador | `partition_id`, `attempt`, `counts` (K), `sums` (K × 2), `inertia`, `rows_processed` |
+| `ERROR` | nodo → coordinador | `partition_id`, `code`, `message` |
+| `STOP` | coordinador → nodo | `reason` |
+| `HEARTBEAT` | ambos | `ts` |
+
+Ejemplo de `ITER` y su `PARTIAL` (valores ilustrativos, con K = 2):
+
+```json
+{"proto":1,"type":"ITER","job_id":"job-0001","iter":3,"node_id":"nodo-1","partition_id":1,"attempt":1,
+ "centroids":[[18.5,9.6],[80.5,34.1]]}
+
+{"proto":1,"type":"PARTIAL","job_id":"job-0001","iter":3,"node_id":"nodo-1","partition_id":1,"attempt":1,
+ "counts":[110000,1337],"sums":[[2035000.0,1056000.0],[107600.0,45600.0]],"inertia":1234567.8,"rows_processed":111337}
+```
+
+## 4. Ciclo de vida de un trabajo
+
+`CREADO → ASIGNANDO → LISTO → ITERANDO(t) → CONVERGIDO | MAX_ITER | FALLIDO | CANCELADO`
+
+1. **CREADO.** El coordinador recibe `k`, tolerancia, máximo de iteraciones y los centroides iniciales (calculados con la misma función y semilla que la referencia secuencial).
+2. **ASIGNANDO.** Envía un `ASSIGN` por partición. Las particiones son rangos de filas contiguos que cubren `N` sin solaparse.
+3. **LISTO.** Pasa a iterar cuando recibió `READY` de todas las particiones y la suma de `rows_loaded` es `N`. Si no coincide, el trabajo falla.
+4. **ITERANDO(t).** Envía `ITER`, espera, reduce y decide (sección 5).
+5. **Cierre.** Envía `STOP` a todos los nodos.
+
+## 5. Sincronización por iteración
+
+- **Misma instantánea.** El `ITER` de la iteración `t` lleva los mismos centroides para todas las particiones.
+- **Barrera.** El coordinador no calcula los nuevos centroides hasta tener un `PARTIAL` válido de **cada** partición para `(job_id, iter, attempt)`.
+- **Validación de un `PARTIAL`.** Se acepta solo si coinciden `job_id`, `iter`, `partition_id` y `attempt`, si `rows_processed` es igual al tamaño de la partición, si `sum(counts)` es igual a `rows_processed` y si no hay valores no finitos.
+- **Reducción.** Suma conteos y sumas en orden creciente de `partition_id` (orden fijo para que el resultado sea reproducible). Nuevo centroide = suma / conteo; si el conteo total del clúster es 0, **conserva el centroide anterior** (misma regla que la referencia).
+- **Convergencia.** `sqrt(Σ‖μ_nuevo − μ_anterior‖²) < tolerancia`, igual que la referencia, o `iter = max_iter`.
+
+## 6. Respuestas duplicadas, tardías y fuera de orden
+
+| Situación | Tratamiento |
+| --- | --- |
+| Segundo `PARTIAL` de la misma partición, iteración e intento | Se descarta; se conserva el primero. |
+| `PARTIAL` de una iteración anterior | Se ignora. |
+| `PARTIAL` de un intento anterior de la misma iteración | Se ignora (por eso `ITER` y `PARTIAL` llevan `attempt`). |
+| `PARTIAL` de una partición que ya no corresponde a ese nodo | Se ignora. |
+| `PARTIAL` que no supera la validación | Se trata como error de esa partición (sección 7). |
+
+## 7. Fallos previstos
+
+| Falla | Detección | Respuesta prevista |
+| --- | --- | --- |
+| Un nodo no responde | Sin `PARTIAL` antes del tiempo límite de iteración, o sin `HEARTBEAT` durante 3 periodos | Reenvío con `attempt + 1`, hasta un máximo de reintentos. |
+| Un nodo cierra la conexión | Fin de la conexión TCP | Se declara caído; su partición se reasigna a otro nodo vivo, que debe enviar `READY` antes de continuar. |
+| Un nodo devuelve `ERROR` o un `PARTIAL` inválido | Mensaje `ERROR` o validación fallida | Mismo tratamiento que un nodo que no responde. |
+| Se agotan los reintentos o no quedan nodos | Contador de reintentos | El trabajo pasa a `FALLIDO` con un error explícito; **no se publican resultados parciales**. |
+| Falla el coordinador | Los nodos pierden la conexión | Los nodos descartan el trabajo; no se prevé recuperación en esta versión. |
+
+Como cada iteración depende solo de los centroides actuales, cualquier nodo puede recalcular una partición perdida sin conocer las iteraciones anteriores.
+
+**Valores por calibrar** (no son resultados medidos): tiempo límite de carga, tiempo límite por iteración, periodo del `HEARTBEAT` y máximo de reintentos. Se fijarán con mediciones en la entrega de distribución.
+
+## 8. Seguridad
+
+Esta versión no define autenticación ni cifrado entre coordinador y nodos: se asume una red interna de contenedores. La autenticación de usuarios (JWT) y la política de seguridad de la API corresponden a la capa de la API, en entregas posteriores.
+
+## 9. Qué está implementado
+
+Nada de este protocolo. Existen únicamente la preparación de vectores y la referencia secuencial de K-Means.

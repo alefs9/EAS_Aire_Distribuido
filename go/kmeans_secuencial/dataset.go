@@ -1,4 +1,4 @@
-package kmeans
+package main
 
 // Dimensions representa la cantidad de características
 // que utilizaremos para cada observación: PM10 y PM2.5.

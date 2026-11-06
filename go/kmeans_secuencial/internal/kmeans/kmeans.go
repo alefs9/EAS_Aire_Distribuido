@@ -133,3 +133,76 @@ func updateCentroids(data Dataset, labels []int, centroids [][]float64) [][]floa
 
 	return newCentroids
 }
+
+// KMeansResult almacena los resultados obtenidos al ejecutar K-Means.
+type KMeansResult struct {
+	Centroids  [][]float64
+	Labels     []int
+	Inertia    float64
+	Iterations int
+	Converged  bool
+}
+
+// calculateInertia calcula la suma de las distancias al cuadrado
+// entre cada punto y el centroide de su clúster.
+func calculateInertia(data Dataset, centroids [][]float64, labels []int) float64 {
+	var inertia float64
+
+	for i, point := range data.Points {
+		inertia += squaredDistance(point, centroids[labels[i]])
+	}
+
+	return inertia
+}
+
+// RunKMeans ejecuta el algoritmo K-Means secuencial.
+func RunKMeans(data Dataset, k int, maxIter int, tol float64, seed int64) (KMeansResult, error) {
+	if err := validateDataset(data); err != nil {
+		return KMeansResult{}, err
+	}
+
+	if k <= 0 || k > data.N {
+		return KMeansResult{}, fmt.Errorf("K debe estar entre 1 y N")
+	}
+
+	if maxIter <= 0 {
+		return KMeansResult{}, fmt.Errorf("el máximo de iteraciones debe ser positivo")
+	}
+
+	if tol < 0 || math.IsNaN(tol) || math.IsInf(tol, 0) {
+		return KMeansResult{}, fmt.Errorf("la tolerancia debe ser finita y no negativa")
+	}
+
+	centroids, err := initializeCentroids(data, k, seed)
+	if err != nil {
+		return KMeansResult{}, err
+	}
+
+	result := KMeansResult{}
+
+	for iteration := 0; iteration < maxIter; iteration++ {
+		labels := assignClusters(data, centroids)
+		newCentroids := updateCentroids(data, labels, centroids)
+
+		var movement float64
+
+		for cluster := 0; cluster < k; cluster++ {
+			movement += squaredDistance(centroids[cluster], newCentroids[cluster])
+		}
+
+		centroids = newCentroids
+		result.Iterations = iteration + 1
+
+		if math.Sqrt(movement) < tol {
+			result.Converged = true
+			break
+		}
+	}
+
+	// Reasignamos los puntos usando los centroides finales.
+	result.Centroids = centroids
+	result.Labels = assignClusters(data, centroids)
+	result.Inertia = calculateInertia(data, centroids, result.Labels)
+
+	return result, nil
+}

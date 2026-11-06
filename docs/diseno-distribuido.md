@@ -183,3 +183,16 @@ Un nodo distribuido podría usar concurrencia internamente, pero eso es una comb
 - **Cómputo por iteración.** En la referencia, 2,726 s entre 96 iteraciones equivalen a unos 28 ms por iteración con 445 347 vectores (ejecución única, sin repeticiones).
 - **Consecuencia.** Con tan poco cómputo por iteración, la latencia de red y la sincronización pueden pesar tanto como el cálculo. No se asume que la versión distribuida sea más rápida: será una medición de la entrega de distribución.
 - **Equivalencia.** Sumar parciales en otro orden cambia los últimos dígitos del punto flotante. La comparación con la referencia usará tolerancias numéricas, el mismo número de iteraciones (o su diferencia explicada) y permutaciones de etiquetas.
+
+## 3. Comunicación y sincronización entre nodos
+
+La especificación completa del contrato está en [`protocolo-comunicacion.md`](protocolo-comunicacion.md). Resumen:
+
+- **Transporte:** TCP, con mensajes JSON precedidos por su longitud.
+- **Identificadores:** todo mensaje lleva `job_id` (el entrenamiento) e `iter` (la iteración).
+- **Mensajes:** `REGISTER`, `ASSIGN`, `READY`, `ITER`, `PARTIAL`, `ERROR`, `STOP`, `HEARTBEAT`.
+- **Barrera:** el coordinador no actualiza centroides hasta recibir un `PARTIAL` válido de cada partición.
+- **Duplicados:** se acepta un único `PARTIAL` por partición, iteración e intento; los demás se descartan.
+- **Fallos:** tiempo límite por iteración, reintentos acotados y reasignación de la partición a otro nodo; si se agotan, el trabajo falla de forma explícita.
+
+> **Diseño frente a implementación.** Nada de este protocolo está implementado. La entrega actual contiene la referencia secuencial y la preparación de datos; la comunicación TCP, el coordinador y los nodos corresponden a la entrega de distribución.

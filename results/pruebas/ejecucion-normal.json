@@ -1,0 +1,65 @@
+{
+  "timestamp_utc": "2026-11-07T00:22:26.206747+00:00",
+  "commit": "e6294a9ffb9c12f1c82314775ee8e4133102aa93",
+  "go": "go version go1.27.2 windows/amd64",
+  "gomaxprocs": 4,
+  "cgo_enabled": null,
+  "cc": null,
+  "runs": [
+    {
+      "command": [
+        "go",
+        "test",
+        "-v",
+        "-count=1",
+        "-timeout=300s",
+        "./..."
+      ],
+      "cwd": "go\\cargar-datos",
+      "exit_code": 0,
+      "log": "cargar-datos-normal.txt"
+    },
+    {
+      "command": [
+        "go",
+        "test",
+        "-v",
+        "-count=1",
+        "-timeout=300s",
+        "./..."
+      ],
+      "cwd": "go\\kmeans_secuencial",
+      "exit_code": 0,
+      "log": "kmeans_secuencial-normal.txt"
+    },
+    {
+      "command": [
+        "go",
+        "run",
+        "./cmd/cargar-datos",
+        "-mode=sequential",
+        "-workers=4",
+        "-batch=1000",
+        "C:\\Users\\valen\\Documents\\ChatGPT\\Concurrente 2\\EAS_Aire_Distribuido\\data\\processed\\PM25_PM10_limpio.csv"
+      ],
+      "cwd": "go\\cargar-datos",
+      "exit_code": 0,
+      "log": "carga-sequential-normal.txt"
+    },
+    {
+      "command": [
+        "go",
+        "run",
+        "./cmd/cargar-datos",
+        "-mode=concurrent",
+        "-workers=4",
+        "-batch=1000",
+        "C:\\Users\\valen\\Documents\\ChatGPT\\Concurrente 2\\EAS_Aire_Distribuido\\data\\processed\\PM25_PM10_limpio.csv"
+      ],
+      "cwd": "go\\cargar-datos",
+      "exit_code": 0,
+      "log": "carga-concurrent-normal.txt"
+    }
+  ],
+  "status": "PASS"
+}

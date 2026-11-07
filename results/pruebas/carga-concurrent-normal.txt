@@ -1,0 +1,17 @@
+$ go run ./cmd/cargar-datos -mode=concurrent -workers=4 -batch=1000 C:\Users\valen\Documents\ChatGPT\Concurrente 2\EAS_Aire_Distribuido\data\processed\PM25_PM10_limpio.csv
+CSV abierto correctamente.
+Columnas necesarias encontradas.
+Contaminantes esperados: PM10 y PM2.5.
+Unidad esperada: µg/m³.
+Modo de ejecución: concurrent
+Workers: 4
+Tamaño del lote: 1000
+
+--- RESULTADOS ---
+Registros leídos: 1062897
+Registros aceptados: 1062897
+Registros rechazados: 0
+Mediciones PM10 aceptadas: 598502
+Mediciones PM2.5 aceptadas: 464395
+Conteos reconciliados: true
+Tiempo de procesamiento: 1.3502674s

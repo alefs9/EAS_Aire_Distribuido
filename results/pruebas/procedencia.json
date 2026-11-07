@@ -1,0 +1,9 @@
+{
+  "source_drive": "https://drive.google.com/drive/folders/1N5MpM9hMWPyDz_CDVxKTaM-jsiEuqFj-",
+  "report_drive": "https://docs.google.com/document/d/1qHX9aMZwQ2rH982L1aqbDtCRjco7FozTnOzG9zyloBQ/edit",
+  "base_commit": "a01883ddf398a704d0bbfe7855cd19e336aa5ccc",
+  "parquet_sha256": "13127fc12f95dcd64a75ea25e8086c4d98cb37c850829ca385ec973f39a3d07e",
+  "csv_export": "PyArrow, sin filtros, 1062897 filas",
+  "csv_sha256": "ec9f718411310aa52f984bdc3f0f7c7b1334b115b513841dc9841946c33b2ed4",
+  "assignment": "Valentina realiza N1/N2/N3 del plan, originalmente asignados a Nicole"
+}

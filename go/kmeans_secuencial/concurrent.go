@@ -1,6 +1,10 @@
 package main
 
-import "sync"
+import (
+	"fmt"
+	"math"
+	"sync"
+)
 
 type rowRange struct{ start, end int }
 
@@ -84,4 +88,49 @@ func reduceCentroids(parts []partial, previous [][]float64) [][]float64 {
 		}
 	}
 	return centroids
+}
+
+// RunKMeansConcurrent conserva el contrato y la inicialización de RunKMeans.
+// El llamador no debe mutar data.Points durante la ejecución.
+func RunKMeansConcurrent(data Dataset, k, maxIter int, tol float64, seed int64, workers int) (KMeansResult, error) {
+	if err := validateDataset(data); err != nil {
+		return KMeansResult{}, err
+	}
+	if k <= 0 || k > data.N {
+		return KMeansResult{}, fmt.Errorf("K debe estar entre 1 y N")
+	}
+	if maxIter <= 0 {
+		return KMeansResult{}, fmt.Errorf("el máximo de iteraciones debe ser positivo")
+	}
+	if tol < 0 || math.IsNaN(tol) || math.IsInf(tol, 0) {
+		return KMeansResult{}, fmt.Errorf("la tolerancia debe ser finita y no negativa")
+	}
+	if workers <= 0 {
+		return KMeansResult{}, fmt.Errorf("workers debe ser positivo")
+	}
+	centroids, err := initializeCentroids(data, k, seed)
+	if err != nil {
+		return KMeansResult{}, err
+	}
+	ranges := partitionRows(data.N, workers)
+	result := KMeansResult{}
+	for iteration := 0; iteration < maxIter; iteration++ {
+		_, parts := concurrentAssignment(data, centroids, ranges)
+		next := reduceCentroids(parts, centroids)
+		var movement float64
+		for c := range centroids {
+			movement += squaredDistance(centroids[c], next[c])
+		}
+		centroids = next
+		result.Iterations = iteration + 1
+		if math.Sqrt(movement) < tol {
+			result.Converged = true
+			break
+		}
+	}
+	result.Centroids = centroids
+	result.Labels, _ = concurrentAssignment(data, centroids, ranges)
+	// Misma suma en orden de observaciones que la referencia.
+	result.Inertia = calculateInertia(data, centroids, result.Labels)
+	return result, nil
 }

@@ -1,0 +1,39 @@
+{
+  "timestamp_utc": "2026-11-07T00:23:27.557426+00:00",
+  "commit": "e6294a9ffb9c12f1c82314775ee8e4133102aa93",
+  "go": "go version go1.27.2 windows/amd64",
+  "gomaxprocs": 4,
+  "cgo_enabled": "1",
+  "cc": "clang",
+  "runs": [
+    {
+      "command": [
+        "go",
+        "test",
+        "-v",
+        "-count=1",
+        "-timeout=300s",
+        "-race",
+        "./..."
+      ],
+      "cwd": "go\\cargar-datos",
+      "exit_code": 0,
+      "log": "cargar-datos-race.txt"
+    },
+    {
+      "command": [
+        "go",
+        "test",
+        "-v",
+        "-count=1",
+        "-timeout=300s",
+        "-race",
+        "./..."
+      ],
+      "cwd": "go\\kmeans_secuencial",
+      "exit_code": 0,
+      "log": "kmeans_secuencial-race.txt"
+    }
+  ],
+  "status": "PASS"
+}

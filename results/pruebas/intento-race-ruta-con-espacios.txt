@@ -1,0 +1,6 @@
+$ go test -v -count=1 -timeout=300s -race ./...
+FAIL	eas-aire/cargar-datos/cmd/cargar-datos [build failed]
+FAIL	eas-aire/cargar-datos/internal/dataset [build failed]
+FAIL
+# runtime/cgo
+cgo: C compiler "C:\\Users\\valen\\Documents\\ChatGPT\\Concurrente" not found: exec: "C:\\Users\\valen\\Documents\\ChatGPT\\Concurrente": executable file not found in %PATH%

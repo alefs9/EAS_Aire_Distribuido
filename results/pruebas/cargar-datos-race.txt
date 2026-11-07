@@ -1,0 +1,56 @@
+$ go test -v -count=1 -timeout=300s -race ./...
+?   	eas-aire/cargar-datos/cmd/cargar-datos	[no test files]
+=== RUN   TestProcessCSVSequential
+--- PASS: TestProcessCSVSequential (0.01s)
+=== RUN   TestProcessCSVConcurrent
+--- PASS: TestProcessCSVConcurrent (0.01s)
+=== RUN   TestSequentialAndConcurrentResultsMatch
+--- PASS: TestSequentialAndConcurrentResultsMatch (0.01s)
+=== RUN   TestProcessCSVConcurrentInvalidParameters
+=== RUN   TestProcessCSVConcurrentInvalidParameters/sin_workers
+=== RUN   TestProcessCSVConcurrentInvalidParameters/workers_negativos
+=== RUN   TestProcessCSVConcurrentInvalidParameters/lote_cero
+=== RUN   TestProcessCSVConcurrentInvalidParameters/lote_negativo
+--- PASS: TestProcessCSVConcurrentInvalidParameters (0.02s)
+    --- PASS: TestProcessCSVConcurrentInvalidParameters/sin_workers (0.00s)
+    --- PASS: TestProcessCSVConcurrentInvalidParameters/workers_negativos (0.00s)
+    --- PASS: TestProcessCSVConcurrentInvalidParameters/lote_cero (0.00s)
+    --- PASS: TestProcessCSVConcurrentInvalidParameters/lote_negativo (0.00s)
+=== RUN   TestProcessCSVConcurrentEmptyDataset
+--- PASS: TestProcessCSVConcurrentEmptyDataset (0.00s)
+=== RUN   TestCreateCSVHelper
+--- PASS: TestCreateCSVHelper (0.00s)
+=== RUN   TestOpenCSVValid
+--- PASS: TestOpenCSVValid (0.00s)
+=== RUN   TestOpenCSVMissingRequiredColumn
+--- PASS: TestOpenCSVMissingRequiredColumn (0.00s)
+=== RUN   TestOpenCSVDuplicateColumn
+--- PASS: TestOpenCSVDuplicateColumn (0.00s)
+=== RUN   TestOpenCSVEmptyHeader
+--- PASS: TestOpenCSVEmptyHeader (0.00s)
+=== RUN   TestReadCSVWithCommasAndQuotes
+--- PASS: TestReadCSVWithCommasAndQuotes (0.00s)
+=== RUN   TestValidateRecord
+=== RUN   TestValidateRecord/PM10_válido
+=== RUN   TestValidateRecord/PM2.5_válido
+=== RUN   TestValidateRecord/contaminante_desconocido
+=== RUN   TestValidateRecord/unidad_incorrecta
+=== RUN   TestValidateRecord/concentración_no_numérica
+=== RUN   TestValidateRecord/concentración_negativa
+=== RUN   TestValidateRecord/concentración_NaN
+=== RUN   TestValidateRecord/concentración_infinita
+=== RUN   TestValidateRecord/valor_de_concentración_faltante
+=== RUN   TestValidateRecord/registro_vacío
+--- PASS: TestValidateRecord (0.00s)
+    --- PASS: TestValidateRecord/PM10_válido (0.00s)
+    --- PASS: TestValidateRecord/PM2.5_válido (0.00s)
+    --- PASS: TestValidateRecord/contaminante_desconocido (0.00s)
+    --- PASS: TestValidateRecord/unidad_incorrecta (0.00s)
+    --- PASS: TestValidateRecord/concentración_no_numérica (0.00s)
+    --- PASS: TestValidateRecord/concentración_negativa (0.00s)
+    --- PASS: TestValidateRecord/concentración_NaN (0.00s)
+    --- PASS: TestValidateRecord/concentración_infinita (0.00s)
+    --- PASS: TestValidateRecord/valor_de_concentración_faltante (0.00s)
+    --- PASS: TestValidateRecord/registro_vacío (0.00s)
+PASS
+ok  	eas-aire/cargar-datos/internal/dataset	1.712s

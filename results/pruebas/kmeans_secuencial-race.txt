@@ -1,0 +1,85 @@
+$ go test -v -count=1 -timeout=300s -race ./...
+=== RUN   TestPartitionsCoverExactlyOnce
+--- PASS: TestPartitionsCoverExactlyOnce (0.00s)
+=== RUN   TestConcurrentEquivalence
+=== RUN   TestConcurrentEquivalence/case0_workers1
+=== RUN   TestConcurrentEquivalence/case0_workers2
+=== RUN   TestConcurrentEquivalence/case0_workers3
+=== RUN   TestConcurrentEquivalence/case0_workers4
+=== RUN   TestConcurrentEquivalence/case0_workers100
+=== RUN   TestConcurrentEquivalence/case1_workers1
+=== RUN   TestConcurrentEquivalence/case1_workers2
+=== RUN   TestConcurrentEquivalence/case1_workers3
+=== RUN   TestConcurrentEquivalence/case1_workers4
+=== RUN   TestConcurrentEquivalence/case1_workers100
+=== RUN   TestConcurrentEquivalence/case2_workers1
+=== RUN   TestConcurrentEquivalence/case2_workers2
+=== RUN   TestConcurrentEquivalence/case2_workers3
+=== RUN   TestConcurrentEquivalence/case2_workers4
+=== RUN   TestConcurrentEquivalence/case2_workers100
+--- PASS: TestConcurrentEquivalence (0.02s)
+    --- PASS: TestConcurrentEquivalence/case0_workers1 (0.01s)
+    --- PASS: TestConcurrentEquivalence/case0_workers2 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case0_workers3 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case0_workers4 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case0_workers100 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case1_workers1 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case1_workers2 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case1_workers3 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case1_workers4 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case1_workers100 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case2_workers1 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case2_workers2 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case2_workers3 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case2_workers4 (0.00s)
+    --- PASS: TestConcurrentEquivalence/case2_workers100 (0.00s)
+=== RUN   TestConcurrentRejectsInvalidInput
+--- PASS: TestConcurrentRejectsInvalidInput (0.00s)
+=== RUN   TestConcurrentRepeatableAndDoesNotMutate
+--- PASS: TestConcurrentRepeatableAndDoesNotMutate (0.00s)
+=== RUN   TestCSVToBothModels
+--- PASS: TestCSVToBothModels (0.01s)
+=== RUN   TestCLIRejectsInvalidContract
+--- PASS: TestCLIRejectsInvalidContract (0.01s)
+=== RUN   TestRealPeriodsEquivalence
+=== RUN   TestRealPeriodsEquivalence/1_hora
+    integration_test.go:81: period=1_hora N=445347 workers=1 iterations=96 inertia=389845120.224682 labels=equal
+    integration_test.go:81: period=1_hora N=445347 workers=2 iterations=96 inertia=389845120.224682 labels=equal
+    integration_test.go:81: period=1_hora N=445347 workers=4 iterations=96 inertia=389845120.224682 labels=equal
+    integration_test.go:81: period=1_hora N=445347 workers=8 iterations=96 inertia=389845120.224682 labels=equal
+=== RUN   TestRealPeriodsEquivalence/24_horas
+    integration_test.go:81: period=24_horas N=18297 workers=1 iterations=44 inertia=6283274.55223338 labels=equal
+    integration_test.go:81: period=24_horas N=18297 workers=2 iterations=44 inertia=6283274.55223337 labels=equal
+    integration_test.go:81: period=24_horas N=18297 workers=4 iterations=44 inertia=6283274.55223337 labels=equal
+    integration_test.go:81: period=24_horas N=18297 workers=8 iterations=44 inertia=6283274.55223337 labels=equal
+--- PASS: TestRealPeriodsEquivalence (37.52s)
+    --- PASS: TestRealPeriodsEquivalence/1_hora (36.59s)
+    --- PASS: TestRealPeriodsEquivalence/24_horas (0.93s)
+=== RUN   TestInitializeCentroidsReproducible
+--- PASS: TestInitializeCentroidsReproducible (0.00s)
+=== RUN   TestInitializeCentroidsInvalidK
+--- PASS: TestInitializeCentroidsInvalidK (0.00s)
+=== RUN   TestAssignClusters
+--- PASS: TestAssignClusters (0.00s)
+=== RUN   TestUpdateCentroids
+--- PASS: TestUpdateCentroids (0.00s)
+=== RUN   TestUpdateCentroidsEmptyCluster
+--- PASS: TestUpdateCentroidsEmptyCluster (0.00s)
+=== RUN   TestRunKMeans
+--- PASS: TestRunKMeans (0.00s)
+=== RUN   TestRunKMeansInvalidParameters
+--- PASS: TestRunKMeansInvalidParameters (0.00s)
+=== RUN   TestRunKMeansInvalidDataset
+--- PASS: TestRunKMeansInvalidDataset (0.00s)
+=== RUN   TestLoadCSVSuccess
+--- PASS: TestLoadCSVSuccess (0.01s)
+=== RUN   TestLoadCSVEmpty
+--- PASS: TestLoadCSVEmpty (0.00s)
+=== RUN   TestLoadCSVInvalidHeader
+--- PASS: TestLoadCSVInvalidHeader (0.00s)
+=== RUN   TestLoadCSVInvalidValue
+--- PASS: TestLoadCSVInvalidValue (0.00s)
+=== RUN   TestLoadCSVInvalidDimensions
+--- PASS: TestLoadCSVInvalidDimensions (0.00s)
+PASS
+ok  	kmeans-secuencial	39.335s

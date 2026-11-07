@@ -62,3 +62,26 @@ func concurrentAssignment(data Dataset, centroids [][]float64, ranges []rowRange
 	wg.Wait()
 	return labels, parts
 }
+
+func reduceCentroids(parts []partial, previous [][]float64) [][]float64 {
+	centroids := make([][]float64, len(previous))
+	for c := range previous {
+		centroids[c] = make([]float64, Dimensions)
+		count := 0
+		// Orden fijo de worker: no depende del orden de finalización.
+		for _, p := range parts {
+			count += p.counts[c]
+			for d := 0; d < Dimensions; d++ {
+				centroids[c][d] += p.sums[c][d]
+			}
+		}
+		if count == 0 {
+			copy(centroids[c], previous[c])
+		} else {
+			for d := 0; d < Dimensions; d++ {
+				centroids[c][d] /= float64(count)
+			}
+		}
+	}
+	return centroids
+}

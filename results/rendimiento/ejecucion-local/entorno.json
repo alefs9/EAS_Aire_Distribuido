@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-11-07T00:25:07.435174+00:00",
+  "commit": "d8189d3930efdacad5c668e4c31d106a6e8161f4",
+  "tracked_changes": "",
+  "os": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "logical_cpus": 16,
+  "go": "go version go1.27.2 windows/amd64",
+  "gomaxprocs": 4,
+  "repetitions": 5,
+  "shuffle_seed": 2026,
+  "scope": "LoadCSV + RunKMeans; excluye compilación, inicio del proceso, metadatos y serialización",
+  "inputs": {
+    "1_hora": {
+      "path": "data\\vectors\\features_1_hora.csv",
+      "sha256": "cd6e82224deebf069ee6e247e12f2096835b2af747c8c2d27f5fed48609162d0"
+    },
+    "24_horas": {
+      "path": "data\\vectors\\features_24_horas.csv",
+      "sha256": "e30a4f4c1955507d3f9f3d419ed64f65b30b44d6a2fc87c44b70478aa75c1161"
+    }
+  },
+  "hardware_probe": "{\n    \"cpu\":  {\n                \"Name\":  \"12th Gen Intel(R) Core(TM) i7-12650H\",\n                \"NumberOfCores\":  10,\n                \"NumberOfLogicalProcessors\":  16\n            },\n    \"ram_bytes\":  16782184448\n}",
+  "hardware_probe_error": "",
+  "equivalence": "PASS: inicialización, etiquetas SHA256, conteos, iteraciones, convergencia y tolerancias 1e-9 abs + 1e-9 rel"
+}

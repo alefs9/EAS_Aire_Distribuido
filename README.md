@@ -48,7 +48,7 @@ El EDA examina tipos de lectura, parámetros, unidades, periodos, cobertura temp
 
 El notebook contiene una transformación exploratoria y conserva nombres históricos como `06_resumen_limpieza.csv` y `mediciones_PM_limpias`. En este directorio esos nombres describen únicamente el subconjunto exploratorio de 1 137 870 mediciones. El [dataset de limpieza definitiva](data/processed/README.md) se publica por separado y conserva 1 062 897 mediciones. La [preparación de vectores](results/vectores/README.md) reúne las mediciones coincidentes de ambos contaminantes en observaciones de dos dimensiones.
 
-Los CSV masivos y las bases temporales no forman parte del repositorio. No se incluyen implementaciones ni resultados de rendimiento de Go en esta versión.
+Los CSV masivos y las bases temporales no forman parte del repositorio. Los módulos Go y sus resultados se describen en la [entrega de concurrencia e integración](docs/ENTREGA_INTEGRANTE_3.md).
 
 
 

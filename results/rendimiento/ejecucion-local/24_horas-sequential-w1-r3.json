@@ -1,0 +1,83 @@
+{
+  "period": "24_horas",
+  "input": "C:\\Users\\valen\\Documents\\ChatGPT\\Concurrente 2\\EAS_Aire_Distribuido\\data\\vectors\\features_24_horas.csv",
+  "mode": "sequential",
+  "vectors": 18297,
+  "k": 4,
+  "max_iterations": 100,
+  "tolerance": 0.001,
+  "seed": 42,
+  "workers_requested": 1,
+  "workers_effective": 1,
+  "gomaxprocs": 4,
+  "go_version": "go1.27.2",
+  "initial_centroids": [
+    [
+      16.9,
+      9.7
+    ],
+    [
+      60,
+      15.8
+    ],
+    [
+      23.52208333333333,
+      15.73625
+    ],
+    [
+      29.1,
+      6.9
+    ]
+  ],
+  "centroids": [
+    [
+      15.529418124857312,
+      8.366580451636068
+    ],
+    [
+      172.24817737877717,
+      93.17650844710258
+    ],
+    [
+      46.40252377017278,
+      19.04361110142695
+    ],
+    [
+      97.60514404721869,
+      40.91580267557603
+    ]
+  ],
+  "counts": [
+    10075,
+    992,
+    4848,
+    2382
+  ],
+  "labels_sha256": "7d6c577e833a37faa9cf343bc0130b66b67080d73a92f9b7dd481c5764cdcbce",
+  "iterations": 44,
+  "converged": true,
+  "inertia": 6283274.552233378,
+  "load_seconds": 0.0040617,
+  "train_seconds": 0.0156091,
+  "total_seconds": 0.0196708,
+  "repetition": 3,
+  "command": [
+    "C:\\Users\\valen\\Documents\\ChatGPT\\Concurrente 2\\EAS_Aire_Distribuido\\.tools\\kmeans.exe",
+    "-input",
+    "C:\\Users\\valen\\Documents\\ChatGPT\\Concurrente 2\\EAS_Aire_Distribuido\\data\\vectors\\features_24_horas.csv",
+    "-period",
+    "24_horas",
+    "-mode",
+    "sequential",
+    "-workers",
+    "1",
+    "-k",
+    "4",
+    "-max-iter",
+    "100",
+    "-tol",
+    "0.001",
+    "-seed",
+    "42"
+  ]
+}

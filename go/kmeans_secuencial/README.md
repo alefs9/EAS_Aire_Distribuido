@@ -1,5 +1,16 @@
 # K-Means secuencial en Go
 
+## Modos integrados: secuencial y concurrente
+
+El módulo también incluye `RunKMeansConcurrent`, pruebas de integración y salida JSON. Se conserva la ejecución histórica sin argumentos. Para seleccionar explícitamente un periodo:
+
+```powershell
+go run . -input ../../data/vectors/features_1_hora.csv -period 1_hora -mode concurrent -workers 4
+go run . -input ../../data/vectors/features_1_hora.csv -period 1_hora -mode sequential
+```
+
+La [guía de integración](../../docs/pruebas-integracion.md) describe parámetros, pruebas y recorrido de datos. La [entrega del integrante 3](../../docs/ENTREGA_INTEGRANTE_3.md) reúne informe, evidencias y rendimiento. Para incluir datos reales en las pruebas, establecer `KMEANS_REAL_DATA=1` antes de `go test ./...`.
+
 ## Descripción
 
 Implementación secuencial del algoritmo K-Means en Go, utilizada como línea base para comparar posteriormente su rendimiento con la implementación paralela.

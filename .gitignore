@@ -31,3 +31,5 @@ Limpieza_PM/
 metadatos_24_horas.csv
 Vectores_PM/
 *.part
+.tools/
+*.exe

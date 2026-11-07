@@ -1,0 +1,26 @@
+2026-11-07 00:26:29.203786+00:00
+d8189d3930efdacad5c668e4c31d106a6e8161f4
+
+C:\Users\valen\Documents\ChatGPT\Concurrente 2\EAS_Aire_Distribuido\.tools\clon-verificado\go\cargar-datos
+go test -count=1 -timeout=120s ./...
+?   	eas-aire/cargar-datos/cmd/cargar-datos	[no test files]
+ok  	eas-aire/cargar-datos/internal/dataset	0.480s
+
+
+exit=0
+C:\Users\valen\Documents\ChatGPT\Concurrente 2\EAS_Aire_Distribuido\.tools\clon-verificado\go\cargar-datos
+go vet ./...
+
+
+exit=0
+C:\Users\valen\Documents\ChatGPT\Concurrente 2\EAS_Aire_Distribuido\.tools\clon-verificado\go\kmeans_secuencial
+go test -count=1 -timeout=120s ./...
+ok  	kmeans-secuencial	3.962s
+
+
+exit=0
+C:\Users\valen\Documents\ChatGPT\Concurrente 2\EAS_Aire_Distribuido\.tools\clon-verificado\go\kmeans_secuencial
+go vet ./...
+
+
+exit=0

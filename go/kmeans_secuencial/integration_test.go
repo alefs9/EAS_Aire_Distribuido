@@ -51,3 +51,35 @@ func TestCLIRejectsInvalidContract(t *testing.T) {
 		}
 	}
 }
+
+func TestRealPeriodsEquivalence(t *testing.T) {
+	if os.Getenv("KMEANS_REAL_DATA") != "1" {
+		t.Skip("KMEANS_REAL_DATA=1 activa los dos datasets reales")
+	}
+	for _, tc := range []struct {
+		period string
+		n      int
+	}{{"1_hora", 445347}, {"24_horas", 18297}} {
+		t.Run(tc.period, func(t *testing.T) {
+			data, err := LoadCSV("../../data/vectors/features_" + tc.period + ".csv")
+			if err != nil {
+				t.Fatal(err)
+			}
+			if data.N != tc.n {
+				t.Fatalf("N=%d", data.N)
+			}
+			a, err := RunKMeans(data, 4, 100, .001, 42)
+			if err != nil {
+				t.Fatal(err)
+			}
+			for _, workers := range []int{1, 2, 4, 8} {
+				b, err := RunKMeansConcurrent(data, 4, 100, .001, 42, workers)
+				if err != nil {
+					t.Fatal(err)
+				}
+				assertEquivalent(t, a, b)
+				t.Logf("period=%s N=%d workers=%d iterations=%d inertia=%.15g labels=equal", tc.period, data.N, workers, b.Iterations, b.Inertia)
+			}
+		})
+	}
+}

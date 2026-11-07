@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"sort"
 	"time"
 )
@@ -126,6 +127,12 @@ func calculatePercentile(values []float64, percentile float64) float64 {
 }
 
 func main() {
+	if len(os.Args) > 1 {
+		if err := runCLI(os.Args[1:], os.Stdout); err != nil {
+			log.Fatal(err)
+		}
+		return
+	}
 	ruta1Hora := "../../data/vectors/features_1_hora.csv"
 	ruta24Horas := "../../data/vectors/features_24_horas.csv"
 

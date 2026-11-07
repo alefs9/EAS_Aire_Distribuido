@@ -103,3 +103,24 @@ func TestConcurrentRejectsInvalidInput(t *testing.T) {
 		}
 	}
 }
+
+func TestConcurrentRepeatableAndDoesNotMutate(t *testing.T) {
+	data := NewDataset([][]float64{{1, 2}, {3, 4}, {10, 11}, {12, 13}, {20, 21}})
+	before := fmt.Sprint(data)
+	a, err := RunKMeansConcurrent(data, 2, 100, .001, 42, 3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i := 0; i < 20; i++ {
+		b, err := RunKMeansConcurrent(data, 2, 100, .001, 42, 3)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(a, b) {
+			t.Fatal("not deterministic")
+		}
+	}
+	if fmt.Sprint(data) != before {
+		t.Fatal("mutated data")
+	}
+}

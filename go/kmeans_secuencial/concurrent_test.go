@@ -86,3 +86,20 @@ func TestConcurrentEquivalence(t *testing.T) {
 		}
 	}
 }
+
+func TestConcurrentRejectsInvalidInput(t *testing.T) {
+	valid := NewDataset([][]float64{{1, 2}, {3, 4}})
+	for _, data := range []Dataset{{}, {Points: valid.Points, N: 3, D: 2}, NewDataset([][]float64{{1}}), NewDataset([][]float64{{math.NaN(), 2}})} {
+		if _, err := RunKMeansConcurrent(data, 1, 10, 0.001, 42, 2); err == nil {
+			t.Fatal("accepted invalid data")
+		}
+	}
+	for _, c := range []struct {
+		k, it, w int
+		tol      float64
+	}{{0, 10, 2, .001}, {3, 10, 2, .001}, {1, 0, 2, .001}, {1, 10, 0, .001}, {1, 10, -1, .001}, {1, 10, 2, -1}, {1, 10, 2, math.NaN()}, {1, 10, 2, math.Inf(1)}} {
+		if _, err := RunKMeansConcurrent(valid, c.k, c.it, c.tol, 42, c.w); err == nil {
+			t.Fatal("accepted invalid config")
+		}
+	}
+}

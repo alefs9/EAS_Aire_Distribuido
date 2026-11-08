@@ -1,75 +1,115 @@
 # EAS Aire Distribuido
 
-Análisis de mediciones ambientales de PM10 y PM2.5 para estudiar patrones espaciales y temporales de calidad del aire. Esta versión incorpora el análisis exploratorio, la limpieza definitiva de las mediciones PM, la preparación de vectores y sus evidencias reproducibles.
+Análisis de PM10 y PM2.5 del OEFA. Incluye EDA, limpieza, preparación de vectores, carga y validación de mediciones en Go y K-Means secuencial y concurrente. Los nodos y el coordinador corresponden al diseño distribuido y todavía no están implementados.
 
-## Fuente y cobertura
+## Datos y estructura
 
-El archivo `EAS_Aire_0.csv` corresponde al componente aire del conjunto [Evaluaciones ambientales de seguimiento (EAS)](https://www.datosabiertos.gob.pe/dataset/evaluaciones-ambientales-de-seguimiento-eas), publicado por el Organismo de Evaluación y Fiscalización Ambiental (OEFA).
+Fuente: componente aire de [Evaluaciones ambientales de seguimiento (EAS)](https://www.datosabiertos.gob.pe/dataset/evaluaciones-ambientales-de-seguimiento-eas), publicado por OEFA.
 
-| Característica | Resultado de la ejecución |
+| Etapa | Resultado |
 | --- | ---: |
-| Registros originales | 11 407 394 |
-| Variables originales | 23 |
-| Fechas de inicio | 2018-01-01 a 2024-12-31 |
-| Mediciones seleccionadas de PM10 y PM2.5 | 1 580 630 |
-| Mediciones del subconjunto exploratorio | 1 137 870 |
+| Archivo original | 11 407 394 registros, 23 variables, años 2018-2024 |
+| PM10 y PM2.5 antes de limpiar | 1 580 630 mediciones |
+| Subconjunto exploratorio del EDA | 1 137 870 mediciones |
+| Limpieza definitiva | 1 062 897 mediciones y 517 733 exclusiones |
+| Vectores horarios | 445 347 |
+| Vectores de 24 horas | 18 297 |
+| Mediciones sin pareja | 135 609 |
 
-El total original incluye otros parámetros y variables meteorológicas. El subconjunto exploratorio se utiliza para describir concentraciones; no equivale al resultado de la limpieza definitiva ni a una cantidad de vectores del modelo. No se replicaron filas para aumentar el volumen.
-
-## Contenido
+Las mediciones y los vectores son unidades distintas: `1 062 897 = 2 × 463 644 + 135 609`. No se replican filas ni se imputan concentraciones. Los periodos se procesan por separado.
 
 | Ruta | Contenido |
 | --- | --- |
-| `notebooks/EDA.ipynb` | Cuaderno ejecutado, código, explicaciones y salidas |
-| `results/eda/tablas/` | 28 CSV completos exportados por la ejecución |
-| `results/eda/figuras/` | Tres gráficos y dos capturas de las salidas |
-| `results/eda/README.md` | Guía e interpretación de resultados |
-| `results/eda/ejecucion.json` | Entorno y procedencia de la ejecución |
-| `results/eda/resumen_exploratorio.json` | Conteos y cobertura del subconjunto exploratorio |
-| `results/eda/RESUMEN_EXPLORATORIO.md` | Síntesis generada durante la ejecución |
-| `results/eda/inventario.csv` | Tamaños, filas y hashes de los archivos publicados |
-| `data/raw/README.md` | Fuente y acceso al archivo original |
-| `requirements.txt` | Dependencias de análisis |
+| [notebooks](notebooks/) | EDA, limpieza y preparación de vectores, con salidas |
+| [data/raw](data/raw/) | Fuente y acceso al CSV original |
+| [data/processed](data/processed/) | Parquet limpio, exclusiones y manifiesto |
+| [data/vectors](data/vectors/) | Vectores y CSV por periodo |
+| [go/cargar-datos](go/cargar-datos/) | Carga y validación secuencial y concurrente |
+| [go/kmeans_secuencial](go/kmeans_secuencial/) | Ambas versiones de K-Means, notebooks y pruebas |
+| [results/eda](results/eda/), [results/limpieza](results/limpieza/), [results/vectores](results/vectores/) | Tablas, figuras e inventarios |
+| [results/pruebas](results/pruebas/) | Registros de carga completa y pruebas |
+| [results/rendimiento/ejecucion-local](results/rendimiento/ejecucion-local/) | Entorno y mediciones de Windows |
 
-## Reproducción en Google Colab
+## Requisitos y preparación
 
-1. Abrir `notebooks/EDA.ipynb` en Google Colab. También está disponible el [cuaderno de origen](https://colab.research.google.com/drive/1ILtge8uqvyCZ4Isuqcm-kiV079eUNEQh).
-2. Tener el archivo original en Google Drive. Consultar [las instrucciones de entrada](data/raw/README.md).
-3. Ejecutar las celdas en orden. La celda de configuración utiliza `DATA_DIR = Path('/content/drive/MyDrive/Concurrente')`; ajustar únicamente esa ruta si la carpeta tiene otra ubicación.
-4. Autorizar el montaje de Drive en la propia sesión. El cuaderno instala DuckDB; las demás bibliotecas se incluyen en Colab. La ejecución registrada empleó DuckDB 1.3.2 y Python 3.13.18. Para igualar DuckDB, cambiar la celda de instalación a `%pip -q install duckdb==1.3.2` antes de una nueva ejecución.
-5. El cuaderno comprueba al menos 15 GiB libres en `/content`, limita DuckDB a 3 GB de memoria y utiliza hasta cuatro hilos. La entrada tiene 5 153 626 505 bytes; la lectura y las consultas completas requieren tiempo y almacenamiento temporal.
-6. Las nuevas salidas se guardan en `DATA_DIR/Procesado_PM/<RUN_ID>/`. Para actualizar los resultados versionados, copiar los CSV y las figuras correspondientes a una misma ejecución a `results/eda/` y actualizar su procedencia.
+Se requiere **Go 1.27.1 o posterior** para ejecutar ambos módulos. K-Means declara Go 1.22 como mínimo, pero el cargador requiere 1.27.1. Las pruebas con `-race` necesitan una plataforma y un compilador C compatibles. Las herramientas Python se instalan desde la raíz:
 
-El cuaderno está adaptado a Colab; no se ejecuta directamente como un script de Python local sin adaptar el montaje y las rutas. Las salidas incluidas pertenecen a la ejecución conservada; preparar este repositorio no implicó volver a procesar el archivo masivo.
+```powershell
+python -m pip install -r requirements.txt
+```
 
-## Alcance de la interpretación
+En Colab, ejecutar [EDA.ipynb](notebooks/EDA.ipynb), [Limpieza.ipynb](notebooks/Limpieza.ipynb) y [Vectores.ipynb](notebooks/Vectores.ipynb), en ese orden, ajustando `DATA_DIR` y las rutas de entrada. El EDA caracteriza los datos; la limpieza definitiva aplica y documenta sus filtros; los vectores utilizan el resultado definitivo. Para igualar la ejecución conservada, fijar DuckDB 1.3.2. El EDA requiere al menos 15 GiB libres en `/content` y la limpieza al menos 10 GiB. Ambos limitan DuckDB a 3 GB de memoria.
 
-El EDA examina tipos de lectura, parámetros, unidades, periodos, cobertura temporal, información desconocida, identidades espaciales y distribuciones. Los años con más registros indican mayor disponibilidad en la fuente, no necesariamente mayor contaminación. Los valores extremos se señalan para revisión y no se eliminan automáticamente. Las coordenadas UTM no se interpretan como latitud y longitud; las variantes de zona y datum requieren validación.
+El CSV original y el CSV limpio masivo se mantienen fuera de Git. El Parquet limpio está publicado. Para regenerar el CSV desde ese Parquet:
 
-El notebook contiene una transformación exploratoria y conserva nombres históricos como `06_resumen_limpieza.csv` y `mediciones_PM_limpias`. En este directorio esos nombres describen únicamente el subconjunto exploratorio de 1 137 870 mediciones. El [dataset de limpieza definitiva](data/processed/README.md) se publica por separado y conserva 1 062 897 mediciones. La [preparación de vectores](results/vectores/README.md) reúne las mediciones coincidentes de ambos contaminantes en observaciones de dos dimensiones.
+```powershell
+python scripts/exportar_csv_limpio.py
+```
 
-Los CSV masivos y las bases temporales no forman parte del repositorio. Los módulos Go y sus resultados se describen en la [entrega de concurrencia e integración](docs/ENTREGA_INTEGRANTE_3.md).
+La salida es `data/processed/PM25_PM10_limpio.csv`. Los archivos `features_1_hora.csv` y `features_24_horas.csv` ya están publicados en `data/vectors/`.
 
+## Carga y validación en Go
 
+Desde la raíz del repositorio:
 
-## Limpieza definitiva
+```powershell
+cd go/cargar-datos
+go run ./cmd/cargar-datos -mode=sequential ../../data/processed/PM25_PM10_limpio.csv
+go run ./cmd/cargar-datos -mode=concurrent -workers=4 -batch=1000 ../../data/processed/PM25_PM10_limpio.csv
+go test -count=1 ./...
+go test -race -count=1 ./...
+cd ../..
+```
 
-El [cuaderno de limpieza](notebooks/Limpieza.ipynb) procesa el CSV original y conserva 1 062 897 mediciones: 598 502 de PM10 y 464 395 de PM2.5. La auditoría conserva 517 733 exclusiones. Se mantienen todos los años disponibles; no se replican filas ni se imputan valores para completar observaciones.
+Un lector secuencial distribuye la validación en lotes entre workers mediante canales. Se verifican encabezados, contaminante, unidad y concentraciones numéricas, finitas y no negativas. Este módulo valida una entrada ya limpia; no repite los filtros del notebook ni construye vectores. Las evidencias publicadas aceptan 1 062 897 registros y rechazan cero en ambos modos: 598 502 de PM10 y 464 395 de PM2.5.
 
-Los [resultados y criterios](results/limpieza/README.md) incluyen nueve tablas completas, evidencias y comprobaciones de los Parquet. Los archivos completos comprimidos y el manifiesto portátil están en [data/processed](data/processed/README.md). El CSV puede descargarse o regenerarse con `python scripts/exportar_csv_limpio.py`; permanece excluido de Git.
+## K-Means y pruebas con los vectores reales
 
-Para reproducir la limpieza en Colab, abrir `notebooks/Limpieza.ipynb`, ajustar `DATA_DIR` a la carpeta del archivo original y ejecutar las celdas en orden. La configuración requiere al menos 10 GiB libres en `/content` y limita DuckDB a 3 GB de memoria. Sus resultados se guardan en `DATA_DIR/Limpieza_PM/<RUN_ID>/`. La ejecución conservada empleó DuckDB 1.3.2; el `requirements.txt` del repositorio ya incluye esa versión. El cuaderno original instala DuckDB sin fijar versión, por lo que puede usarse `%pip -q install duckdb==1.3.2` para igualarla.
+Desde la raíz:
 
-La preparación del paquete conserva el código y las salidas del notebook original. La validación de publicación comprueba los archivos descargados; no representa una nueva ejecución completa del CSV fuente.
+```powershell
+cd go/kmeans_secuencial
+go run . -input ../../data/vectors/features_1_hora.csv -period 1_hora -mode sequential -k 4 -seed 42 -tol 0.001 -max-iter 100
+go run . -input ../../data/vectors/features_1_hora.csv -period 1_hora -mode concurrent -workers 4 -k 4 -seed 42 -tol 0.001 -max-iter 100
+go run . -input ../../data/vectors/features_24_horas.csv -period 24_horas -mode sequential -k 4 -seed 42 -tol 0.001 -max-iter 100
+go run . -input ../../data/vectors/features_24_horas.csv -period 24_horas -mode concurrent -workers 4 -k 4 -seed 42 -tol 0.001 -max-iter 100
+$env:KMEANS_REAL_DATA = "1"
+go test -count=1 -timeout=300s ./...
+go test -race -count=1 -timeout=300s ./...
+Remove-Item Env:KMEANS_REAL_DATA
+cd ../..
+```
 
+La salida JSON registra parámetros, centroides, conteos, inercia y tiempos. La variante concurrente utiliza bloques contiguos, acumuladores privados y `sync.WaitGroup`. Las pruebas reales comparan ambos periodos con 1, 2, 4 y 8 workers y verifican asignaciones, centroides e inercia con las tolerancias del código.
 
+Las ejecuciones de Colab se conservan en los cuadernos [secuencial](go/kmeans_secuencial/kmeans_secuencial.ipynb) y [concurrente](go/kmeans_secuencial/kmeans_concurrente.ipynb).
 
-## Preparación de vectores
+## Rendimiento y procedencia
 
-El [cuaderno de vectores](notebooks/Vectores.ipynb) utiliza el resultado definitivo de limpieza y genera 463 644 pares `[PM10, PM2.5]`. Estos pares utilizan 927 288 mediciones; las 135 609 restantes no tienen el otro contaminante en la misma clave y se conservan por separado. No se imputan datos, se replican filas ni se entrenan modelos en esta etapa.
+Cada speedup utiliza las medianas secuencial y concurrente del mismo periodo y entorno. No se combinan tiempos entre equipos.
 
-Los [archivos del modelo](data/vectors/README.md) incluyen el Parquet completo con metadatos, las observaciones incompletas y dos CSV de características: 445 347 vectores de una hora y 18 297 de 24 horas. Ambos mantienen concentraciones físicas sin escalar y el orden fijo de las dos dimensiones. Cada periodo debe seleccionarse explícitamente para el análisis.
+| Entorno | Evidencia | Entrenamiento horario con 4 workers |
+| --- | --- | --- |
+| Colab | [Cuaderno ejecutado](go/kmeans_secuencial/kmeans_concurrente.ipynb), 7 de noviembre de 2026 a las 08:55 UTC | Secuencial: 1,783167 s; concurrente: 1,175477 s; speedup: 1,517 |
+| Windows | [Entorno](results/rendimiento/ejecucion-local/entorno.json), [mediciones](results/rendimiento/ejecucion-local/mediciones.csv) y [medianas](results/rendimiento/ejecucion-local/RESUMEN.md), 7 de noviembre de 2026 a las 00:25 UTC | Secuencial: 0,811010 s; concurrente: 0,301061 s; speedup: 2,694 |
 
-Los [resultados y evidencias](results/vectores/README.md) incluyen cuatro tablas, dos figuras y comprobaciones de correspondencia con el Parquet limpio. Para regenerar el CSV completo y sus metadatos, ejecutar `python scripts/exportar_csv_vectores.py` desde la raíz del repositorio. Esos CSV se mantienen fuera de Git.
+En Windows se registraron Go 1.27.2, Windows 11, Intel Core i7-12650H de 10 núcleos y 16 procesadores lógicos y aproximadamente 15,6 GiB de memoria física. En Colab no se conservaron las respuestas completas de versión de Go, sistema operativo, CPU y RAM. Ambas evaluaciones fijaron `GOMAXPROCS=4`, cinco repeticiones medidas y un calentamiento por configuración.
 
-Para reproducir el cuaderno original en Colab, ejecutar primero Limpieza.ipynb y después Vectores.ipynb con el mismo DATA_DIR. El cuaderno lee el manifiesto de limpieza generado en Drive y guarda sus resultados en `DATA_DIR/Vectores_PM/<RUN_ID>/`. El manifiesto portátil del repositorio conserva rutas relativas y documenta por separado las rutas originales de Colab.
+Para medir nuevamente, desde la raíz y usando una carpeta nueva:
+
+```powershell
+python scripts/medir_kmeans.py --repetitions 5 --gomaxprocs 4 --output results/rendimiento/nueva-ejecucion
+python scripts/graficar_rendimiento.py results/rendimiento/nueva-ejecucion
+```
+
+Se excluyen la preparación de datos, la compilación y las pruebas. La mediana del tiempo total se calcula a partir de sus propias mediciones. La versión concurrente fusiona asignación y acumulación: el speedup no aísla exclusivamente el efecto de aumentar workers. Los clústeres no constituyen umbrales sanitarios ni un modelo predictivo.
+
+## Integridad
+
+Los inventarios conservan rutas, tamaños, cantidades de filas cuando corresponden y SHA-256. No incluyen archivos eliminados ni el propio inventario. Después de modificar resultados:
+
+```powershell
+python scripts/actualizar_inventarios.py
+```
+
+La configuración local del editor, incluida `.idea/workspace.xml`, permanece fuera del versionado.

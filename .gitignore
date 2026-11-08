@@ -33,3 +33,6 @@ Vectores_PM/
 *.part
 .tools/
 *.exe
+
+# Configuración local del editor
+.idea/

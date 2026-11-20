@@ -77,3 +77,19 @@ func (r *Repositorio) Dataset(ctx context.Context, id string) (Dataset, error) {
 	}
 	return d, err
 }
+
+func (r *Repositorio) Crear(ctx context.Context, id, dataset string, p Parametros) error {
+	if id == "" {
+		return errors.New("job_id vacío")
+	}
+	d, err := r.Dataset(ctx, dataset)
+	if err != nil {
+		return err
+	}
+	if err = validarParametros(p, d.Vectores); err != nil {
+		return err
+	}
+	now := time.Now().UTC()
+	_, err = r.DB.Collection("jobs").InsertOne(ctx, Trabajo{ID: id, DatasetID: dataset, Parametros: p, Estado: "queued", Creado: now, Actualizado: now})
+	return err
+}

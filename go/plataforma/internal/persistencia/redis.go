@@ -44,3 +44,11 @@ func (s *Servicio) Fallar(ctx context.Context, id, motivo string) error {
 	_ = s.Invalidar(ctx, id)
 	return nil
 }
+
+func (s *Servicio) Completar(ctx context.Context, id string, r Resultado) error {
+	if err := s.Repo.Completar(ctx, id, r); err != nil {
+		return err
+	}
+	_ = s.Invalidar(ctx, id)
+	return nil
+}

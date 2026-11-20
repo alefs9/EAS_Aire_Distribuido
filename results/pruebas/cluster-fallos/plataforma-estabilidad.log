@@ -1,0 +1,3 @@
+command=go test -race -count=10 -run 'TestExecutionFaults|TestServeStopsIdleAssignment|TestDistributedTCP' ./internal/cluster
+exit=0
+ok  	eas-aire/plataforma/internal/cluster	20.600s

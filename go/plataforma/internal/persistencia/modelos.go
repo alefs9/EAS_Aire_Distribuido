@@ -27,3 +27,17 @@ type Parametros struct {
 	Tolerancia float64 `bson:"tolerancia" json:"tolerancia"`
 	MaxIter    int     `bson:"max_iter" json:"max_iter"`
 }
+
+type Resultado struct {
+	Centroides    [][]float64 `bson:"centroides" json:"centroides"`
+	Conteos       []int       `bson:"conteos" json:"conteos"`
+	Iteraciones   int         `bson:"iteraciones" json:"iteraciones"`
+	Inercia       float64     `bson:"inercia" json:"inercia"`
+	Convergio     bool        `bson:"convergio" json:"convergio"`
+	SegundosCarga float64     `bson:"segundos_carga" json:"segundos_carga"`
+	SegundosML    float64     `bson:"segundos_ml" json:"segundos_ml"`
+	Origen        string      `bson:"origen" json:"origen"`
+}
+
+// El resultado resumido se incrusta en jobs: estado y resultado se guardan
+// en una única escritura atómica. No se incrustan las N asignaciones.

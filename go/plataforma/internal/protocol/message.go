@@ -33,13 +33,15 @@ var (
 )
 
 type Message struct {
-	Proto    int    `json:"proto"`
-	Type     string `json:"type"`
-	NodeID   string `json:"node_id,omitempty"`
-	Capacity int    `json:"capacity,omitempty"`
-	TS       int64  `json:"ts,omitempty"`
-	Code     string `json:"code,omitempty"`
-	Detail   string `json:"message,omitempty"`
+	Proto    int         `json:"proto"`
+	Type     string      `json:"type"`
+	NodeID   string      `json:"node_id,omitempty"`
+	Capacity int         `json:"capacity,omitempty"`
+	TS       int64       `json:"ts,omitempty"`
+	Code     string      `json:"code,omitempty"`
+	Detail   string      `json:"message,omitempty"`
+	Work     bool        `json:"work,omitempty"`
+	Job      *JobMessage `json:"job,omitempty"`
 }
 
 func New(kind, id string) Message {
@@ -53,7 +55,7 @@ func (m Message) validate() error {
 		return ErrVersion
 	}
 	if m.Type == Error {
-		if (m.NodeID == "" || ValidID(m.NodeID)) && m.Code != "" && m.Detail != "" && m.Capacity == 0 && m.TS == 0 {
+		if (m.NodeID == "" || ValidID(m.NodeID)) && m.Code != "" && m.Detail != "" && m.Capacity == 0 && m.TS == 0 && m.Job == nil && !m.Work {
 			return nil
 		}
 		return ErrMessage
@@ -61,9 +63,15 @@ func (m Message) validate() error {
 	if !ValidID(m.NodeID) || m.Code != "" || m.Detail != "" {
 		return ErrMessage
 	}
+	if m.Job != nil {
+		return m.validateJob()
+	}
+	if m.Work && m.Type != HeartbeatAck {
+		return ErrMessage
+	}
 	switch m.Type {
 	case Register:
-		if m.Capacity > 0 && m.TS == 0 {
+		if m.Capacity > 0 && m.TS == 0 && m.Job == nil && !m.Work {
 			return nil
 		}
 	case Heartbeat, HeartbeatAck:
@@ -71,7 +79,7 @@ func (m Message) validate() error {
 			return nil
 		}
 	case Registered, Bye, ByeAck:
-		if m.Capacity == 0 && m.TS == 0 {
+		if m.Capacity == 0 && m.TS == 0 && m.Job == nil && !m.Work {
 			return nil
 		}
 	}

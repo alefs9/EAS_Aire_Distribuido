@@ -14,9 +14,24 @@ import (
 
 // Serve owns listener and all accepted connections until it returns.
 func Serve(ctx context.Context, listener net.Listener, timeout time.Duration, logger *log.Logger) error {
+	return NewCoordinator(timeout, logger).Serve(ctx, listener)
+}
+
+type Coordinator struct {
+	timeout time.Duration
+	logger  *log.Logger
+	mu      sync.Mutex
+	active  map[string]*session
+	busy    bool
+}
+
+func NewCoordinator(timeout time.Duration, logger *log.Logger) *Coordinator {
+	return &Coordinator{timeout: timeout, logger: logger, active: make(map[string]*session)}
+}
+
+// Serve accepts connections for this coordinator. Call it once per coordinator.
+func (c *Coordinator) Serve(ctx context.Context, listener net.Listener) error {
 	var workers sync.WaitGroup
-	var mu sync.Mutex
-	active := make(map[string]struct{})
 	ctx, cancel := context.WithCancel(ctx)
 	defer func() {
 		cancel()
@@ -41,32 +56,46 @@ func Serve(ctx context.Context, listener net.Listener, timeout time.Duration, lo
 			stop := context.AfterFunc(ctx, func() { conn.Close() })
 			defer stop()
 
+			peer := &session{conn: conn, done: make(chan struct{}), jobs: make(chan *assignment, 1)}
+			defer close(peer.done)
 			reserve := func(id string) bool {
-				mu.Lock()
-				defer mu.Unlock()
-				if _, exists := active[id]; exists {
+				c.mu.Lock()
+				defer c.mu.Unlock()
+				if _, exists := c.active[id]; exists {
 					return false
 				}
-				active[id] = struct{}{}
+				c.active[id] = peer
 				return true
 			}
 			release := func(id string) {
-				mu.Lock()
-				delete(active, id)
-				mu.Unlock()
+				c.mu.Lock()
+				delete(c.active, id)
+				c.mu.Unlock()
 			}
-			serveNode(conn, timeout, logger, reserve, release)
+			serveNode(peer, c.timeout, c.logger, reserve, release)
 		}(conn)
 	}
 }
 
-func serveNode(conn net.Conn, timeout time.Duration, logger *log.Logger, reserve func(string) bool, release func(string)) {
+func serveNode(peer *session, timeout time.Duration, logger *log.Logger, reserve func(string) bool, release func(string)) {
+	conn := peer.conn
 	var id string
 	reject := func(code, detail string) {
 		logger.Printf("ERROR peer=%s node_id=%q code=%s", conn.RemoteAddr(), id, code)
 		reply := protocol.New(protocol.Error, id)
 		reply.Code, reply.Detail = code, detail
 		_ = send(conn, timeout, reply)
+	}
+	closeSession := func() error {
+		release(id)
+		reply := protocol.New(protocol.ByeAck, id)
+		id = ""
+		if err := send(conn, timeout, reply); err != nil {
+			logger.Printf("BYE_ACK failed node_id=%s: %v", reply.NodeID, err)
+			return err
+		}
+		logger.Printf("BYE_ACK node_id=%s", reply.NodeID)
+		return nil
 	}
 	for {
 		if err := conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
@@ -124,20 +153,25 @@ func serveNode(conn net.Conn, timeout time.Duration, logger *log.Logger, reserve
 		case protocol.Heartbeat:
 			reply := protocol.New(protocol.HeartbeatAck, id)
 			reply.TS = m.TS
+			var work *assignment
+			select {
+			case work = <-peer.jobs:
+				reply.Work = true
+			default:
+			}
 			if err := send(conn, timeout, reply); err != nil {
 				logger.Printf("HEARTBEAT_ACK failed node_id=%s: %v", id, err)
 				return
 			}
 			logger.Printf("HEARTBEAT_ACK node_id=%s ts=%d", id, m.TS)
-		case protocol.Bye:
-			release(id)
-			reply := protocol.New(protocol.ByeAck, id)
-			id = ""
-			if err := send(conn, timeout, reply); err != nil {
-				logger.Printf("BYE_ACK failed node_id=%s: %v", reply.NodeID, err)
+			if work != nil {
+				if err := work.serve(conn, timeout, closeSession); err != nil {
+					logger.Printf("job session failed node_id=%s: %v", id, err)
+				}
 				return
 			}
-			logger.Printf("BYE_ACK node_id=%s", reply.NodeID)
+		case protocol.Bye:
+			_ = closeSession()
 			return
 		default:
 			reject("UNEXPECTED_MESSAGE", "expected HEARTBEAT or BYE")

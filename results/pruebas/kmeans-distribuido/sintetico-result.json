@@ -1,0 +1,40 @@
+{
+  "job_id": "c15985f9d5ab68f93f7b13783168dc93",
+  "config": {
+    "file": "/evidence/sintetico.csv",
+    "nodes": 2,
+    "k": 2,
+    "seed": 42,
+    "tolerance": 0.0001,
+    "max_iterations": 100
+  },
+  "rows": 4,
+  "participants": [
+    "nodo-1",
+    "nodo-2"
+  ],
+  "iterations": 3,
+  "status": "completed",
+  "reason": "converged",
+  "centroids": [
+    [
+      1,
+      1
+    ],
+    [
+      11,
+      11
+    ]
+  ],
+  "counts": [
+    2,
+    2
+  ],
+  "timings": {
+    "load_ns": 2268698,
+    "wait_for_nodes_ns": 550722695,
+    "distribution_ns": 197087198,
+    "iterations_ns": 2897628,
+    "total_ns": 753970844
+  }
+}

@@ -30,6 +30,7 @@ func RunNode(ctx context.Context, config NodeConfig, logger *log.Logger) error {
 	}
 	defer conn.Close()
 
+	var work bool
 	exchange := func(m protocol.Message, expected string) error {
 		if err := send(conn, config.Timeout, m); err != nil {
 			return fmt.Errorf("%s: %w", m.Type, err)
@@ -47,6 +48,7 @@ func RunNode(ctx context.Context, config NodeConfig, logger *log.Logger) error {
 		if reply.Type != expected || reply.NodeID != m.NodeID || reply.TS != m.TS {
 			return fmt.Errorf("unexpected reply to %s: %+v", m.Type, reply)
 		}
+		work = reply.Work
 		logger.Printf("%s node_id=%s ts=%d", reply.Type, reply.NodeID, reply.TS)
 		return nil
 	}
@@ -67,6 +69,12 @@ func RunNode(ctx context.Context, config NodeConfig, logger *log.Logger) error {
 			heartbeat.TS = time.Now().UnixNano()
 			if err := exchange(heartbeat, protocol.HeartbeatAck); err != nil {
 				return err
+			}
+			if work {
+				if err := runAssignment(ctx, conn, config, logger); err != nil {
+					return fmt.Errorf("job failed: %w", err)
+				}
+				return exchange(protocol.New(protocol.Bye, config.ID), protocol.ByeAck)
 			}
 		}
 	}

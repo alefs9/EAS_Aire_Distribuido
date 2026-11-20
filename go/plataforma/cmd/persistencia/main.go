@@ -87,7 +87,7 @@ func ejecutar() error {
 	if err != nil || ttl < 1 || ttl > 30 {
 		return errors.New("use TTL de 1 a 30 segundos en la demostración")
 	}
-	s := &persistencia.Servicio{r, c, time.Duration(ttl) * time.Second, os.Getenv("MONGODB_DATABASE")}
+	s := &persistencia.Servicio{Repo: r, Cache: c, TTL: time.Duration(ttl) * time.Second, Prefijo: os.Getenv("MONGODB_DATABASE")}
 	var d persistencia.Dataset
 	var a ReportePC3
 	b, err := os.ReadFile(*metadata)
@@ -119,8 +119,8 @@ func ejecutar() error {
 	if err != nil {
 		return err
 	}
-	p := persistencia.Parametros{a.K, a.Seed, a.Tolerance, a.MaxIterations}
-	result := persistencia.Resultado{a.Centroids, a.Counts, a.Iterations, a.Inertia, a.Converged, a.LoadSeconds, a.TrainSeconds, "referencia secuencial PC3 ejecutada en este cuaderno; no es clúster PC4"}
+	p := persistencia.Parametros{K: a.K, Semilla: a.Seed, Tolerancia: a.Tolerance, MaxIter: a.MaxIterations}
+	result := persistencia.Resultado{Centroides: a.Centroids, Conteos: a.Counts, Iteraciones: a.Iterations, Inercia: a.Inertia, Convergio: a.Converged, SegundosCarga: a.LoadSeconds, SegundosML: a.TrainSeconds, Origen: "referencia secuencial PC3 ejecutada en este cuaderno; no es clúster PC4"}
 	id := "pc4-" + nuevoID()
 	if err = r.Crear(ctx, id, d.ID, p); err != nil {
 		return err

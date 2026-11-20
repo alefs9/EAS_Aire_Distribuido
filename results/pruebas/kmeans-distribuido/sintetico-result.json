@@ -1,5 +1,5 @@
 {
-  "job_id": "c15985f9d5ab68f93f7b13783168dc93",
+  "job_id": "ccc93547351809c3475e77486aa3d451",
   "config": {
     "file": "/evidence/sintetico.csv",
     "nodes": 2,
@@ -31,10 +31,10 @@
     2
   ],
   "timings": {
-    "load_ns": 2268698,
-    "wait_for_nodes_ns": 550722695,
-    "distribution_ns": 197087198,
-    "iterations_ns": 2897628,
-    "total_ns": 753970844
+    "load_ns": 20452235,
+    "wait_for_nodes_ns": 1300709436,
+    "distribution_ns": 190742145,
+    "iterations_ns": 3817609,
+    "total_ns": 1516816070
   }
 }

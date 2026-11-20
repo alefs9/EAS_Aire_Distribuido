@@ -1,5 +1,5 @@
 {
-  "job_id": "dac4d6740975bf3100c5ed302c7d6978",
+  "job_id": "8f6370a7fbabaa50079856a07d8d636b",
   "config": {
     "file": "/vectors/features_1_hora.csv",
     "nodes": 2,
@@ -41,10 +41,10 @@
     85798
   ],
   "timings": {
-    "load_ns": 499817930,
-    "wait_for_nodes_ns": 75426214,
-    "distribution_ns": 497505037,
-    "iterations_ns": 348102254,
-    "total_ns": 1421543494
+    "load_ns": 1523780314,
+    "wait_for_nodes_ns": 13859,
+    "distribution_ns": 898099468,
+    "iterations_ns": 762390119,
+    "total_ns": 3185263283
   }
 }

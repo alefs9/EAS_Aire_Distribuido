@@ -30,16 +30,25 @@ type Timings struct {
 }
 
 type Result struct {
-	ID         string          `json:"job_id"`
-	Config     ExecutionConfig `json:"config"`
-	Rows       int             `json:"rows"`
-	Nodes      []string        `json:"participants,omitempty"`
-	Iterations int             `json:"iterations"`
-	Status     string          `json:"status"`
-	Reason     string          `json:"reason"`
-	Centroids  []Point         `json:"centroids,omitempty"`
-	Counts     []int           `json:"counts,omitempty"`
-	Timings    Timings         `json:"timings"`
+	ID               string          `json:"job_id"`
+	Config           ExecutionConfig `json:"config"`
+	Rows             int             `json:"rows"`
+	Nodes            []string        `json:"participants,omitempty"`
+	Iterations       int             `json:"iterations"`
+	Status           string          `json:"status"`
+	Reason           string          `json:"reason"`
+	Centroids        []Point         `json:"centroids,omitempty"`
+	Counts           []int           `json:"counts,omitempty"`
+	InitialCentroids []Point         `json:"initial_centroids,omitempty"`
+	Partitions       []Partition     `json:"partitions,omitempty"`
+	Timings          Timings         `json:"timings"`
+}
+
+type Partition struct {
+	Node  string `json:"node_id"`
+	ID    int    `json:"id"`
+	Start int    `json:"start"`
+	End   int    `json:"end"`
 }
 
 type session struct {
@@ -308,6 +317,9 @@ func (c *Coordinator) Run(ctx context.Context, config ExecutionConfig) (result R
 		result.Nodes = append(result.Nodes, a.id)
 	}
 	ranges := partition(len(points), len(work))
+	for i, p := range ranges {
+		result.Partitions = append(result.Partitions, Partition{Node: work[i].id, ID: i, Start: p.start, End: p.end})
+	}
 	key := func(part, iteration int) protocol.JobKey {
 		return protocol.JobKey{ID: jobID, Iteration: iteration, Partition: part, Attempt: 1}
 	}
@@ -329,6 +341,7 @@ func (c *Coordinator) Run(ctx context.Context, config ExecutionConfig) (result R
 		}
 	}()
 	centers := initialize(points, config.K, config.Seed)
+	result.InitialCentroids = centers
 	parts := make([]*protocol.JobMessage, len(work))
 	iterate := func(iteration int) error {
 		return runPhase(ctx, work, func(i int, a *assignment) error {

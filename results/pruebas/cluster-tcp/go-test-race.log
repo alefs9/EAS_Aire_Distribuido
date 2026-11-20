@@ -1,0 +1,4 @@
+?   	eas-aire/plataforma/cmd/coordinator	[no test files]
+?   	eas-aire/plataforma/cmd/node	[no test files]
+ok  	eas-aire/plataforma/internal/cluster	1.138s
+ok  	eas-aire/plataforma/internal/protocol	1.018s

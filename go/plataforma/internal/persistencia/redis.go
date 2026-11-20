@@ -28,3 +28,11 @@ func (s *Servicio) Clave(id string) string { return s.Prefijo + ":resultado:v1:"
 func (s *Servicio) Invalidar(ctx context.Context, id string) error {
 	return s.Cache.Del(ctx, s.Clave(id)).Err()
 }
+
+func (s *Servicio) Iniciar(ctx context.Context, id string) error {
+	if err := s.Repo.Iniciar(ctx, id); err != nil {
+		return err
+	}
+	_ = s.Invalidar(ctx, id)
+	return nil
+}

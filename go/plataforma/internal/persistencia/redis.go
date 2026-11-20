@@ -36,3 +36,11 @@ func (s *Servicio) Iniciar(ctx context.Context, id string) error {
 	_ = s.Invalidar(ctx, id)
 	return nil
 }
+
+func (s *Servicio) Fallar(ctx context.Context, id, motivo string) error {
+	if err := s.Repo.Fallar(ctx, id, motivo); err != nil {
+		return err
+	}
+	_ = s.Invalidar(ctx, id)
+	return nil
+}

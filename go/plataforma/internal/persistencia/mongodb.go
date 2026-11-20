@@ -102,3 +102,26 @@ func (r *Repositorio) Consultar(ctx context.Context, id string) (Trabajo, error)
 	}
 	return j, err
 }
+
+func (r *Repositorio) cambiar(ctx context.Context, id string, previos bson.A, campos bson.M) error {
+	campos["actualizado"] = time.Now().UTC()
+	u, err := r.DB.Collection("jobs").UpdateOne(ctx, bson.M{"_id": id, "estado": bson.M{"$in": previos}}, bson.M{"$set": campos})
+	if err != nil {
+		return err
+	}
+	if u.MatchedCount != 1 {
+		return ErrEstado
+	}
+	return nil
+}
+
+func (r *Repositorio) Iniciar(ctx context.Context, id string) error {
+	return r.cambiar(ctx, id, bson.A{"queued"}, bson.M{"estado": "running"})
+}
+
+func (r *Repositorio) Fallar(ctx context.Context, id, motivo string) error {
+	if motivo == "" {
+		return errors.New("indique el motivo del fallo")
+	}
+	return r.cambiar(ctx, id, bson.A{"queued", "running"}, bson.M{"estado": "failed", "error": motivo})
+}

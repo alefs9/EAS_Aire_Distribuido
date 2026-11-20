@@ -2,6 +2,8 @@ package persistencia
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
 	"github.com/redis/go-redis/v9"
 	"time"
 )
@@ -51,4 +53,31 @@ func (s *Servicio) Completar(ctx context.Context, id string, r Resultado) error 
 	}
 	_ = s.Invalidar(ctx, id)
 	return nil
+}
+
+func (s *Servicio) Resultado(ctx context.Context, id string) (Lectura, error) {
+	if s.TTL <= 0 {
+		return Lectura{}, errors.New("TTL debe ser positivo")
+	}
+	var j Trabajo
+	raw, cacheErr := s.Cache.Get(ctx, s.Clave(id)).Bytes()
+	if cacheErr == nil && json.Unmarshal(raw, &j) == nil && j.ID == id && j.Estado == "completed" && j.Resultado != nil {
+		return Lectura{Trabajo: j, Fuente: "Redis"}, nil
+	}
+	j, err := s.Repo.Consultar(ctx, id)
+	if err != nil {
+		return Lectura{}, err
+	}
+	if j.Estado != "completed" || j.Resultado == nil {
+		return Lectura{Trabajo: j, Fuente: "MongoDB"}, ErrPendiente
+	}
+	out := Lectura{Trabajo: j, Fuente: "MongoDB"}
+	raw, err = json.Marshal(j)
+	if err != nil {
+		return Lectura{}, err
+	}
+	if err = s.Cache.Set(ctx, s.Clave(id), raw, s.TTL).Err(); err != nil || (cacheErr != nil && !errors.Is(cacheErr, redis.Nil)) {
+		out.Aviso = "Caché no disponible; resultado recuperado de MongoDB"
+	}
+	return out, nil
 }

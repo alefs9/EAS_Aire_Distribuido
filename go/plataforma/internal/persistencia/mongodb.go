@@ -93,3 +93,12 @@ func (r *Repositorio) Crear(ctx context.Context, id, dataset string, p Parametro
 	_, err = r.DB.Collection("jobs").InsertOne(ctx, Trabajo{ID: id, DatasetID: dataset, Parametros: p, Estado: "queued", Creado: now, Actualizado: now})
 	return err
 }
+
+func (r *Repositorio) Consultar(ctx context.Context, id string) (Trabajo, error) {
+	var j Trabajo
+	err := r.DB.Collection("jobs").FindOne(ctx, bson.M{"_id": id}).Decode(&j)
+	if errors.Is(err, mongo.ErrNoDocuments) {
+		err = ErrNoEncontrado
+	}
+	return j, err
+}

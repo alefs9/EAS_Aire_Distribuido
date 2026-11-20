@@ -3,6 +3,7 @@ package persistencia
 import (
 	"context"
 	"errors"
+	"fmt"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -124,4 +125,19 @@ func (r *Repositorio) Fallar(ctx context.Context, id, motivo string) error {
 		return errors.New("indique el motivo del fallo")
 	}
 	return r.cambiar(ctx, id, bson.A{"queued", "running"}, bson.M{"estado": "failed", "error": motivo})
+}
+
+func (r *Repositorio) Completar(ctx context.Context, id string, result Resultado) error {
+	j, err := r.Consultar(ctx, id)
+	if err != nil {
+		return err
+	}
+	d, err := r.Dataset(ctx, j.DatasetID)
+	if err != nil {
+		return err
+	}
+	if err = validarResultado(result, j.Parametros, d.Vectores); err != nil {
+		return fmt.Errorf("resultado rechazado: %w", err)
+	}
+	return r.cambiar(ctx, id, bson.A{"running"}, bson.M{"estado": "completed", "resultado": result})
 }

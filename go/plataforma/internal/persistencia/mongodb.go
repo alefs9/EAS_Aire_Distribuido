@@ -60,3 +60,11 @@ func (r *Repositorio) Preparar(ctx context.Context) error {
 	})
 	return err
 }
+
+func (r *Repositorio) GuardarDataset(ctx context.Context, d Dataset) error {
+	if err := validarDataset(d); err != nil {
+		return err
+	}
+	_, err := r.DB.Collection("datasets").InsertOne(ctx, d)
+	return err
+}

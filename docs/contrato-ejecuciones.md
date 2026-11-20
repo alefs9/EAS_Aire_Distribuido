@@ -1,6 +1,6 @@
-# Contrato TCP del clúster · V1
+# Contrato TCP del clúster
 
-El coordinador escucha y cada nodo inicia una conexión TCP independiente. La topología es en estrella, con un registro de nodos activos en memoria. El formato sigue el encuadre del informe (sección 3.2.11.1). Los mensajes de V1 pertenecen a la sesión TCP, por lo que sus campos identifican al nodo y todavía no incluyen una ejecución ni una iteración.
+El coordinador escucha y cada nodo inicia una conexión TCP independiente. La topología es en estrella, con un registro de nodos activos en memoria. El formato sigue el encuadre del informe (sección 3.2.11.1). Los mensajes de sesión mantienen el formato de V1. V2 añade un flujo de cálculo sobre esas mismas conexiones.
 
 ## Encuadre
 
@@ -50,3 +50,29 @@ Tras intentar enviar `ERROR`, el coordinador cierra la conexión. Frente a EOF l
 - Coordinador: `-listen` (por defecto `127.0.0.1:9000`), `-timeout` (15 s por lectura o escritura).
 - Nodo: `-coordinator` (por defecto `127.0.0.1:9000`), `-id` (obligatorio), `-capacity` (1), `-interval` (3 s entre latidos), `-timeout` (5 s por conexión, lectura o escritura) y `-checks` (0 para ejecución continua, o un número positivo de latidos confirmados antes de cerrar).
 - El intervalo de latidos debe dejar margen dentro del plazo de lectura del coordinador. Para procesos en otros equipos, el coordinador debe escuchar en una interfaz accesible. V1 usa TCP sin TLS ni autenticación y está pensado para una red de confianza.
+
+## Ejecución distribuida (V2)
+
+En reposo, el nodo sigue iniciando cada intercambio con `HEARTBEAT`. Cuando el coordinador tiene trabajo para esa sesión, añade `"work":true` a `HEARTBEAT_ACK`; conserva el identificador y la marca temporal. Desde ese instante, el coordinador inicia cada intercambio del trabajo y espera una respuesta antes de enviar el siguiente mensaje a ese socket. Un manejador por conexión en el coordinador y un bucle en el nodo son los únicos lectores y escritores de sus respectivos extremos. Durante el trabajo, los plazos de sus intercambios comprueban la conexión. La modalidad sin trabajo conserva los latidos de V1. Durante un trabajo se requiere la versión V2 de ambos ejecutables.
+
+Los mensajes de trabajo incluyen `proto:1`, `type`, `node_id` y un objeto `job` con `id` (identificador de ejecución), `partition` (índice desde cero), `iteration` (cero durante la carga) y `attempt` (1 en V2). La respuesta debe repetir los cuatro identificadores y corresponder al tipo esperado en esa conexión.
+
+| Solicitud → confirmación | Campos de la solicitud | Campos de la confirmación |
+| --- | --- | --- |
+| `ASSIGN` → `ASSIGNED` | `rows`, cantidad de filas de la partición, y `k` | Identificadores |
+| `VECTORS` → `VECTORS_ACK` | `offset` desde cero dentro de la partición, y `points`, hasta 4096 pares `[PM10, PM2.5]` | `offset`, siguiente posición esperada |
+| `LOAD_DONE` → `READY` | Identificadores | `rows`, filas cargadas |
+| `ITER` → `PARTIAL` | `points`, los K centroides en orden | `rows` procesadas, `counts` y `sums` en orden de clúster |
+| `FINISH` → `FINISHED` | Identificadores de la última asignación | Identificadores y, en un mensaje separado, `BYE` |
+
+`offset` omitido equivale a cero. Las coordenadas son `float64`. El nodo valida que los lotes sean contiguos y que el total recibido coincida con `rows` antes de confirmar `READY`. El límite TCP de 1 MiB sigue vigente y V2 limita K a 8192. El coordinador comprueba filas, dimensiones, sumas finitas y conservación de conteos en cada parcial. Una respuesta duplicada, fuera de orden o con otra clave provoca que falle el trabajo sin contabilizar ese parcial. También falla ante desconexión, cancelación o plazo vencido. El coordinador cierra las sesiones participantes ante un fallo y el resultado queda en estado `failed`, sin centroides ni conteos. En un cierre exitoso, cada participante sale tras recibir `BYE_ACK`.
+
+### Cálculo y resultado
+
+El coordinador carga un CSV de dos columnas `PM10,PM2.5` por ejecución. Cuenta las filas en la carga y conserva sus valores y orden. Selecciona los nodos registrados en orden de identificador y reparte rangos contiguos de tamaño equilibrado. Inicializa los centroides una vez con la permutación pseudoaleatoria de la referencia y la semilla configurada. Cada nodo asigna solo su partición al centroide más cercano por distancia euclidiana al cuadrado, con desempate por el menor índice.
+
+El coordinador espera todos los parciales de cada iteración y reduce por índice de partición. Promedia las coordenadas por clúster y conserva el centroide anterior si el clúster queda vacío. Termina cuando la raíz de la suma de desplazamientos al cuadrado es estrictamente menor que la tolerancia o cuando alcanza el máximo de actualizaciones. Una última asignación distribuida contra esos centroides devuelve los conteos finales; esa pasada no incrementa el número de actualizaciones.
+
+Desde Go, se puede iniciar `plataforma.NewCoordinator(timeout, logger).Serve(ctx, listener)` en una goroutine y llamar a `Run(ctx, ExecutionConfig)` en la misma instancia. El contexto de `Run` puede imponer un plazo total. La instancia ejecuta un trabajo a la vez y admite nuevos registros tras cada trabajo.
+
+El JSON de resultado contiene configuración, filas leídas, participantes, número de actualizaciones, estado, motivo, centroides y conteos. Los campos `timings` están en nanosegundos: carga CSV, espera de nodos, distribución hasta `READY`, cálculo con inicialización y asignación final, y tiempo total hasta el cierre de la ejecución. El tiempo total incluye el cierre de las sesiones. Véanse los [comandos y resultados de las pruebas](../results/pruebas/kmeans-distribuido/comandos.md).

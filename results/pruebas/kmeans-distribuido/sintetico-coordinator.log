@@ -1,0 +1,14 @@
+2026/11/20 18:39:48 listening addr=[::]:9000 pid=1
+2026/11/20 18:39:49 REGISTERED node_id=nodo-1 peer=172.20.0.3:49458 capacity=1
+2026/11/20 18:39:49 HEARTBEAT_ACK node_id=nodo-1 ts=1795199989411191383
+2026/11/20 18:39:49 REGISTERED node_id=nodo-2 peer=172.20.0.4:53304 capacity=1
+2026/11/20 18:39:49 HEARTBEAT_ACK node_id=nodo-1 ts=1795199989611078243
+2026/11/20 18:39:49 HEARTBEAT_ACK node_id=nodo-2 ts=1795199989689287881
+2026/11/20 18:39:49 iteration job_id=c15985f9d5ab68f93f7b13783168dc93 number=1 movement=8.48528137423857
+2026/11/20 18:39:49 iteration job_id=c15985f9d5ab68f93f7b13783168dc93 number=2 movement=4.47213595499958
+2026/11/20 18:39:49 iteration job_id=c15985f9d5ab68f93f7b13783168dc93 number=3 movement=0
+2026/11/20 18:39:49 BYE_ACK node_id=nodo-2
+2026/11/20 18:39:49 disconnected node_id=nodo-2
+2026/11/20 18:39:49 BYE_ACK node_id=nodo-1
+2026/11/20 18:39:49 disconnected node_id=nodo-1
+2026/11/20 18:39:49 coordinator stopped

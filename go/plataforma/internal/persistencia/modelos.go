@@ -72,3 +72,23 @@ func validarParametros(p Parametros, n int) error {
 	}
 	return nil
 }
+
+func validarResultado(r Resultado, p Parametros, n int) error {
+	if len(r.Centroides) != p.K || len(r.Conteos) != p.K || r.Iteraciones < 1 || r.Iteraciones > p.MaxIter || r.Origen == "" {
+		return errors.New("dimensiones o metadatos del resultado inválidos")
+	}
+	if !finito(r.Inercia) || r.Inercia < 0 || !finito(r.SegundosCarga) || r.SegundosCarga < 0 || !finito(r.SegundosML) || r.SegundosML < 0 {
+		return errors.New("métricas inválidas")
+	}
+	suma := 0
+	for i, c := range r.Centroides {
+		if len(c) != 2 || !finito(c[0]) || !finito(c[1]) || r.Conteos[i] < 0 || r.Conteos[i] > n-suma {
+			return errors.New("centroides o conteos inválidos")
+		}
+		suma += r.Conteos[i]
+	}
+	if suma != n {
+		return errors.New("la suma de conteos no coincide con el dataset")
+	}
+	return nil
+}

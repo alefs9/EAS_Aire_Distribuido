@@ -2,6 +2,7 @@ package persistencia
 
 import (
 	"errors"
+	"time"
 )
 
 var (
@@ -41,3 +42,14 @@ type Resultado struct {
 
 // El resultado resumido se incrusta en jobs: estado y resultado se guardan
 // en una única escritura atómica. No se incrustan las N asignaciones.
+
+type Trabajo struct {
+	ID          string     `bson:"_id" json:"job_id"`
+	DatasetID   string     `bson:"dataset_id" json:"dataset_id"`
+	Parametros  Parametros `bson:"parametros" json:"parametros"`
+	Estado      string     `bson:"estado" json:"estado"`
+	Creado      time.Time  `bson:"creado" json:"creado"`
+	Actualizado time.Time  `bson:"actualizado" json:"actualizado"`
+	Resultado   *Resultado `bson:"resultado,omitempty" json:"resultado,omitempty"`
+	Error       string     `bson:"error,omitempty" json:"error,omitempty"`
+}

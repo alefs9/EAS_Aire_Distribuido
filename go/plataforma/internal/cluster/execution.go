@@ -77,9 +77,11 @@ type response struct {
 }
 
 // A session handler is the only reader and writer on its coordinator socket.
-func (a *assignment) serve(conn net.Conn, timeout time.Duration, closeSession func() error) error {
+func (a *assignment) serve(serveCtx context.Context, conn net.Conn, timeout time.Duration, closeSession func() error) error {
 	for {
 		select {
+		case <-serveCtx.Done():
+			return serveCtx.Err()
 		case <-a.ctx.Done():
 			return a.ctx.Err()
 		case req := <-a.requests:
@@ -305,12 +307,18 @@ func (c *Coordinator) Run(ctx context.Context, config ExecutionConfig) (result R
 	}
 	defer func() {
 		if err != nil {
+			cancel()
 			c.mu.Lock()
 			for _, a := range work {
 				a.peer.retired = true
-				a.peer.conn.Close()
 			}
 			c.mu.Unlock()
+			for _, a := range work {
+				a.peer.conn.Close()
+			}
+			for _, a := range work {
+				<-a.peer.done
+			}
 		}
 	}()
 	for _, a := range work {

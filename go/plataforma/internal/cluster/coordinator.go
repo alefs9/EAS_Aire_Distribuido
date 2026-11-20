@@ -72,12 +72,12 @@ func (c *Coordinator) Serve(ctx context.Context, listener net.Listener) error {
 				delete(c.active, id)
 				c.mu.Unlock()
 			}
-			serveNode(peer, c.timeout, c.logger, reserve, release)
+			serveNode(ctx, peer, c.timeout, c.logger, reserve, release)
 		}(conn)
 	}
 }
 
-func serveNode(peer *session, timeout time.Duration, logger *log.Logger, reserve func(string) bool, release func(string)) {
+func serveNode(ctx context.Context, peer *session, timeout time.Duration, logger *log.Logger, reserve func(string) bool, release func(string)) {
 	conn := peer.conn
 	var id string
 	reject := func(code, detail string) {
@@ -165,7 +165,7 @@ func serveNode(peer *session, timeout time.Duration, logger *log.Logger, reserve
 			}
 			logger.Printf("HEARTBEAT_ACK node_id=%s ts=%d", id, m.TS)
 			if work != nil {
-				if err := work.serve(conn, timeout, closeSession); err != nil {
+				if err := work.serve(ctx, conn, timeout, closeSession); err != nil {
 					logger.Printf("job session failed node_id=%s: %v", id, err)
 				}
 				return

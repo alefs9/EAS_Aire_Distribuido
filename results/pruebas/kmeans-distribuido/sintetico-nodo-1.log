@@ -1,13 +1,15 @@
-2026/11/20 18:39:49 starting node_id="nodo-1" coordinator=eas-v2-18520-sintetico-coordinator:9000 pid=1
-2026/11/20 18:39:49 REGISTERED node_id=nodo-1 ts=0
-2026/11/20 18:39:49 HEARTBEAT_ACK node_id=nodo-1 ts=1795199989411191383
-2026/11/20 18:39:49 HEARTBEAT_ACK node_id=nodo-1 ts=1795199989611078243
-2026/11/20 18:39:49 ASSIGNED node_id=nodo-1 job_id=c15985f9d5ab68f93f7b13783168dc93 partition=0 iteration=0 rows=0
-2026/11/20 18:39:49 READY node_id=nodo-1 job_id=c15985f9d5ab68f93f7b13783168dc93 partition=0 iteration=0 rows=2
-2026/11/20 18:39:49 PARTIAL node_id=nodo-1 job_id=c15985f9d5ab68f93f7b13783168dc93 partition=0 iteration=1 rows=2
-2026/11/20 18:39:49 PARTIAL node_id=nodo-1 job_id=c15985f9d5ab68f93f7b13783168dc93 partition=0 iteration=2 rows=2
-2026/11/20 18:39:49 PARTIAL node_id=nodo-1 job_id=c15985f9d5ab68f93f7b13783168dc93 partition=0 iteration=3 rows=2
-2026/11/20 18:39:49 PARTIAL node_id=nodo-1 job_id=c15985f9d5ab68f93f7b13783168dc93 partition=0 iteration=4 rows=2
-2026/11/20 18:39:49 FINISHED node_id=nodo-1 job_id=c15985f9d5ab68f93f7b13783168dc93 partition=0 iteration=4 rows=2
-2026/11/20 18:39:49 BYE_ACK node_id=nodo-1 ts=0
-2026/11/20 18:39:49 node stopped node_id=nodo-1
+2026/11/20 18:57:25 starting node_id="nodo-1" coordinator=eas-v2-16064-sintetico-coordinator:9000 pid=1
+2026/11/20 18:57:25 REGISTERED node_id=nodo-1 ts=0
+2026/11/20 18:57:25 HEARTBEAT_ACK node_id=nodo-1 ts=1795201045839818875
+2026/11/20 18:57:26 HEARTBEAT_ACK node_id=nodo-1 ts=1795201046040140908
+2026/11/20 18:57:26 HEARTBEAT_ACK node_id=nodo-1 ts=1795201046240363359
+2026/11/20 18:57:26 HEARTBEAT_ACK node_id=nodo-1 ts=1795201046440325055
+2026/11/20 18:57:26 ASSIGNED node_id=nodo-1 job_id=ccc93547351809c3475e77486aa3d451 partition=0 iteration=0 rows=0
+2026/11/20 18:57:26 READY node_id=nodo-1 job_id=ccc93547351809c3475e77486aa3d451 partition=0 iteration=0 rows=2
+2026/11/20 18:57:26 PARTIAL node_id=nodo-1 job_id=ccc93547351809c3475e77486aa3d451 partition=0 iteration=1 rows=2
+2026/11/20 18:57:26 PARTIAL node_id=nodo-1 job_id=ccc93547351809c3475e77486aa3d451 partition=0 iteration=2 rows=2
+2026/11/20 18:57:26 PARTIAL node_id=nodo-1 job_id=ccc93547351809c3475e77486aa3d451 partition=0 iteration=3 rows=2
+2026/11/20 18:57:26 PARTIAL node_id=nodo-1 job_id=ccc93547351809c3475e77486aa3d451 partition=0 iteration=4 rows=2
+2026/11/20 18:57:26 FINISHED node_id=nodo-1 job_id=ccc93547351809c3475e77486aa3d451 partition=0 iteration=4 rows=2
+2026/11/20 18:57:26 BYE_ACK node_id=nodo-1 ts=0
+2026/11/20 18:57:26 node stopped node_id=nodo-1

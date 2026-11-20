@@ -1,10 +1,10 @@
 ?   	eas-aire/plataforma	[no test files]
 ?   	eas-aire/plataforma/cmd/coordinator	[no test files]
 ?   	eas-aire/plataforma/cmd/node	[no test files]
-ok  	eas-aire/plataforma/internal/cluster	0.253s
-ok  	eas-aire/plataforma/internal/protocol	0.039s
+ok  	eas-aire/plataforma/internal/cluster	0.197s
+ok  	eas-aire/plataforma/internal/protocol	0.009s
 ?   	eas-aire/plataforma	[no test files]
 ?   	eas-aire/plataforma/cmd/coordinator	[no test files]
 ?   	eas-aire/plataforma/cmd/node	[no test files]
-ok  	eas-aire/plataforma/internal/cluster	1.257s
-ok  	eas-aire/plataforma/internal/protocol	1.016s
+ok  	eas-aire/plataforma/internal/cluster	1.354s
+ok  	eas-aire/plataforma/internal/protocol	1.025s

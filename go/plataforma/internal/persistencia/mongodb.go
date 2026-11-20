@@ -68,3 +68,12 @@ func (r *Repositorio) GuardarDataset(ctx context.Context, d Dataset) error {
 	_, err := r.DB.Collection("datasets").InsertOne(ctx, d)
 	return err
 }
+
+func (r *Repositorio) Dataset(ctx context.Context, id string) (Dataset, error) {
+	var d Dataset
+	err := r.DB.Collection("datasets").FindOne(ctx, bson.M{"_id": id}).Decode(&d)
+	if errors.Is(err, mongo.ErrNoDocuments) {
+		err = ErrNoEncontrado
+	}
+	return d, err
+}

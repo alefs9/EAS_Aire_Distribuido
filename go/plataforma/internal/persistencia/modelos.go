@@ -1,7 +1,9 @@
 package persistencia
 
 import (
+	"encoding/hex"
 	"errors"
+	"math"
 	"time"
 )
 
@@ -52,4 +54,14 @@ type Trabajo struct {
 	Actualizado time.Time  `bson:"actualizado" json:"actualizado"`
 	Resultado   *Resultado `bson:"resultado,omitempty" json:"resultado,omitempty"`
 	Error       string     `bson:"error,omitempty" json:"error,omitempty"`
+}
+
+func finito(x float64) bool { return !math.IsNaN(x) && !math.IsInf(x, 0) }
+
+func validarDataset(d Dataset) error {
+	b, err := hex.DecodeString(d.SHA256)
+	if d.ID == "" || d.Archivo == "" || d.Fuente == "" || err != nil || len(b) != 32 || d.Vectores < 1 || (d.Periodo != "1_hora" && d.Periodo != "24_horas") {
+		return errors.New("dataset inválido: revise procedencia, hash, periodo y vectores")
+	}
+	return nil
 }

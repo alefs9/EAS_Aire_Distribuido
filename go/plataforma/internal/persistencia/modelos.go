@@ -65,3 +65,10 @@ func validarDataset(d Dataset) error {
 	}
 	return nil
 }
+
+func validarParametros(p Parametros, n int) error {
+	if p.K < 1 || p.K > n || p.MaxIter < 1 || !finito(p.Tolerancia) || p.Tolerancia < 0 {
+		return errors.New("parámetros inválidos")
+	}
+	return nil
+}

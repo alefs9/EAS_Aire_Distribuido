@@ -50,5 +50,13 @@ func (r *Repositorio) Preparar(ctx context.Context) error {
 			return err
 		}
 	}
-	return nil
+	_, err := r.DB.Collection("datasets").Indexes().CreateOne(ctx, mongo.IndexModel{Keys: bson.D{{Key: "sha256", Value: 1}, {Key: "periodo", Value: 1}}, Options: options.Index().SetUnique(true).SetName("dataset_hash_periodo")})
+	if err != nil {
+		return err
+	}
+	_, err = r.DB.Collection("jobs").Indexes().CreateMany(ctx, []mongo.IndexModel{
+		{Keys: bson.D{{Key: "dataset_id", Value: 1}, {Key: "creado", Value: -1}}, Options: options.Index().SetName("jobs_dataset_fecha")},
+		{Keys: bson.D{{Key: "estado", Value: 1}, {Key: "creado", Value: -1}}, Options: options.Index().SetName("jobs_estado_fecha")},
+	})
+	return err
 }

@@ -1,0 +1,7 @@
+command=go test -count=1 ./...
+exit=0
+?   	eas-aire/plataforma	[no test files]
+?   	eas-aire/plataforma/cmd/coordinator	[no test files]
+?   	eas-aire/plataforma/cmd/node	[no test files]
+ok  	eas-aire/plataforma/internal/cluster	1.871s
+ok  	eas-aire/plataforma/internal/protocol	0.006s

@@ -1,0 +1,57 @@
+{
+  "job_id": "3ae211c5d5343d5587441694cee0efee",
+  "config": {
+    "file": "/repo/results/pruebas/cluster-fallos/sintetico.csv",
+    "nodes": 1,
+    "k": 2,
+    "seed": 42,
+    "tolerance": 0.0001,
+    "max_iterations": 100
+  },
+  "rows": 4,
+  "participants": [
+    "nodo-1"
+  ],
+  "iterations": 3,
+  "status": "completed",
+  "reason": "converged",
+  "centroids": [
+    [
+      1,
+      1
+    ],
+    [
+      11,
+      11
+    ]
+  ],
+  "counts": [
+    2,
+    2
+  ],
+  "initial_centroids": [
+    [
+      0,
+      0
+    ],
+    [
+      2,
+      2
+    ]
+  ],
+  "partitions": [
+    {
+      "node_id": "nodo-1",
+      "id": 0,
+      "start": 0,
+      "end": 4
+    }
+  ],
+  "timings": {
+    "load_ns": 2871461,
+    "wait_for_nodes_ns": 325650213,
+    "distribution_ns": 190483333,
+    "iterations_ns": 2150125,
+    "total_ns": 521770962
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "job_id": "8e6876e0034d03b95bccebb8dffdf118",
+  "config": {
+    "file": "/repo/data/vectors/features_24_horas.csv",
+    "nodes": 1,
+    "k": 4,
+    "seed": 42,
+    "tolerance": 0.0001,
+    "max_iterations": 100
+  },
+  "rows": 18297,
+  "participants": [
+    "nodo-1"
+  ],
+  "iterations": 44,
+  "status": "completed",
+  "reason": "converged",
+  "centroids": [
+    [
+      15.529418124857312,
+      8.366580451636068
+    ],
+    [
+      172.24817737877717,
+      93.17650844710258
+    ],
+    [
+      46.40252377017278,
+      19.04361110142695
+    ],
+    [
+      97.60514404721869,
+      40.91580267557603
+    ]
+  ],
+  "counts": [
+    10075,
+    992,
+    4848,
+    2382
+  ],
+  "initial_centroids": [
+    [
+      16.9,
+      9.7
+    ],
+    [
+      60,
+      15.8
+    ],
+    [
+      23.52208333333333,
+      15.73625
+    ],
+    [
+      29.1,
+      6.9
+    ]
+  ],
+  "partitions": [
+    {
+      "node_id": "nodo-1",
+      "id": 0,
+      "start": 0,
+      "end": 18297
+    }
+  ],
+  "timings": {
+    "load_ns": 25645167,
+    "wait_for_nodes_ns": 350863487,
+    "distribution_ns": 260753914,
+    "iterations_ns": 43146216,
+    "total_ns": 680871322
+  }
+}

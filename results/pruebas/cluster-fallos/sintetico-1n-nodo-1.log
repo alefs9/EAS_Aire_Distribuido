@@ -1,0 +1,13 @@
+exit=0
+2026/11/20 19:43:17 starting node_id="nodo-1" coordinator=eas-validacion-30564-sintetico-1n:9000 pid=1
+2026/11/20 19:43:17 REGISTERED node_id=nodo-1 ts=0
+2026/11/20 19:43:17 HEARTBEAT_ACK node_id=nodo-1 ts=1795203797293366696
+2026/11/20 19:43:17 ASSIGNED node_id=nodo-1 job_id=3ae211c5d5343d5587441694cee0efee partition=0 iteration=0 rows=0
+2026/11/20 19:43:17 READY node_id=nodo-1 job_id=3ae211c5d5343d5587441694cee0efee partition=0 iteration=0 rows=4
+2026/11/20 19:43:17 PARTIAL node_id=nodo-1 job_id=3ae211c5d5343d5587441694cee0efee partition=0 iteration=1 rows=4
+2026/11/20 19:43:17 PARTIAL node_id=nodo-1 job_id=3ae211c5d5343d5587441694cee0efee partition=0 iteration=2 rows=4
+2026/11/20 19:43:17 PARTIAL node_id=nodo-1 job_id=3ae211c5d5343d5587441694cee0efee partition=0 iteration=3 rows=4
+2026/11/20 19:43:17 PARTIAL node_id=nodo-1 job_id=3ae211c5d5343d5587441694cee0efee partition=0 iteration=4 rows=4
+2026/11/20 19:43:17 FINISHED node_id=nodo-1 job_id=3ae211c5d5343d5587441694cee0efee partition=0 iteration=4 rows=4
+2026/11/20 19:43:17 BYE_ACK node_id=nodo-1 ts=0
+2026/11/20 19:43:17 node stopped node_id=nodo-1

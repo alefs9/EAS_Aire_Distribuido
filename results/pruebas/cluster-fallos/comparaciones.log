@@ -1,0 +1,7 @@
+sintetico 1 nodo(s): True N=4 iter=3 motivo=converged max_abs=0 fallos=[]
+sintetico 2 nodo(s): True N=4 iter=3 motivo=converged max_abs=0 fallos=[]
+1_hora 1 nodo(s): True N=445347 iter=100 motivo=max_iterations max_abs=0 fallos=[]
+1_hora 2 nodo(s): True N=445347 iter=100 motivo=max_iterations max_abs=7.95807864051e-13 fallos=[]
+24_horas 1 nodo(s): True N=18297 iter=44 motivo=converged max_abs=0 fallos=[]
+24_horas 2 nodo(s): True N=18297 iter=44 motivo=converged max_abs=2.55795384874e-13 fallos=[]
+exit=0

@@ -1,0 +1,570 @@
+{
+  "absolute_tolerance": 1e-08,
+  "relative_tolerance": 1e-10,
+  "cases": {
+    "sintetico": {
+      "input": "sintetico.csv",
+      "sha256": "c6444cdf15678afe140214271b31516aebc8d358827efc3cd687933367caf250",
+      "rows": 4,
+      "k": 2,
+      "comparisons": [
+        {
+          "nodes": 1,
+          "passed": true,
+          "failures": [],
+          "partitions": [
+            {
+              "node_id": "nodo-1",
+              "id": 0,
+              "start": 0,
+              "end": 4
+            }
+          ],
+          "assignment_mismatches": 0,
+          "first_mismatching_rows": [],
+          "independently_assigned_counts": [
+            2,
+            2
+          ],
+          "reference_counts": [
+            2,
+            2
+          ],
+          "actual_counts": [
+            2,
+            2
+          ],
+          "reference_reason": "converged",
+          "actual_reason": "converged",
+          "iterations": 3,
+          "reference_iterations": 3,
+          "differences": [
+            {
+              "cluster": 0,
+              "absolute_difference": [
+                0,
+                0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.01e-08,
+                1.01e-08
+              ]
+            },
+            {
+              "cluster": 1,
+              "absolute_difference": [
+                0,
+                0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.11e-08,
+                1.11e-08
+              ]
+            }
+          ]
+        },
+        {
+          "nodes": 2,
+          "passed": true,
+          "failures": [],
+          "partitions": [
+            {
+              "node_id": "nodo-1",
+              "id": 0,
+              "start": 0,
+              "end": 2
+            },
+            {
+              "node_id": "nodo-2",
+              "id": 1,
+              "start": 2,
+              "end": 4
+            }
+          ],
+          "assignment_mismatches": 0,
+          "first_mismatching_rows": [],
+          "independently_assigned_counts": [
+            2,
+            2
+          ],
+          "reference_counts": [
+            2,
+            2
+          ],
+          "actual_counts": [
+            2,
+            2
+          ],
+          "reference_reason": "converged",
+          "actual_reason": "converged",
+          "iterations": 3,
+          "reference_iterations": 3,
+          "differences": [
+            {
+              "cluster": 0,
+              "absolute_difference": [
+                0,
+                0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.01e-08,
+                1.01e-08
+              ]
+            },
+            {
+              "cluster": 1,
+              "absolute_difference": [
+                0,
+                0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.11e-08,
+                1.11e-08
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "1_hora": {
+      "input": "features_1_hora.csv",
+      "sha256": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204",
+      "rows": 445347,
+      "k": 4,
+      "comparisons": [
+        {
+          "nodes": 1,
+          "passed": true,
+          "failures": [],
+          "partitions": [
+            {
+              "node_id": "nodo-1",
+              "id": 0,
+              "start": 0,
+              "end": 445347
+            }
+          ],
+          "assignment_mismatches": 0,
+          "first_mismatching_rows": [],
+          "independently_assigned_counts": [
+            1333,
+            330571,
+            27645,
+            85798
+          ],
+          "reference_counts": [
+            1333,
+            330571,
+            27645,
+            85798
+          ],
+          "actual_counts": [
+            1333,
+            330571,
+            27645,
+            85798
+          ],
+          "reference_reason": "max_iterations",
+          "actual_reason": "max_iterations",
+          "iterations": 100,
+          "reference_iterations": 100,
+          "differences": [
+            {
+              "cluster": 0,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                6.416888822205555e-08,
+                2.172496924231058e-08
+              ]
+            },
+            {
+              "cluster": 1,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.1848138867040943e-08,
+                1.0964506038092002e-08
+              ]
+            },
+            {
+              "cluster": 2,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                2.8574054404051474e-08,
+                1.9226903273648065e-08
+              ]
+            },
+            {
+              "cluster": 3,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.805286558431725e-08,
+                1.3410236838731458e-08
+              ]
+            }
+          ]
+        },
+        {
+          "nodes": 2,
+          "passed": true,
+          "failures": [],
+          "partitions": [
+            {
+              "node_id": "nodo-1",
+              "id": 0,
+              "start": 0,
+              "end": 222674
+            },
+            {
+              "node_id": "nodo-2",
+              "id": 1,
+              "start": 222674,
+              "end": 445347
+            }
+          ],
+          "assignment_mismatches": 0,
+          "first_mismatching_rows": [],
+          "independently_assigned_counts": [
+            1333,
+            330571,
+            27645,
+            85798
+          ],
+          "reference_counts": [
+            1333,
+            330571,
+            27645,
+            85798
+          ],
+          "actual_counts": [
+            1333,
+            330571,
+            27645,
+            85798
+          ],
+          "reference_reason": "max_iterations",
+          "actual_reason": "max_iterations",
+          "iterations": 100,
+          "reference_iterations": 100,
+          "differences": [
+            {
+              "cluster": 0,
+              "absolute_difference": [
+                5.684341886080801e-13,
+                7.105427357601002e-14
+              ],
+              "relative_difference": [
+                1.0493739252647889e-15,
+                6.060081873784746e-16
+              ],
+              "allowed": [
+                6.416888822205555e-08,
+                2.172496924231058e-08
+              ]
+            },
+            {
+              "cluster": 1,
+              "absolute_difference": [
+                5.648814749292796e-13,
+                1.0302869668521453e-13
+              ],
+              "relative_difference": [
+                3.0564882596388e-14,
+                1.0682016764667139e-14
+              ],
+              "allowed": [
+                1.1848138867040943e-08,
+                1.0964506038092002e-08
+              ]
+            },
+            {
+              "cluster": 2,
+              "absolute_difference": [
+                7.958078640513122e-13,
+                4.973799150320701e-13
+              ],
+              "relative_difference": [
+                4.284513476377706e-15,
+                5.3905400358165864e-15
+              ],
+              "allowed": [
+                2.8574054404051474e-08,
+                1.9226903273648065e-08
+              ]
+            },
+            {
+              "cluster": 3,
+              "absolute_difference": [
+                2.5579538487363607e-13,
+                9.947598300641403e-14
+              ],
+              "relative_difference": [
+                3.1764516890955077e-15,
+                2.916981655837639e-15
+              ],
+              "allowed": [
+                1.805286558431725e-08,
+                1.3410236838731458e-08
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "24_horas": {
+      "input": "features_24_horas.csv",
+      "sha256": "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6",
+      "rows": 18297,
+      "k": 4,
+      "comparisons": [
+        {
+          "nodes": 1,
+          "passed": true,
+          "failures": [],
+          "partitions": [
+            {
+              "node_id": "nodo-1",
+              "id": 0,
+              "start": 0,
+              "end": 18297
+            }
+          ],
+          "assignment_mismatches": 0,
+          "first_mismatching_rows": [],
+          "independently_assigned_counts": [
+            10075,
+            992,
+            4848,
+            2382
+          ],
+          "reference_counts": [
+            10075,
+            992,
+            4848,
+            2382
+          ],
+          "actual_counts": [
+            10075,
+            992,
+            4848,
+            2382
+          ],
+          "reference_reason": "converged",
+          "actual_reason": "converged",
+          "iterations": 44,
+          "reference_iterations": 44,
+          "differences": [
+            {
+              "cluster": 0,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.1552941812485731e-08,
+                1.0836658045163606e-08
+              ]
+            },
+            {
+              "cluster": 1,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                2.722481773787772e-08,
+                1.931765084471026e-08
+              ]
+            },
+            {
+              "cluster": 2,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.4640252377017278e-08,
+                1.1904361110142696e-08
+              ]
+            },
+            {
+              "cluster": 3,
+              "absolute_difference": [
+                0.0,
+                0.0
+              ],
+              "relative_difference": [
+                0.0,
+                0.0
+              ],
+              "allowed": [
+                1.976051440472187e-08,
+                1.4091580267557604e-08
+              ]
+            }
+          ]
+        },
+        {
+          "nodes": 2,
+          "passed": true,
+          "failures": [],
+          "partitions": [
+            {
+              "node_id": "nodo-1",
+              "id": 0,
+              "start": 0,
+              "end": 9149
+            },
+            {
+              "node_id": "nodo-2",
+              "id": 1,
+              "start": 9149,
+              "end": 18297
+            }
+          ],
+          "assignment_mismatches": 0,
+          "first_mismatching_rows": [],
+          "independently_assigned_counts": [
+            10075,
+            992,
+            4848,
+            2382
+          ],
+          "reference_counts": [
+            10075,
+            992,
+            4848,
+            2382
+          ],
+          "actual_counts": [
+            10075,
+            992,
+            4848,
+            2382
+          ],
+          "reference_reason": "converged",
+          "actual_reason": "converged",
+          "iterations": 44,
+          "reference_iterations": 44,
+          "differences": [
+            {
+              "cluster": 0,
+              "absolute_difference": [
+                3.730349362740526e-14,
+                1.9539925233402755e-14
+              ],
+              "relative_difference": [
+                2.402117924025438e-15,
+                2.3354732971678725e-15
+              ],
+              "allowed": [
+                1.1552941812485731e-08,
+                1.0836658045163606e-08
+              ]
+            },
+            {
+              "cluster": 1,
+              "absolute_difference": [
+                2.842170943040401e-14,
+                1.7053025658242404e-13
+              ],
+              "relative_difference": [
+                1.65004413184031e-16,
+                1.830185090904497e-15
+              ],
+              "allowed": [
+                2.722481773787772e-08,
+                1.931765084471026e-08
+              ]
+            },
+            {
+              "cluster": 2,
+              "absolute_difference": [
+                2.842170943040401e-14,
+                3.552713678800501e-14
+              ],
+              "relative_difference": [
+                6.125035261265959e-16,
+                1.8655672287564694e-15
+              ],
+              "allowed": [
+                1.4640252377017278e-08,
+                1.1904361110142696e-08
+              ]
+            },
+            {
+              "cluster": 3,
+              "absolute_difference": [
+                2.5579538487363607e-13,
+                2.1316282072803006e-14
+              ],
+              "relative_difference": [
+                2.6207162273116393e-15,
+                5.20979198228644e-16
+              ],
+              "allowed": [
+                1.976051440472187e-08,
+                1.4091580267557604e-08
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

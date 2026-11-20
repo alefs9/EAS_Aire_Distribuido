@@ -1,0 +1,6 @@
+base=5424512
+windows=10.0.26200.0
+docker_client=29.8.2 docker_server=29.8.2
+docker_os=linux arch=x86_64
+go version go1.27.4 linux/amd64
+golang@sha256:4fa7c968ba93f1635670522dbb01a2c78150443e1385746924566079f36570ea

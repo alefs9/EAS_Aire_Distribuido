@@ -20,3 +20,10 @@ type Dataset struct {
 	Periodo  string `bson:"periodo" json:"periodo"`
 	Vectores int    `bson:"vectores" json:"vectores"`
 }
+
+type Parametros struct {
+	K          int     `bson:"k" json:"k"`
+	Semilla    int64   `bson:"semilla" json:"semilla"`
+	Tolerancia float64 `bson:"tolerancia" json:"tolerancia"`
+	MaxIter    int     `bson:"max_iter" json:"max_iter"`
+}

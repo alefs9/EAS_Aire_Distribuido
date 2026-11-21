@@ -1,0 +1,649 @@
+{
+  "info": {
+    "name": "EAS Aire Distribuido - API PC4",
+    "description": "Pruebas funcionales y de latencia de la API coordinadora. Usar con el entorno 'EAS local'. Los nodos deben estar ejecutándose (scripts/api/nodo-en-bucle.ps1).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Funcionales",
+      "item": [
+        {
+          "name": "Salud del servicio",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('MongoDB disponible', () => pm.expect(pm.response.json().dependencias.mongodb).to.eql('ok'));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear ejecución horaria",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"periodo\": \"1_hora\",\n  \"k\": 4,\n  \"semilla\": 42,\n  \"tolerancia\": 0.0001,\n  \"max_iter\": 100,\n  \"nodos\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 202', () => pm.response.to.have.status(202));",
+                  "const j = pm.response.json(); pm.environment.set('job_horario', j.job_id);",
+                  "pm.test('Estado inicial queued', () => pm.expect(j.estado).to.eql('queued'));",
+                  "pm.test('Cabecera Location', () => pm.response.to.have.header('Location'));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resultado pendiente (409)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/{{job_horario}}/results",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "{{job_horario}}",
+                "results"
+              ]
+            },
+            "description": "Ejecutar inmediatamente después de crear la ejecución horaria."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 409', () => pm.response.to.have.status(409));",
+                  "pm.test('Estado queued o running', () => pm.expect(['queued','running']).to.include(pm.response.json().estado));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Estado de la ejecución",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/{{job_horario}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "{{job_horario}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Estado válido', () => pm.expect(['queued','running','completed']).to.include(pm.response.json().trabajo.estado));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Esperar resultado final horario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/{{job_horario}}/results",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "{{job_horario}}",
+                "results"
+              ]
+            },
+            "description": "Repite la consulta cada segundo mientras responda 409 (máximo 60 intentos)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const n = Number(pm.environment.get('reintentos') || 0);",
+                  "if (pm.response.code === 409 && n < 60) {",
+                  "  pm.environment.set('reintentos', n + 1);",
+                  "  setTimeout(() => {}, 1000);",
+                  "  pm.execution.setNextRequest(pm.info.requestName);",
+                  "  return;",
+                  "}",
+                  "pm.environment.set('reintentos', 0);",
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json().resultado;",
+                  "pm.test('Centroides y conteos por clúster', () => { pm.expect(r.centroides.length).to.eql(r.conteos.length); });",
+                  "pm.test('Fuente informada', () => pm.expect(['Redis','MongoDB','memoria']).to.include(pm.response.json().fuente));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear ejecución de 24 horas",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"periodo\": \"24_horas\",\n  \"k\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 202', () => pm.response.to.have.status(202));",
+                  "const j = pm.response.json(); pm.environment.set('job_id', j.job_id);",
+                  "pm.test('Estado inicial queued', () => pm.expect(j.estado).to.eql('queued'));",
+                  "pm.test('Cabecera Location', () => pm.response.to.have.header('Location'));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Esperar resultado final 24 horas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/{{job_id}}/results",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "{{job_id}}",
+                "results"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const n = Number(pm.environment.get('reintentos') || 0);",
+                  "if (pm.response.code === 409 && n < 60) {",
+                  "  pm.environment.set('reintentos', n + 1);",
+                  "  setTimeout(() => {}, 1000);",
+                  "  pm.execution.setNextRequest(pm.info.requestName);",
+                  "  return;",
+                  "}",
+                  "pm.environment.set('reintentos', 0);",
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json().resultado;",
+                  "pm.test('Centroides y conteos por clúster', () => { pm.expect(r.centroides.length).to.eql(r.conteos.length); });",
+                  "pm.test('Fuente informada', () => pm.expect(['Redis','MongoDB','memoria']).to.include(pm.response.json().fuente));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resultado con caché (Redis)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/{{job_id}}/results",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "{{job_id}}",
+                "results"
+              ]
+            },
+            "description": "Segunda lectura del mismo resultado: debe venir de Redis mientras no venza el TTL."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Leído desde Redis', () => pm.expect(pm.response.json().fuente).to.eql('Redis'));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Parámetros inválidos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"periodo\": \"semanal\",\n  \"k\": 99\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Código parametros_invalidos', () => pm.expect(pm.response.json().codigo).to.eql('parametros_invalidos'));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Campo desconocido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"k\": 4,\n  \"workers\": 8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Código json_invalido', () => pm.expect(pm.response.json().codigo).to.eql('json_invalido'));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Identificador inexistente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/pc4-no-existe",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "pc4-no-existe"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Dependencia no disponible (manual)",
+      "description": "Detener MongoDB antes de ejecutar: docker stop eas-mongo. Volver a iniciarlo después: docker start eas-mongo.",
+      "item": [
+        {
+          "name": "Salud sin MongoDB (503)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 503', () => pm.response.to.have.status(503));",
+                  "pm.test('MongoDB no disponible', () => pm.expect(pm.response.json().dependencias.mongodb).to.eql('no disponible'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear sin MongoDB (503)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"periodo\": \"24_horas\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Código almacen_no_disponible', () => pm.expect(pm.response.json().codigo).to.eql('almacen_no_disponible'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Latencia (Runner, 30 iteraciones)",
+      "description": "Ejecutar después de la carpeta 1 para que job_id tenga un resultado completado. Collection Runner > esta carpeta > Iterations: 30 > Run > Export Results.",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /jobs/{id}",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/{{job_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "{{job_id}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /jobs/{id}/results",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/jobs/{{job_id}}/results",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "jobs",
+                "{{job_id}}",
+                "results"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

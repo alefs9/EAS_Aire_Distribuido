@@ -78,6 +78,7 @@ func main() {
 	periodo := flag.String("periodo", "24_horas", "periodo de los trabajos creados")
 	espera := flag.Duration("espera", 10*time.Minute, "plazo para que terminen los trabajos creados")
 	salida := flag.String("salida", "latencia", "carpeta de resultados")
+	ttl := flag.Duration("ttl", 61*time.Second, "espera para que venza la caché antes de medir lecturas sin caché (CACHE_TTL_SECONDS + 1 s)")
 	flag.Parse()
 	if err := os.MkdirAll(*salida, 0o755); err != nil {
 		log.Fatal(err)
@@ -132,6 +133,11 @@ func main() {
 			time.Sleep(300 * time.Millisecond)
 		}
 	}
+	// Al consultar el estado durante la espera, la API ya guardó los resultados en Redis.
+	// Se espera a que venza el TTL para que la primera lectura de cada trabajo vaya a MongoDB.
+	log.Printf("esperando %s a que venza la caché Redis...", *ttl)
+	time.Sleep(*ttl)
+
 	// 4. Resultado sin caché: primera lectura de cada trabajo (MongoDB).
 	for i, id := range ids {
 		medir("resultado_sin_cache", "GET", "/jobs/"+id+"/results", "", 200, i+1)

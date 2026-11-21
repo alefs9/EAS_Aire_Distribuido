@@ -19,6 +19,7 @@ func NuevoRouter(s *Servicio, logger *log.Logger) *http.ServeMux {
 	mux.HandleFunc("POST /jobs", h.crear)
 	mux.HandleFunc("GET /jobs/{id}", h.estado)
 	mux.HandleFunc("GET /jobs/{id}/results", h.resultado)
+	registrarDocumentacion(mux)
 	return mux
 }
 

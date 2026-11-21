@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+  title: EAS Aire Distribuido - API coordinadora
+  version: 1.0.0
+  description: |
+    API REST del proyecto EAS Aire Distribuido (CC65). Crea ejecuciones de K-Means
+    sobre vectores [PM10, PM2.5] del OEFA, las ejecuta en el clúster de nodos TCP,
+    guarda el resultado en MongoDB y sirve los resultados completados con caché Redis.
+
+    El entrenamiento es asíncrono: POST /jobs responde 202 en cuanto registra el
+    trabajo. La latencia HTTP no incluye el tiempo de entrenamiento, que se informa
+    en `resultado.segundos_ml`.
+servers:
+  - url: http://localhost:8080
+    description: Ejecución local
+tags:
+  - name: Servicio
+  - name: Trabajos
+paths:
+  /health:
+    get:
+      tags: [Servicio]
+      summary: Salud de la API y de sus dependencias
+      description: MongoDB es obligatorio. Sin Redis la API sigue funcionando y lee de MongoDB.
+      responses:
+        "200":
+          description: Disponible (estado ok) o sin caché (estado degradado)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Salud" }
+              examples:
+                ok:
+                  value: { estado: ok, dependencias: { mongodb: ok, redis: ok } }
+                degradado:
+                  value: { estado: degradado, dependencias: { mongodb: ok, redis: no disponible } }
+        "503":
+          description: MongoDB no disponible
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Salud" }
+              example: { estado: no disponible, dependencias: { mongodb: no disponible, redis: ok } }
+  /jobs:
+    post:
+      tags: [Trabajos]
+      summary: Crear una ejecución de K-Means
+      description: Valida los parámetros, registra el trabajo como `queued` y lo encola. Todos los campos son opcionales.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Solicitud" }
+            examples:
+              horario:
+                summary: Vectores horarios (445 347)
+                value: { periodo: "1_hora", k: 4, semilla: 42, tolerancia: 0.0001, max_iter: 100, nodos: 2 }
+              diario:
+                summary: Vectores de 24 horas (18 297)
+                value: { periodo: "24_horas", k: 4 }
+      responses:
+        "202":
+          description: Trabajo aceptado y encolado
+          headers:
+            Location:
+              description: Ruta para consultar el estado
+              schema: { type: string, example: /jobs/pc4-3f2a9c0d1b7e4a6f8c5d2e1f0a9b8c7d }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Trabajo" }
+        "400":
+          description: JSON inválido, campo desconocido o parámetros fuera de rango
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              example: { codigo: parametros_invalidos, error: "k debe estar entre 1 y 20" }
+        "503":
+          description: Cola llena o MongoDB no disponible
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              examples:
+                cola:
+                  value: { codigo: cola_llena, error: "la cola de trabajos está llena" }
+                almacen:
+                  value: { codigo: almacen_no_disponible, error: "server selection error" }
+  /jobs/{id}:
+    get:
+      tags: [Trabajos]
+      summary: Consultar el estado de una ejecución
+      parameters: [{ $ref: "#/components/parameters/JobId" }]
+      responses:
+        "200":
+          description: Estado actual. `fuente` indica si se leyó de Redis o de MongoDB.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trabajo: { $ref: "#/components/schemas/Trabajo" }
+                  fuente: { type: string, enum: [Redis, MongoDB, memoria] }
+        "404": { $ref: "#/components/responses/NoEncontrado" }
+        "503": { $ref: "#/components/responses/AlmacenNoDisponible" }
+  /jobs/{id}/results:
+    get:
+      tags: [Trabajos]
+      summary: Recuperar el resultado resumido
+      description: Devuelve centroides, conteos, iteraciones, inercia y tiempos. No incluye las asignaciones por fila.
+      parameters: [{ $ref: "#/components/parameters/JobId" }]
+      responses:
+        "200":
+          description: Ejecución completada
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RespuestaResultado" }
+        "404": { $ref: "#/components/responses/NoEncontrado" }
+        "409":
+          description: La ejecución todavía está en cola o en curso
+          content:
+            application/json:
+              example: { codigo: no_disponible_aun, job_id: pc4-3f2a9c0d1b7e4a6f8c5d2e1f0a9b8c7d, estado: running }
+        "422":
+          description: La ejecución falló
+          content:
+            application/json:
+              example: { codigo: trabajo_fallido, job_id: pc4-3f2a9c0d1b7e4a6f8c5d2e1f0a9b8c7d, error: "waiting for 2 nodes: context deadline exceeded" }
+        "503": { $ref: "#/components/responses/AlmacenNoDisponible" }
+components:
+  parameters:
+    JobId:
+      name: id
+      in: path
+      required: true
+      description: Identificador devuelto por POST /jobs
+      schema: { type: string, example: pc4-3f2a9c0d1b7e4a6f8c5d2e1f0a9b8c7d }
+  responses:
+    NoEncontrado:
+      description: No existe un trabajo con ese identificador
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+          example: { codigo: no_encontrado, error: "no existe un trabajo con ese identificador" }
+    AlmacenNoDisponible:
+      description: MongoDB no responde
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+  schemas:
+    Solicitud:
+      type: object
+      additionalProperties: false
+      properties:
+        periodo: { type: string, enum: ["1_hora", "24_horas"], default: "1_hora" }
+        k: { type: integer, minimum: 1, maximum: 20, default: 4 }
+        semilla: { type: integer, format: int64, default: 42 }
+        tolerancia: { type: number, minimum: 0, default: 0.0001 }
+        max_iter: { type: integer, minimum: 1, maximum: 1000, default: 100 }
+        nodos: { type: integer, minimum: 1, maximum: 8, description: "Por defecto, CLUSTER_NODES del servidor" }
+    Parametros:
+      type: object
+      properties:
+        k: { type: integer }
+        semilla: { type: integer, format: int64 }
+        tolerancia: { type: number }
+        max_iter: { type: integer }
+    Trabajo:
+      type: object
+      properties:
+        job_id: { type: string }
+        dataset_id: { type: string, description: "sha256 del CSV y periodo" }
+        parametros: { $ref: "#/components/schemas/Parametros" }
+        estado: { type: string, enum: [queued, running, completed, failed] }
+        creado: { type: string, format: date-time }
+        actualizado: { type: string, format: date-time }
+        error: { type: string, description: Solo si el estado es failed }
+      example:
+        job_id: pc4-3f2a9c0d1b7e4a6f8c5d2e1f0a9b8c7d
+        dataset_id: cd6e82224deebf069ee6e247e12f2096835b2af747c8c2d27f5fed48609162d0:1_hora
+        parametros: { k: 4, semilla: 42, tolerancia: 0.0001, max_iter: 100 }
+        estado: queued
+        creado: "2026-11-21T02:04:31.461Z"
+        actualizado: "2026-11-21T02:04:31.461Z"
+    Resultado:
+      type: object
+      properties:
+        centroides:
+          type: array
+          description: "[PM10, PM2.5] en µg/m³ por clúster"
+          items: { type: array, items: { type: number }, minItems: 2, maxItems: 2 }
+        conteos: { type: array, items: { type: integer } }
+        iteraciones: { type: integer }
+        inercia: { type: number }
+        convergio: { type: boolean }
+        segundos_carga: { type: number }
+        segundos_ml: { type: number, description: "Tiempo de cálculo en el clúster (no es latencia HTTP)" }
+        origen: { type: string }
+    RespuestaResultado:
+      type: object
+      properties:
+        job_id: { type: string }
+        dataset_id: { type: string }
+        parametros: { $ref: "#/components/schemas/Parametros" }
+        resultado: { $ref: "#/components/schemas/Resultado" }
+        fuente: { type: string, enum: [Redis, MongoDB, memoria] }
+        aviso: { type: string, description: "Presente si Redis no estaba disponible" }
+      example:
+        job_id: pc4-a761cf05aa70e93728f791df0d588dc2
+        dataset_id: cd6e82224deebf069ee6e247e12f2096835b2af747c8c2d27f5fed48609162d0:1_hora
+        parametros: { k: 4, semilla: 42, tolerancia: 0.0001, max_iter: 100 }
+        resultado:
+          centroides: [[541.689, 117.250], [18.481, 9.645], [185.741, 92.269], [80.529, 34.102]]
+          conteos: [1333, 330571, 27645, 85798]
+          iteraciones: 100
+          inercia: 389845115.42
+          convergio: false
+          segundos_carga: 0.088
+          segundos_ml: 0.423
+          origen: "clúster PC4 cluster_job=ce1adba268a50161d94bee867befbcb3 nodos=nodo-1,nodo-2"
+        fuente: Redis
+    Salud:
+      type: object
+      properties:
+        estado: { type: string, enum: [ok, degradado, no disponible] }
+        dependencias: { type: object, additionalProperties: { type: string } }
+    Error:
+      type: object
+      properties:
+        codigo: { type: string }
+        error: { type: string }

@@ -1,0 +1,3 @@
+﻿command=go test -race -count=1 ./internal/api/
+ok  	eas-aire/plataforma/internal/api	2.230s
+exit=0

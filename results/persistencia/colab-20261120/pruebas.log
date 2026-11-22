@@ -1,0 +1,41 @@
+
+Pruebas
+=== RUN   TestValidaciones
+--- PASS: TestValidaciones (0.00s)
+=== RUN   TestMongoEscrituraConsultaIndices
+--- PASS: TestMongoEscrituraConsultaIndices (0.13s)
+=== RUN   TestEstadosResultadoAtomico
+--- PASS: TestEstadosResultadoAtomico (0.03s)
+=== RUN   TestEjecucionFallida
+--- PASS: TestEjecucionFallida (0.01s)
+=== RUN   TestCacheMissHitExpiracionYPersistencia
+--- PASS: TestCacheMissHitExpiracionYPersistencia (2.12s)
+=== RUN   TestRedisNoDisponible
+--- PASS: TestRedisNoDisponible (0.01s)
+=== RUN   TestMongoNoDisponible
+--- PASS: TestMongoNoDisponible (0.50s)
+=== RUN   TestTransicionConcurrente
+--- PASS: TestTransicionConcurrente (0.01s)
+PASS
+ok  	command-line-arguments	2.824s
+
+Detector de carreras
+=== RUN   TestValidaciones
+--- PASS: TestValidaciones (0.00s)
+=== RUN   TestMongoEscrituraConsultaIndices
+--- PASS: TestMongoEscrituraConsultaIndices (0.02s)
+=== RUN   TestEstadosResultadoAtomico
+--- PASS: TestEstadosResultadoAtomico (0.03s)
+=== RUN   TestEjecucionFallida
+--- PASS: TestEjecucionFallida (0.02s)
+=== RUN   TestCacheMissHitExpiracionYPersistencia
+--- PASS: TestCacheMissHitExpiracionYPersistencia (2.12s)
+=== RUN   TestRedisNoDisponible
+--- PASS: TestRedisNoDisponible (0.02s)
+=== RUN   TestMongoNoDisponible
+--- PASS: TestMongoNoDisponible (0.50s)
+=== RUN   TestTransicionConcurrente
+--- PASS: TestTransicionConcurrente (0.02s)
+PASS
+ok  	command-line-arguments	3.751s
+Pruebas y detector de carreras terminados sin errores.

@@ -1,0 +1,4 @@
+command=docker.exe "stop" "pc4-docker-20261122-pc4-mongo" "pc4-docker-20261122-pc4-redis"
+exit=0
+pc4-docker-20261122-pc4-mongo
+pc4-docker-20261122-pc4-redis

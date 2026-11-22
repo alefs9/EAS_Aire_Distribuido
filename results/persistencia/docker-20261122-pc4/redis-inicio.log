@@ -1,0 +1,3 @@
+command=docker.exe "run" "-d" "--name" "pc4-docker-20261122-pc4-redis" "--network" "pc4-docker-20261122-pc4-net" "--network-alias" "redis" "redis:7"
+exit=0
+67a66b44a64a937b6687b6f2735b9d38c5f3883a42d616f17e1fc43d4e8aa130

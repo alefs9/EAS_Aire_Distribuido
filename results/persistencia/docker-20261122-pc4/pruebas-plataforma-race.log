@@ -1,0 +1,561 @@
+command=docker.exe "run" "--rm" "-t" "--network" "pc4-docker-20261122-pc4-net" "--mount" "type=bind,source=C:\Users\Alex\EAS_Aire_Distribuido,target=/repo,readonly" "--mount" "type=bind,source=C:\Users\Alex\EAS_Aire_Distribuido\results\persistencia\docker-20261122-pc4,target=/evidence" "--mount" "type=volume,source=pc4-docker-20261122-pc4-bin,target=/binout" "--mount" "type=volume,source=pc4-docker-20261122-pc4-go,target=/go" "-e" "MONGODB_URI=mongodb://mongo:27017" "-e" "REDIS_ADDR=redis:6379" "-e" "PC4_INTEGRATION=1" "-e" "MONGODB_DATABASE=pc4_docker_20261122_pc4_tests" "-w" "/repo/go/plataforma" "golang:1.27-bookworm" "go" "test" "-race" "-v" "-count=1" "./..."
+exit=0
+?   	eas-aire/plataforma	[no test files]
+?   	eas-aire/plataforma/cmd/api	[no test files]
+?   	eas-aire/plataforma/cmd/coordinator	[no test files]
+?   	eas-aire/plataforma/cmd/latencia	[no test files]
+?   	eas-aire/plataforma/cmd/node	[no test files]
+?   	eas-aire/plataforma/cmd/persistencia	[no test files]
+=== RUN   TestDocumentacionPublicada
+--- PASS: TestDocumentacionPublicada (0.00s)
+=== RUN   TestFlujoCompleto
+--- PASS: TestFlujoCompleto (0.11s)
+=== RUN   TestTrabajoFallido
+--- PASS: TestTrabajoFallido (0.00s)
+=== RUN   TestParametrosInvalidos
+--- PASS: TestParametrosInvalidos (0.01s)
+=== RUN   TestNoEncontrado
+--- PASS: TestNoEncontrado (0.00s)
+=== RUN   TestColaLlena
+--- PASS: TestColaLlena (1.00s)
+=== RUN   TestSalud
+--- PASS: TestSalud (0.00s)
+=== RUN   TestIntegracionClusterTCP
+--- PASS: TestIntegracionClusterTCP (0.04s)
+=== RUN   TestValidarValoresPorDefecto
+--- PASS: TestValidarValoresPorDefecto (0.00s)
+=== RUN   TestValidarSemillaYToleranciaCero
+--- PASS: TestValidarSemillaYToleranciaCero (0.00s)
+=== RUN   TestValidarRechazaParametros
+--- PASS: TestValidarRechazaParametros (0.00s)
+PASS
+ok  	eas-aire/plataforma/internal/api	2.198s
+=== RUN   TestTwoNodesDuplicateAndGracefulReuse
+--- PASS: TestTwoNodesDuplicateAndGracefulReuse (0.01s)
+=== RUN   TestRejectsInvalidSessions
+=== RUN   TestRejectsInvalidSessions/EXPECTED_REGISTER
+=== RUN   TestRejectsInvalidSessions/NODE_MISMATCH
+=== RUN   TestRejectsInvalidSessions/UNEXPECTED_MESSAGE
+--- PASS: TestRejectsInvalidSessions (0.01s)
+    --- PASS: TestRejectsInvalidSessions/EXPECTED_REGISTER (0.00s)
+    --- PASS: TestRejectsInvalidSessions/NODE_MISMATCH (0.00s)
+    --- PASS: TestRejectsInvalidSessions/UNEXPECTED_MESSAGE (0.00s)
+=== RUN   TestAbruptDisconnectAndCoordinatorShutdown
+--- PASS: TestAbruptDisconnectAndCoordinatorShutdown (0.00s)
+=== RUN   TestTimeout
+--- PASS: TestTimeout (0.10s)
+=== RUN   TestRunNode
+--- PASS: TestRunNode (0.01s)
+=== RUN   TestPartitionCoverage
+--- PASS: TestPartitionCoverage (0.00s)
+=== RUN   TestAssignAndReduce
+--- PASS: TestAssignAndReduce (0.00s)
+=== RUN   TestPartialIdentityAndCounts
+--- PASS: TestPartialIdentityAndCounts (0.00s)
+=== RUN   TestDistributedTCP
+--- PASS: TestDistributedTCP (0.12s)
+=== RUN   TestExecutionTimeout
+--- PASS: TestExecutionTimeout (0.05s)
+=== RUN   TestExecutionFaults
+=== RUN   TestExecutionFaults/duplicate
+    fault_test.go:156: nodo a: inyecta duplicate tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=1 reason=iteration 2: node a: invalid response to ITER: expected PARTIAL with job key {ID:6df1906f5b0e4c09ca4ba56fbb153809 Iteration:2 Partition:0 Attempt:1}, got PARTIAL
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463007508770
+        ASSIGNED node_id=b job_id=6df1906f5b0e4c09ca4ba56fbb153809 partition=1 iteration=0 rows=0
+        READY node_id=b job_id=6df1906f5b0e4c09ca4ba56fbb153809 partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=6df1906f5b0e4c09ca4ba56fbb153809 partition=1 iteration=1 rows=2
+        PARTIAL node_id=b job_id=6df1906f5b0e4c09ca4ba56fbb153809 partition=1 iteration=2 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:48808 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:48812 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=a ts=2
+        HEARTBEAT_ACK node_id=b ts=1795381463007508770
+        iteration job_id=6df1906f5b0e4c09ca4ba56fbb153809 number=1 movement=12.806248474865697
+        job session failed node_id=a: invalid response to ITER: expected PARTIAL with job key {ID:6df1906f5b0e4c09ca4ba56fbb153809 Iteration:2 Partition:0 Attempt:1}, got PARTIAL
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=b peer=127.0.0.1:48822 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:48820 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381463023052445
+        HEARTBEAT_ACK node_id=a ts=1795381463022967535
+        HEARTBEAT_ACK node_id=b ts=1795381463032720034
+        HEARTBEAT_ACK node_id=a ts=1795381463032782714
+        HEARTBEAT_ACK node_id=b ts=1795381463043532160
+        HEARTBEAT_ACK node_id=a ts=1795381463043484262
+        iteration job_id=fb318e482812198acdcb6f48b4251bc9 number=1 movement=8.48528137423857
+        iteration job_id=fb318e482812198acdcb6f48b4251bc9 number=2 movement=4.47213595499958
+        iteration job_id=fb318e482812198acdcb6f48b4251bc9 number=3 movement=0
+        iteration job_id=fb318e482812198acdcb6f48b4251bc9 number=4 movement=0
+        BYE_ACK node_id=a
+        BYE_ACK node_id=b
+        disconnected node_id=b
+        disconnected node_id=a
+=== RUN   TestExecutionFaults/stale_iteration
+    fault_test.go:156: nodo a: inyecta stale_iteration tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=1 reason=iteration 2: node a: invalid response to ITER: expected PARTIAL with job key {ID:437aba80cbfae18a8ffcb0901bad5f8a Iteration:2 Partition:0 Attempt:1}, got PARTIAL
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463065285982
+        ASSIGNED node_id=b job_id=437aba80cbfae18a8ffcb0901bad5f8a partition=1 iteration=0 rows=0
+        READY node_id=b job_id=437aba80cbfae18a8ffcb0901bad5f8a partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=437aba80cbfae18a8ffcb0901bad5f8a partition=1 iteration=1 rows=2
+        PARTIAL node_id=b job_id=437aba80cbfae18a8ffcb0901bad5f8a partition=1 iteration=2 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:41848 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:41862 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381463065285982
+        iteration job_id=437aba80cbfae18a8ffcb0901bad5f8a number=1 movement=12.806248474865697
+        job session failed node_id=a: invalid response to ITER: expected PARTIAL with job key {ID:437aba80cbfae18a8ffcb0901bad5f8a Iteration:2 Partition:0 Attempt:1}, got PARTIAL
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=b peer=127.0.0.1:41890 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:41874 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381463080946357
+        HEARTBEAT_ACK node_id=a ts=1795381463080881177
+        HEARTBEAT_ACK node_id=b ts=1795381463090589344
+        HEARTBEAT_ACK node_id=a ts=1795381463090724111
+        HEARTBEAT_ACK node_id=b ts=1795381463101030318
+        HEARTBEAT_ACK node_id=a ts=1795381463100947880
+        iteration job_id=bcd5220463fd4b1df3c4f6e806d3fef6 number=1 movement=8.48528137423857
+        iteration job_id=bcd5220463fd4b1df3c4f6e806d3fef6 number=2 movement=4.47213595499958
+        iteration job_id=bcd5220463fd4b1df3c4f6e806d3fef6 number=3 movement=0
+        iteration job_id=bcd5220463fd4b1df3c4f6e806d3fef6 number=4 movement=0
+        BYE_ACK node_id=a
+        disconnected node_id=a
+        BYE_ACK node_id=b
+        disconnected node_id=b
+=== RUN   TestExecutionFaults/future_iteration
+    fault_test.go:156: nodo a: inyecta future_iteration tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: invalid response to ITER: expected PARTIAL with job key {ID:20bb4e6f436ea188b9547afee5ca387c Iteration:1 Partition:0 Attempt:1}, got PARTIAL
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463120198358
+        ASSIGNED node_id=b job_id=20bb4e6f436ea188b9547afee5ca387c partition=1 iteration=0 rows=0
+        READY node_id=b job_id=20bb4e6f436ea188b9547afee5ca387c partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=20bb4e6f436ea188b9547afee5ca387c partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:35172 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:35188 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381463120198358
+        job session failed node_id=a: invalid response to ITER: expected PARTIAL with job key {ID:20bb4e6f436ea188b9547afee5ca387c Iteration:1 Partition:0 Attempt:1}, got PARTIAL
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=a peer=127.0.0.1:35200 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:35210 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381463134337791
+        HEARTBEAT_ACK node_id=a ts=1795381463134425827
+        HEARTBEAT_ACK node_id=a ts=1795381463144982594
+        HEARTBEAT_ACK node_id=b ts=1795381463145037830
+        HEARTBEAT_ACK node_id=b ts=1795381463154892563
+        HEARTBEAT_ACK node_id=a ts=1795381463154981541
+        iteration job_id=09c69e879d541315d37ea0e4a7537c63 number=1 movement=8.48528137423857
+        iteration job_id=09c69e879d541315d37ea0e4a7537c63 number=2 movement=4.47213595499958
+        iteration job_id=09c69e879d541315d37ea0e4a7537c63 number=3 movement=0
+        iteration job_id=09c69e879d541315d37ea0e4a7537c63 number=4 movement=0
+        BYE_ACK node_id=b
+        disconnected node_id=b
+        BYE_ACK node_id=a
+        disconnected node_id=a
+=== RUN   TestExecutionFaults/wrong_execution
+    fault_test.go:156: nodo a: inyecta wrong_execution tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: invalid response to ITER: expected PARTIAL with job key {ID:ce29064ba2c81b2e4c419c0c9d810f93 Iteration:1 Partition:0 Attempt:1}, got PARTIAL
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463174567525
+        ASSIGNED node_id=b job_id=ce29064ba2c81b2e4c419c0c9d810f93 partition=1 iteration=0 rows=0
+        READY node_id=b job_id=ce29064ba2c81b2e4c419c0c9d810f93 partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=ce29064ba2c81b2e4c419c0c9d810f93 partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:51670 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:51680 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381463174567525
+        job session failed node_id=a: invalid response to ITER: expected PARTIAL with job key {ID:ce29064ba2c81b2e4c419c0c9d810f93 Iteration:1 Partition:0 Attempt:1}, got PARTIAL
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=b peer=127.0.0.1:51696 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:51712 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381463188843545
+        HEARTBEAT_ACK node_id=a ts=1795381463188752977
+        HEARTBEAT_ACK node_id=a ts=1795381463199729987
+        HEARTBEAT_ACK node_id=b ts=1795381463199662821
+        HEARTBEAT_ACK node_id=b ts=1795381463208670012
+        HEARTBEAT_ACK node_id=a ts=1795381463208778622
+        iteration job_id=30a8847459cd3ca9fb83dac29459d9f4 number=1 movement=8.48528137423857
+        iteration job_id=30a8847459cd3ca9fb83dac29459d9f4 number=2 movement=4.47213595499958
+        iteration job_id=30a8847459cd3ca9fb83dac29459d9f4 number=3 movement=0
+        iteration job_id=30a8847459cd3ca9fb83dac29459d9f4 number=4 movement=0
+        BYE_ACK node_id=a
+        disconnected node_id=a
+        BYE_ACK node_id=b
+        disconnected node_id=b
+=== RUN   TestExecutionFaults/wrong_partition
+    fault_test.go:156: nodo a: inyecta wrong_partition tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: invalid response to ITER: expected PARTIAL with job key {ID:f5153bae826338b59c8ec561ac8cf797 Iteration:1 Partition:0 Attempt:1}, got PARTIAL
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463229140009
+        ASSIGNED node_id=b job_id=f5153bae826338b59c8ec561ac8cf797 partition=1 iteration=0 rows=0
+        READY node_id=b job_id=f5153bae826338b59c8ec561ac8cf797 partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=f5153bae826338b59c8ec561ac8cf797 partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:45782 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:45790 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381463229140009
+        job session failed node_id=a: invalid response to ITER: expected PARTIAL with job key {ID:f5153bae826338b59c8ec561ac8cf797 Iteration:1 Partition:0 Attempt:1}, got PARTIAL
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=a peer=127.0.0.1:45794 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:45802 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1795381463244808411
+        HEARTBEAT_ACK node_id=b ts=1795381463244859592
+        HEARTBEAT_ACK node_id=b ts=1795381463254783690
+        HEARTBEAT_ACK node_id=a ts=1795381463254877916
+        HEARTBEAT_ACK node_id=a ts=1795381463265054577
+        HEARTBEAT_ACK node_id=b ts=1795381463264993391
+        iteration job_id=7b62b5eac629286c49952f239f3f1013 number=1 movement=8.48528137423857
+        iteration job_id=7b62b5eac629286c49952f239f3f1013 number=2 movement=4.47213595499958
+        iteration job_id=7b62b5eac629286c49952f239f3f1013 number=3 movement=0
+        iteration job_id=7b62b5eac629286c49952f239f3f1013 number=4 movement=0
+        BYE_ACK node_id=a
+        disconnected node_id=a
+        BYE_ACK node_id=b
+        disconnected node_id=b
+=== RUN   TestExecutionFaults/wrong_attempt
+    fault_test.go:156: nodo a: inyecta wrong_attempt tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: invalid message fields
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463286054160
+        ASSIGNED node_id=b job_id=eaaa8ecbe3313205e8a2f46d609180e7 partition=1 iteration=0 rows=0
+        READY node_id=b job_id=eaaa8ecbe3313205e8a2f46d609180e7 partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=eaaa8ecbe3313205e8a2f46d609180e7 partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:51044 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:51050 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381463286054160
+        job session failed node_id=a: invalid message fields
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=b peer=127.0.0.1:51074 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:51062 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381463300286043
+        HEARTBEAT_ACK node_id=a ts=1795381463300428063
+        HEARTBEAT_ACK node_id=a ts=1795381463311097325
+        HEARTBEAT_ACK node_id=b ts=1795381463311155760
+        HEARTBEAT_ACK node_id=b ts=1795381463320662861
+        HEARTBEAT_ACK node_id=a ts=1795381463320734383
+        iteration job_id=e64c1b6080403f1c2d546569eac46957 number=1 movement=8.48528137423857
+        iteration job_id=e64c1b6080403f1c2d546569eac46957 number=2 movement=4.47213595499958
+        iteration job_id=e64c1b6080403f1c2d546569eac46957 number=3 movement=0
+        iteration job_id=e64c1b6080403f1c2d546569eac46957 number=4 movement=0
+        BYE_ACK node_id=b
+        disconnected node_id=b
+        BYE_ACK node_id=a
+        disconnected node_id=a
+=== RUN   TestExecutionFaults/incomplete_counts
+    fault_test.go:156: nodo a: inyecta incomplete_counts tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: partial counts do not cover partition
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463340784316
+        ASSIGNED node_id=b job_id=06f980bf828c33be5a9fa85b7f8ebec7 partition=1 iteration=0 rows=0
+        READY node_id=b job_id=06f980bf828c33be5a9fa85b7f8ebec7 partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=06f980bf828c33be5a9fa85b7f8ebec7 partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:51780 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:51788 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381463340784316
+        job session failed node_id=a: context canceled
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=b peer=127.0.0.1:51804 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:51792 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381463355114754
+        HEARTBEAT_ACK node_id=a ts=1795381463355170729
+        HEARTBEAT_ACK node_id=a ts=1795381463365173399
+        HEARTBEAT_ACK node_id=b ts=1795381463365248860
+        HEARTBEAT_ACK node_id=b ts=1795381463375288991
+        HEARTBEAT_ACK node_id=a ts=1795381463375451720
+        iteration job_id=760c101ae27ad9006abe5e45bad1d84a number=1 movement=8.48528137423857
+        iteration job_id=760c101ae27ad9006abe5e45bad1d84a number=2 movement=4.47213595499958
+        iteration job_id=760c101ae27ad9006abe5e45bad1d84a number=3 movement=0
+        iteration job_id=760c101ae27ad9006abe5e45bad1d84a number=4 movement=0
+        BYE_ACK node_id=a
+        disconnected node_id=a
+        BYE_ACK node_id=b
+        disconnected node_id=b
+=== RUN   TestExecutionFaults/incompatible_dimensions
+    fault_test.go:156: nodo a: inyecta incompatible_dimensions tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: partial dimensions do not match assignment
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463395522763
+        ASSIGNED node_id=b job_id=68e760d53dc7b5e86b570727f4f1c5ba partition=1 iteration=0 rows=0
+        READY node_id=b job_id=68e760d53dc7b5e86b570727f4f1c5ba partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=68e760d53dc7b5e86b570727f4f1c5ba partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:57024 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:57028 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=a ts=2
+        HEARTBEAT_ACK node_id=b ts=1795381463395522763
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        job session failed node_id=a: context canceled
+        disconnected node_id=a
+        REGISTERED node_id=b peer=127.0.0.1:57046 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:57032 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381463410221616
+        HEARTBEAT_ACK node_id=a ts=1795381463410276959
+        HEARTBEAT_ACK node_id=a ts=1795381463420946810
+        HEARTBEAT_ACK node_id=b ts=1795381463421026110
+        HEARTBEAT_ACK node_id=b ts=1795381463431024738
+        HEARTBEAT_ACK node_id=a ts=1795381463430929367
+        iteration job_id=0be8360f70cf1ff53f47e070a2097db6 number=1 movement=8.48528137423857
+        iteration job_id=0be8360f70cf1ff53f47e070a2097db6 number=2 movement=4.47213595499958
+        iteration job_id=0be8360f70cf1ff53f47e070a2097db6 number=3 movement=0
+        iteration job_id=0be8360f70cf1ff53f47e070a2097db6 number=4 movement=0
+        BYE_ACK node_id=b
+        disconnected node_id=b
+        BYE_ACK node_id=a
+        disconnected node_id=a
+=== RUN   TestExecutionFaults/disconnect_transfer
+    fault_test.go:148: nodo a: cierra TCP tras recibir VECTORS, antes de confirmarlo
+    fault_test.go:211: resultado: status=failed updates=0 reason=distribution: node a: EOF
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:38898 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:38910 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        job session failed node_id=a: EOF
+        disconnected node_id=a
+        disconnected node_id=b
+        REGISTERED node_id=b peer=127.0.0.1:38936 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:38924 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1795381463463044894
+        HEARTBEAT_ACK node_id=b ts=1795381463462978422
+        HEARTBEAT_ACK node_id=b ts=1795381463473048197
+        HEARTBEAT_ACK node_id=a ts=1795381463472969859
+        HEARTBEAT_ACK node_id=b ts=1795381463483232723
+        HEARTBEAT_ACK node_id=a ts=1795381463483163513
+        iteration job_id=1c6bf1c73984ab61a7fa51ec3503cb73 number=1 movement=8.48528137423857
+        iteration job_id=1c6bf1c73984ab61a7fa51ec3503cb73 number=2 movement=4.47213595499958
+        iteration job_id=1c6bf1c73984ab61a7fa51ec3503cb73 number=3 movement=0
+        iteration job_id=1c6bf1c73984ab61a7fa51ec3503cb73 number=4 movement=0
+        BYE_ACK node_id=b
+        disconnected node_id=b
+        BYE_ACK node_id=a
+        disconnected node_id=a
+=== RUN   TestExecutionFaults/disconnect_iteration
+    fault_test.go:156: nodo a: inyecta disconnect_iteration tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: EOF
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463503632668
+        ASSIGNED node_id=b job_id=dd32082d4e3d5b3d07ff3ade28f018bf partition=1 iteration=0 rows=0
+        READY node_id=b job_id=dd32082d4e3d5b3d07ff3ade28f018bf partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=dd32082d4e3d5b3d07ff3ade28f018bf partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:44178 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:44194 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381463503632668
+        job session failed node_id=a: EOF
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=b peer=127.0.0.1:44204 capacity=1
+        REGISTERED node_id=a peer=127.0.0.1:44202 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1795381463518268438
+        HEARTBEAT_ACK node_id=b ts=1795381463518386128
+        HEARTBEAT_ACK node_id=b ts=1795381463528020033
+        HEARTBEAT_ACK node_id=a ts=1795381463528148743
+        HEARTBEAT_ACK node_id=a ts=1795381463538323278
+        HEARTBEAT_ACK node_id=b ts=1795381463538263204
+        iteration job_id=a78dc012dc3f071a3c74f1868ed48086 number=1 movement=8.48528137423857
+        iteration job_id=a78dc012dc3f071a3c74f1868ed48086 number=2 movement=4.47213595499958
+        iteration job_id=a78dc012dc3f071a3c74f1868ed48086 number=3 movement=0
+        iteration job_id=a78dc012dc3f071a3c74f1868ed48086 number=4 movement=0
+        BYE_ACK node_id=a
+        disconnected node_id=a
+        BYE_ACK node_id=b
+        disconnected node_id=b
+=== RUN   TestExecutionFaults/silent_node
+    fault_test.go:156: nodo a: inyecta silent_node tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: read tcp 127.0.0.1:39277->127.0.0.1:45110: i/o timeout
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381463559631656
+        ASSIGNED node_id=b job_id=da9099536a02696695bd40c4b0808eaf partition=1 iteration=0 rows=0
+        READY node_id=b job_id=da9099536a02696695bd40c4b0808eaf partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=da9099536a02696695bd40c4b0808eaf partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:45110 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:45116 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=a ts=2
+        HEARTBEAT_ACK node_id=b ts=1795381463559631656
+        job session failed node_id=a: read tcp 127.0.0.1:39277->127.0.0.1:45110: i/o timeout
+        disconnected node_id=a
+        job session failed node_id=b: context canceled
+        disconnected node_id=b
+        REGISTERED node_id=a peer=127.0.0.1:45118 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:45120 capacity=1
+        HEARTBEAT_ACK node_id=b ts=1795381464574584977
+        HEARTBEAT_ACK node_id=a ts=1795381464574490566
+        HEARTBEAT_ACK node_id=a ts=1795381464585265853
+        HEARTBEAT_ACK node_id=b ts=1795381464585376174
+        HEARTBEAT_ACK node_id=b ts=1795381464595090537
+        HEARTBEAT_ACK node_id=a ts=1795381464595221102
+        iteration job_id=156e881dd98ea291de6cba58b225bde4 number=1 movement=8.48528137423857
+        iteration job_id=156e881dd98ea291de6cba58b225bde4 number=2 movement=4.47213595499958
+        iteration job_id=156e881dd98ea291de6cba58b225bde4 number=3 movement=0
+        iteration job_id=156e881dd98ea291de6cba58b225bde4 number=4 movement=0
+        BYE_ACK node_id=b
+        disconnected node_id=b
+        BYE_ACK node_id=a
+        disconnected node_id=a
+=== RUN   TestExecutionFaults/cancel_context
+    fault_test.go:156: nodo a: inyecta cancel_context tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: context canceled
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381464612807655
+        ASSIGNED node_id=b job_id=dc83657715c4753d301642cd73f4a937 partition=1 iteration=0 rows=0
+        READY node_id=b job_id=dc83657715c4753d301642cd73f4a937 partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=dc83657715c4753d301642cd73f4a937 partition=1 iteration=1 rows=2
+    fault_test.go:240: nueva ejecucion: status=completed nodos=[a b] counts=[2 2]
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:60014 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:60028 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=a ts=2
+        HEARTBEAT_ACK node_id=b ts=1795381464612807655
+        job session failed node_id=a: read tcp 127.0.0.1:33641->127.0.0.1:60014: use of closed network connection
+        job session failed node_id=b: context canceled
+        disconnected node_id=a
+        disconnected node_id=b
+        REGISTERED node_id=a peer=127.0.0.1:60044 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:60038 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1795381464626805723
+        HEARTBEAT_ACK node_id=b ts=1795381464626905819
+        HEARTBEAT_ACK node_id=a ts=1795381464636959953
+        HEARTBEAT_ACK node_id=b ts=1795381464636887357
+        HEARTBEAT_ACK node_id=b ts=1795381464647201345
+        HEARTBEAT_ACK node_id=a ts=1795381464647303620
+        iteration job_id=fe540dcfbc8c3b774effa6e628dcc888 number=1 movement=8.48528137423857
+        iteration job_id=fe540dcfbc8c3b774effa6e628dcc888 number=2 movement=4.47213595499958
+        iteration job_id=fe540dcfbc8c3b774effa6e628dcc888 number=3 movement=0
+        iteration job_id=fe540dcfbc8c3b774effa6e628dcc888 number=4 movement=0
+        BYE_ACK node_id=a
+        BYE_ACK node_id=b
+        disconnected node_id=b
+        disconnected node_id=a
+=== RUN   TestExecutionFaults/coordinator_interruption
+    fault_test.go:156: nodo a: inyecta coordinator_interruption tras recibir ITER 1
+    fault_test.go:211: resultado: status=failed updates=0 reason=iteration 1: node a: read tcp 127.0.0.1:34643->127.0.0.1:46574: use of closed network connection
+    fault_test.go:224: nodo b:
+        REGISTERED node_id=b ts=0
+        HEARTBEAT_ACK node_id=b ts=1795381464667746253
+        ASSIGNED node_id=b job_id=e8d3a159be899a3ed8f470d2b122a6f0 partition=1 iteration=0 rows=0
+        READY node_id=b job_id=e8d3a159be899a3ed8f470d2b122a6f0 partition=1 iteration=0 rows=2
+        PARTIAL node_id=b job_id=e8d3a159be899a3ed8f470d2b122a6f0 partition=1 iteration=1 rows=2
+    fault_test.go:133: coordinador:
+        REGISTERED node_id=a peer=127.0.0.1:46574 capacity=1
+        REGISTERED node_id=b peer=127.0.0.1:46576 capacity=1
+        HEARTBEAT_ACK node_id=a ts=1
+        HEARTBEAT_ACK node_id=b ts=1795381464667746253
+        job session failed node_id=b: context canceled
+        job session failed node_id=a: read tcp 127.0.0.1:34643->127.0.0.1:46574: use of closed network connection
+        disconnected node_id=b
+        disconnected node_id=a
+--- PASS: TestExecutionFaults (1.68s)
+    --- PASS: TestExecutionFaults/duplicate (0.06s)
+    --- PASS: TestExecutionFaults/stale_iteration (0.05s)
+    --- PASS: TestExecutionFaults/future_iteration (0.05s)
+    --- PASS: TestExecutionFaults/wrong_execution (0.05s)
+    --- PASS: TestExecutionFaults/wrong_partition (0.06s)
+    --- PASS: TestExecutionFaults/wrong_attempt (0.05s)
+    --- PASS: TestExecutionFaults/incomplete_counts (0.05s)
+    --- PASS: TestExecutionFaults/incompatible_dimensions (0.06s)
+    --- PASS: TestExecutionFaults/disconnect_transfer (0.05s)
+    --- PASS: TestExecutionFaults/disconnect_iteration (0.06s)
+    --- PASS: TestExecutionFaults/silent_node (1.05s)
+    --- PASS: TestExecutionFaults/cancel_context (0.05s)
+    --- PASS: TestExecutionFaults/coordinator_interruption (0.02s)
+=== RUN   TestServeStopsIdleAssignment
+--- PASS: TestServeStopsIdleAssignment (0.00s)
+PASS
+ok  	eas-aire/plataforma/internal/cluster	2.993s
+=== RUN   TestCacheMissHitExpiracionYPersistencia
+--- PASS: TestCacheMissHitExpiracionYPersistencia (2.13s)
+=== RUN   TestRedisNoDisponible
+--- PASS: TestRedisNoDisponible (0.02s)
+=== RUN   TestMongoNoDisponible
+--- PASS: TestMongoNoDisponible (0.50s)
+=== RUN   TestValidaciones
+--- PASS: TestValidaciones (0.00s)
+=== RUN   TestMongoEscrituraConsultaIndices
+--- PASS: TestMongoEscrituraConsultaIndices (0.02s)
+=== RUN   TestEstadosResultadoAtomico
+--- PASS: TestEstadosResultadoAtomico (0.02s)
+=== RUN   TestEjecucionFallida
+--- PASS: TestEjecucionFallida (0.01s)
+=== RUN   TestTransicionConcurrente
+--- PASS: TestTransicionConcurrente (0.02s)
+PASS
+ok  	eas-aire/plataforma/internal/persistencia	3.740s
+=== RUN   TestReadFragmentedAndConsecutiveFrames
+--- PASS: TestReadFragmentedAndConsecutiveFrames (0.00s)
+=== RUN   TestInvalidFrames
+=== RUN   TestInvalidFrames/empty
+=== RUN   TestInvalidFrames/oversized
+=== RUN   TestInvalidFrames/truncated
+=== RUN   TestInvalidFrames/malformed
+=== RUN   TestInvalidFrames/invalid_UTF-8
+=== RUN   TestInvalidFrames/unknown_fields
+=== RUN   TestInvalidFrames/multiple_objects
+=== RUN   TestInvalidFrames/unsupported_version
+=== RUN   TestInvalidFrames/invalid_ID
+=== RUN   TestInvalidFrames/missing_capacity
+--- PASS: TestInvalidFrames (0.00s)
+    --- PASS: TestInvalidFrames/empty (0.00s)
+    --- PASS: TestInvalidFrames/oversized (0.00s)
+    --- PASS: TestInvalidFrames/truncated (0.00s)
+    --- PASS: TestInvalidFrames/malformed (0.00s)
+    --- PASS: TestInvalidFrames/invalid_UTF-8 (0.00s)
+    --- PASS: TestInvalidFrames/unknown_fields (0.00s)
+    --- PASS: TestInvalidFrames/multiple_objects (0.00s)
+    --- PASS: TestInvalidFrames/unsupported_version (0.00s)
+    --- PASS: TestInvalidFrames/invalid_ID (0.00s)
+    --- PASS: TestInvalidFrames/missing_capacity (0.00s)
+PASS
+ok  	eas-aire/plataforma/internal/protocol	1.026s

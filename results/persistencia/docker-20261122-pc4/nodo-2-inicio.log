@@ -1,0 +1,3 @@
+command=docker.exe "run" "-dt" "--name" "pc4-docker-20261122-pc4-nodo-2" "--network" "pc4-docker-20261122-pc4-net" "--mount" "type=volume,source=pc4-docker-20261122-pc4-bin,target=/binout,readonly" "golang:1.27-bookworm" "sh" "-c" "while true; do /binout/node -coordinator api:9000 -id nodo-2 -interval 200ms -timeout 20s; sleep 1; done"
+exit=0
+3978e9ccb05830cd6520690aa0ea6ebc170b9ca259ab53153b5c40a0770a809c

@@ -1,0 +1,3 @@
+command=docker.exe "version" "--format" "{{.Client.Version}} / {{.Server.Version}}"
+exit=0
+29.8.2 / 29.8.2

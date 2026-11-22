@@ -1,0 +1,61 @@
+PERIODO: 1_hora
+Consulta de estado | queued | MongoDB | PASS: sin resultado ni caché
+Consulta de estado | running | MongoDB | PASS: sin resultado ni caché
+Primera consulta sin caché | completed | MongoDB | PASS
+Segunda consulta con caché | completed | Redis | PASS
+Consulta después de expirar | completed | MongoDB | PASS
+Consulta después de invalidar | completed | MongoDB | PASS
+Evidencia: /content/pc4_persistencia/evidencia_1_hora.json
+job_id: pc4-fe52bc418e5c1f555453c6ec3573570f
+
+                            caso     estado   fuente  ttl_ms  \
+0             Consulta de estado     queued  MongoDB      -2   
+1             Consulta de estado    running  MongoDB      -2   
+2     Primera consulta sin caché  completed  MongoDB    3000   
+3     Segunda consulta con caché  completed    Redis    2999   
+4    Consulta después de expirar  completed  MongoDB    3000   
+5  Consulta después de invalidar  completed  MongoDB    3000   
+
+                      resultado  
+0  PASS: sin resultado ni caché  
+1  PASS: sin resultado ni caché  
+2                          PASS  
+3                          PASS  
+4                          PASS  
+5                          PASS  
+Documento MongoDB: {"job_id": "pc4-fe52bc418e5c1f555453c6ec3573570f", "dataset_id": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204:1_hora", "parametros": {"k": 4, "semilla": 42, "tolerancia": 0.001, "max_iter": 100}, "estado": "completed", "creado": "2026-11-20T18:44:53.259Z", "actualizado": "2026-11-20T18:44:53.263Z", "resultado": {"centroides": [[541.6888822205555, 117.24969242310581], [18.480415299025292, 9.64450403409993], [185.7344724944855, 92.2620391334228], [80.52150335633091, 34.10091832929305]], "conteos": [1333, 330559, 27648, 85807], "iteraciones": 96, "inercia": 389845120.224682, "convergio": true, "segundos_carga": 0.322458613, "segundos_ml": 2.405376355, "origen": "referencia secuencial PC3 ejecutada en este cuaderno; no es clúster PC4"}}
+Clave Redis: eas_pc4_727b43dcd2:resultado:v1:pc4-fe52bc418e5c1f555453c6ec3573570f
+Índices: {"datasets": [{"key": {"_id": 1}, "name": "_id_", "v": 2}, {"key": {"sha256": 1, "periodo": 1}, "name": "dataset_hash_periodo", "unique": true, "v": 2}], "jobs": [{"key": {"_id": 1}, "name": "_id_", "v": 2}, {"key": {"dataset_id": 1, "creado": -1}, "name": "jobs_dataset_fecha", "v": 2}, {"key": {"estado": 1, "creado": -1}, "name": "jobs_estado_fecha", "v": 2}]}
+PERIODO: 24_horas
+Consulta de estado | queued | MongoDB | PASS: sin resultado ni caché
+Consulta de estado | running | MongoDB | PASS: sin resultado ni caché
+Primera consulta sin caché | completed | MongoDB | PASS
+Segunda consulta con caché | completed | Redis | PASS
+Consulta después de expirar | completed | MongoDB | PASS
+Consulta después de invalidar | completed | MongoDB | PASS
+Evidencia: /content/pc4_persistencia/evidencia_24_horas.json
+job_id: pc4-cb3963951da988f67ddaf64803906274
+
+                            caso     estado   fuente  ttl_ms  \
+0             Consulta de estado     queued  MongoDB      -2   
+1             Consulta de estado    running  MongoDB      -2   
+2     Primera consulta sin caché  completed  MongoDB    3000   
+3     Segunda consulta con caché  completed    Redis    2999   
+4    Consulta después de expirar  completed  MongoDB    3000   
+5  Consulta después de invalidar  completed  MongoDB    3000   
+
+                      resultado  
+0  PASS: sin resultado ni caché  
+1  PASS: sin resultado ni caché  
+2                          PASS  
+3                          PASS  
+4                          PASS  
+5                          PASS  
+Documento MongoDB: {"job_id": "pc4-cb3963951da988f67ddaf64803906274", "dataset_id": "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6:24_horas", "parametros": {"k": 4, "semilla": 42, "tolerancia": 0.001, "max_iter": 100}, "estado": "completed", "creado": "2026-11-20T18:44:56.403Z", "actualizado": "2026-11-20T18:44:56.406Z", "resultado": {"centroides": [[15.529418124857312, 8.366580451636068], [172.24817737877717, 93.17650844710258], [46.40252377017278, 19.04361110142695], [97.60514404721869, 40.91580267557603]], "conteos": [10075, 992, 4848, 2382], "iteraciones": 44, "inercia": 6283274.552233378, "convergio": true, "segundos_carga": 0.016948113, "segundos_ml": 0.05238215, "origen": "referencia secuencial PC3 ejecutada en este cuaderno; no es clúster PC4"}}
+Clave Redis: eas_pc4_727b43dcd2:resultado:v1:pc4-cb3963951da988f67ddaf64803906274
+Índices: {"datasets": [{"key": {"_id": 1}, "name": "_id_", "v": 2}, {"key": {"sha256": 1, "periodo": 1}, "name": "dataset_hash_periodo", "unique": true, "v": 2}], "jobs": [{"key": {"_id": 1}, "name": "_id_", "v": 2}, {"key": {"dataset_id": 1, "creado": -1}, "name": "jobs_dataset_fecha", "v": 2}, {"key": {"estado": 1, "creado": -1}, "name": "jobs_estado_fecha", "v": 2}]}
+
+    Periodo  Vectores     Estado Persistencia y caché
+0    1_hora    445347  completed                 PASS
+1  24_horas     18297  completed                 PASS
+Resultados guardados y recuperados correctamente.

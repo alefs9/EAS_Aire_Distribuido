@@ -1,0 +1,15 @@
+{
+  "notebook": "https://colab.research.google.com/drive/1buYE0xcebFx30bH_K65zK4uSz4u_VuUb",
+  "sha256_notebook_descargado": "fb0b6ecf3b1784ce4ce674a44235918c14559c37638be15093721c2c8460c0e4",
+  "indices_celdas_base_cero": [
+    1,
+    12,
+    14,
+    16,
+    18,
+    20
+  ],
+  "tipo": "extraccion de salidas guardadas; sin ejecutar el notebook",
+  "codigos_salida_originales_registrados": false,
+  "json_independientes_originales_recuperados": false
+}

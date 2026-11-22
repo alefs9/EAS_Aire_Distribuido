@@ -1,0 +1,3 @@
+command=docker.exe "network" "create" "pc4-docker-20261122-pc4-net"
+exit=0
+92a81114b0fe374d20dd61c161bf4915aa83713822d1c835a103f4df7f710674

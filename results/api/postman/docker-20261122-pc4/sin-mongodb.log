@@ -1,0 +1,38 @@
+command=npx.cmd "--yes" "newman@6.2.3" "run" "C:\Users\Alex\EAS_Aire_Distribuido\docs\pc4\postman\EAS_API_PC4.postman_collection.json" "-e" "C:\Users\Alex\EAS_Aire_Distribuido\docs\pc4\postman\EAS_local.postman_environment.json" "--env-var" "base_url=http://127.0.0.1:51223" "--folder" "2. Dependencia no disponible (manual)" "-n" "1" "-r" "cli,json" "--reporter-json-export" "C:\Users\Alex\EAS_Aire_Distribuido\results\api\postman\docker-20261122-pc4\sin-mongodb.json"
+exit=0
+(node:14240) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+EAS Aire Distribuido - API PC4
+
+□ 2. Dependencia no disponible (manual)
+└ Salud sin MongoDB (503)
+  GET http://127.0.0.1:51223/health [503 Service Unavailable, 234B, 524ms]
+  √  Código HTTP 503
+  √  MongoDB no disponible
+
+└ Crear sin MongoDB (503)
+  POST http://127.0.0.1:51223/jobs [503 Service Unavailable, 390B, 2s]
+  √  Código HTTP 503
+  √  Código almacen_no_disponible
+
+┌─────────────────────────┬────────────────────┬───────────────────┐
+│                         │           executed │            failed │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              iterations │                  1 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│                requests │                  2 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│            test-scripts │                  2 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│      prerequest-scripts │                  0 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              assertions │                  4 │                 0 │
+├─────────────────────────┴────────────────────┴───────────────────┤
+│ total run duration: 2.6s                                         │
+├──────────────────────────────────────────────────────────────────┤
+│ total data received: 343B (approx)                               │
+├──────────────────────────────────────────────────────────────────┤
+│ average response time: 1264ms [min: 524ms, max: 2s, s.d.: 740ms] │
+└──────────────────────────────────────────────────────────────────┘

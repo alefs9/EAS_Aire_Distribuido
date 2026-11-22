@@ -1,0 +1,270 @@
+command=docker.exe "logs" "pc4-docker-20261122-pc4-nodo-2"
+exit=0
+2026/11/22 21:01:45 starting node_id="nodo-2" coordinator=api:9000 pid=7
+2026/11/22 21:01:45 REGISTERED node_id=nodo-2 ts=0
+2026/11/22 21:01:45 HEARTBEAT_ACK node_id=nodo-2 ts=1795381305847039879
+2026/11/22 21:01:46 HEARTBEAT_ACK node_id=nodo-2 ts=1795381306046838486
+2026/11/22 21:01:46 HEARTBEAT_ACK node_id=nodo-2 ts=1795381306247749865
+2026/11/22 21:01:46 HEARTBEAT_ACK node_id=nodo-2 ts=1795381306447581931
+2026/11/22 21:01:46 HEARTBEAT_ACK node_id=nodo-2 ts=1795381306647362902
+2026/11/22 21:01:46 HEARTBEAT_ACK node_id=nodo-2 ts=1795381306846995393
+2026/11/22 21:01:47 HEARTBEAT_ACK node_id=nodo-2 ts=1795381307046952949
+2026/11/22 21:01:47 HEARTBEAT_ACK node_id=nodo-2 ts=1795381307246868736
+2026/11/22 21:01:47 HEARTBEAT_ACK node_id=nodo-2 ts=1795381307447809757
+2026/11/22 21:01:47 HEARTBEAT_ACK node_id=nodo-2 ts=1795381307647582879
+2026/11/22 21:01:47 HEARTBEAT_ACK node_id=nodo-2 ts=1795381307847753269
+2026/11/22 21:01:48 HEARTBEAT_ACK node_id=nodo-2 ts=1795381308047571471
+2026/11/22 21:01:48 HEARTBEAT_ACK node_id=nodo-2 ts=1795381308247141447
+2026/11/22 21:01:48 HEARTBEAT_ACK node_id=nodo-2 ts=1795381308446892328
+2026/11/22 21:01:48 HEARTBEAT_ACK node_id=nodo-2 ts=1795381308646928304
+2026/11/22 21:01:48 HEARTBEAT_ACK node_id=nodo-2 ts=1795381308847862324
+2026/11/22 21:01:49 HEARTBEAT_ACK node_id=nodo-2 ts=1795381309048058624
+2026/11/22 21:01:49 HEARTBEAT_ACK node_id=nodo-2 ts=1795381309247805494
+2026/11/22 21:01:49 HEARTBEAT_ACK node_id=nodo-2 ts=1795381309446909365
+2026/11/22 21:01:49 HEARTBEAT_ACK node_id=nodo-2 ts=1795381309647793203
+2026/11/22 21:01:49 HEARTBEAT_ACK node_id=nodo-2 ts=1795381309847720471
+2026/11/22 21:01:50 HEARTBEAT_ACK node_id=nodo-2 ts=1795381310047557709
+2026/11/22 21:01:50 HEARTBEAT_ACK node_id=nodo-2 ts=1795381310248283788
+2026/11/22 21:01:50 HEARTBEAT_ACK node_id=nodo-2 ts=1795381310446924342
+2026/11/22 21:01:50 HEARTBEAT_ACK node_id=nodo-2 ts=1795381310647697046
+2026/11/22 21:01:50 HEARTBEAT_ACK node_id=nodo-2 ts=1795381310847493217
+2026/11/22 21:01:50 ASSIGNED node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=0 rows=0
+2026/11/22 21:01:51 READY node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=0 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=1 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=2 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=3 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=4 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=5 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=6 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=7 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=8 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=9 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=10 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=11 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=12 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=13 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=14 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=15 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=16 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=17 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=18 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=19 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=20 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=21 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=22 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=23 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=24 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=25 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=26 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=27 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=28 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=29 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=30 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=31 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=32 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=33 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=34 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=35 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=36 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=37 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=38 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=39 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=40 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=41 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=42 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=43 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=44 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=45 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=46 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=47 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=48 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=49 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=50 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=51 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=52 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=53 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=54 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=55 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=56 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=57 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=58 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=59 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=60 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=61 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=62 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=63 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=64 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=65 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=66 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=67 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=68 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=69 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=70 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=71 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=72 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=73 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=74 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=75 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=76 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=77 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=78 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=79 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=80 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=81 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=82 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=83 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=84 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=85 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=86 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=87 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=88 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=89 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=90 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=91 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=92 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=93 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=94 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=95 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=96 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=97 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=98 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=99 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=100 rows=222673
+2026/11/22 21:01:51 PARTIAL node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=101 rows=222673
+2026/11/22 21:01:51 FINISHED node_id=nodo-2 job_id=0e3b8e3ee52b261484650e61ccb14d2f partition=1 iteration=101 rows=222673
+2026/11/22 21:01:51 BYE_ACK node_id=nodo-2 ts=0
+2026/11/22 21:01:51 node stopped node_id=nodo-2
+2026/11/22 21:01:52 starting node_id="nodo-2" coordinator=api:9000 pid=19
+2026/11/22 21:01:52 REGISTERED node_id=nodo-2 ts=0
+2026/11/22 21:01:52 HEARTBEAT_ACK node_id=nodo-2 ts=1795381312794240031
+2026/11/22 21:01:52 ASSIGNED node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=0 rows=0
+2026/11/22 21:01:52 READY node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=0 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=1 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=2 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=3 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=4 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=5 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=6 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=7 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=8 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=9 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=10 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=11 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=12 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=13 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=14 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=15 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=16 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=17 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=18 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=19 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=20 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=21 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=22 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=23 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=24 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=25 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=26 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=27 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=28 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=29 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=30 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=31 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=32 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=33 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=34 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=35 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=36 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=37 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=38 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=39 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=40 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=41 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=42 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=43 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=44 rows=9148
+2026/11/22 21:01:52 PARTIAL node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=45 rows=9148
+2026/11/22 21:01:52 FINISHED node_id=nodo-2 job_id=9f80575e70d3887bb110cd9121dc1c09 partition=1 iteration=45 rows=9148
+2026/11/22 21:01:52 BYE_ACK node_id=nodo-2 ts=0
+2026/11/22 21:01:52 node stopped node_id=nodo-2
+2026/11/22 21:01:53 starting node_id="nodo-2" coordinator=api:9000 pid=28
+2026/11/22 21:01:53 REGISTERED node_id=nodo-2 ts=0
+2026/11/22 21:01:54 HEARTBEAT_ACK node_id=nodo-2 ts=1795381314036714262
+2026/11/22 21:01:54 HEARTBEAT_ACK node_id=nodo-2 ts=1795381314236502571
+2026/11/22 21:01:54 HEARTBEAT_ACK node_id=nodo-2 ts=1795381314436492457
+2026/11/22 21:01:54 HEARTBEAT_ACK node_id=nodo-2 ts=1795381314636916870
+2026/11/22 21:01:54 HEARTBEAT_ACK node_id=nodo-2 ts=1795381314837049876
+2026/11/22 21:01:55 HEARTBEAT_ACK node_id=nodo-2 ts=1795381315035168738
+2026/11/22 21:01:55 HEARTBEAT_ACK node_id=nodo-2 ts=1795381315235010127
+2026/11/22 21:01:55 HEARTBEAT_ACK node_id=nodo-2 ts=1795381315435195655
+2026/11/22 21:01:55 HEARTBEAT_ACK node_id=nodo-2 ts=1795381315635222615
+2026/11/22 21:01:55 HEARTBEAT_ACK node_id=nodo-2 ts=1795381315835284144
+2026/11/22 21:01:56 HEARTBEAT_ACK node_id=nodo-2 ts=1795381316035494696
+2026/11/22 21:01:56 HEARTBEAT_ACK node_id=nodo-2 ts=1795381316235563396
+2026/11/22 21:01:56 HEARTBEAT_ACK node_id=nodo-2 ts=1795381316435519584
+2026/11/22 21:01:56 HEARTBEAT_ACK node_id=nodo-2 ts=1795381316635328622
+2026/11/22 21:01:56 HEARTBEAT_ACK node_id=nodo-2 ts=1795381316835142202
+2026/11/22 21:01:57 HEARTBEAT_ACK node_id=nodo-2 ts=1795381317034810757
+2026/11/22 21:01:57 HEARTBEAT_ACK node_id=nodo-2 ts=1795381317234770673
+2026/11/22 21:01:57 HEARTBEAT_ACK node_id=nodo-2 ts=1795381317435149732
+2026/11/22 21:01:57 HEARTBEAT_ACK node_id=nodo-2 ts=1795381317634784237
+2026/11/22 21:01:57 HEARTBEAT_ACK node_id=nodo-2 ts=1795381317834782065
+2026/11/22 21:01:58 HEARTBEAT_ACK node_id=nodo-2 ts=1795381318034809009
+2026/11/22 21:01:58 HEARTBEAT_ACK node_id=nodo-2 ts=1795381318234802273
+2026/11/22 21:01:58 HEARTBEAT_ACK node_id=nodo-2 ts=1795381318434814072
+2026/11/22 21:01:58 HEARTBEAT_ACK node_id=nodo-2 ts=1795381318635318073
+2026/11/22 21:01:58 HEARTBEAT_ACK node_id=nodo-2 ts=1795381318835214370
+2026/11/22 21:01:59 HEARTBEAT_ACK node_id=nodo-2 ts=1795381319035079028
+2026/11/22 21:01:59 HEARTBEAT_ACK node_id=nodo-2 ts=1795381319234843191
+2026/11/22 21:01:59 HEARTBEAT_ACK node_id=nodo-2 ts=1795381319434831340
+2026/11/22 21:01:59 HEARTBEAT_ACK node_id=nodo-2 ts=1795381319634822960
+2026/11/22 21:01:59 HEARTBEAT_ACK node_id=nodo-2 ts=1795381319834832638
+2026/11/22 21:02:00 HEARTBEAT_ACK node_id=nodo-2 ts=1795381320034950793
+2026/11/22 21:02:00 HEARTBEAT_ACK node_id=nodo-2 ts=1795381320235365616
+2026/11/22 21:02:00 HEARTBEAT_ACK node_id=nodo-2 ts=1795381320434757937
+2026/11/22 21:02:00 HEARTBEAT_ACK node_id=nodo-2 ts=1795381320635238835
+2026/11/22 21:02:00 HEARTBEAT_ACK node_id=nodo-2 ts=1795381320835199027
+2026/11/22 21:02:01 HEARTBEAT_ACK node_id=nodo-2 ts=1795381321035201359
+2026/11/22 21:02:01 HEARTBEAT_ACK node_id=nodo-2 ts=1795381321235533582
+2026/11/22 21:02:01 HEARTBEAT_ACK node_id=nodo-2 ts=1795381321434881761
+2026/11/22 21:02:01 HEARTBEAT_ACK node_id=nodo-2 ts=1795381321635627163
+2026/11/22 21:02:01 HEARTBEAT_ACK node_id=nodo-2 ts=1795381321834647118
+2026/11/22 21:02:02 HEARTBEAT_ACK node_id=nodo-2 ts=1795381322035193524
+2026/11/22 21:02:02 HEARTBEAT_ACK node_id=nodo-2 ts=1795381322234664111
+2026/11/22 21:02:02 HEARTBEAT_ACK node_id=nodo-2 ts=1795381322435748489
+2026/11/22 21:02:02 HEARTBEAT_ACK node_id=nodo-2 ts=1795381322634842915
+2026/11/22 21:02:02 HEARTBEAT_ACK node_id=nodo-2 ts=1795381322835125664
+2026/11/22 21:02:03 HEARTBEAT_ACK node_id=nodo-2 ts=1795381323035213167
+2026/11/22 21:02:03 HEARTBEAT_ACK node_id=nodo-2 ts=1795381323234844603
+2026/11/22 21:02:03 HEARTBEAT_ACK node_id=nodo-2 ts=1795381323434804321
+2026/11/22 21:02:03 HEARTBEAT_ACK node_id=nodo-2 ts=1795381323634640090
+2026/11/22 21:02:03 HEARTBEAT_ACK node_id=nodo-2 ts=1795381323834607472
+2026/11/22 21:02:04 HEARTBEAT_ACK node_id=nodo-2 ts=1795381324035603661
+2026/11/22 21:02:04 HEARTBEAT_ACK node_id=nodo-2 ts=1795381324235590645
+2026/11/22 21:02:04 HEARTBEAT_ACK node_id=nodo-2 ts=1795381324435377627
+2026/11/22 21:02:04 HEARTBEAT_ACK node_id=nodo-2 ts=1795381324635471457
+2026/11/22 21:02:04 HEARTBEAT_ACK node_id=nodo-2 ts=1795381324834657799
+2026/11/22 21:02:05 HEARTBEAT_ACK node_id=nodo-2 ts=1795381325034734977
+2026/11/22 21:02:05 HEARTBEAT_ACK node_id=nodo-2 ts=1795381325234634624
+2026/11/22 21:02:05 HEARTBEAT_ACK node_id=nodo-2 ts=1795381325435591437
+2026/11/22 21:02:05 HEARTBEAT_ACK node_id=nodo-2 ts=1795381325635439713
+2026/11/22 21:02:05 HEARTBEAT_ACK node_id=nodo-2 ts=1795381325835436262
+2026/11/22 21:02:06 HEARTBEAT_ACK node_id=nodo-2 ts=1795381326035548391
+2026/11/22 21:02:06 HEARTBEAT_ACK node_id=nodo-2 ts=1795381326235461268
+2026/11/22 21:02:06 HEARTBEAT_ACK node_id=nodo-2 ts=1795381326435434607
+2026/11/22 21:02:06 HEARTBEAT_ACK node_id=nodo-2 ts=1795381326635284751
+2026/11/22 21:02:06 HEARTBEAT_ACK node_id=nodo-2 ts=1795381326835146235
+2026/11/22 21:02:07 HEARTBEAT_ACK node_id=nodo-2 ts=1795381327035129472
+2026/11/22 21:02:07 HEARTBEAT_ACK node_id=nodo-2 ts=1795381327235166623
+2026/11/22 21:02:07 HEARTBEAT_ACK node_id=nodo-2 ts=1795381327435125221
+2026/11/22 21:02:07 HEARTBEAT_ACK node_id=nodo-2 ts=1795381327635211360
+2026/11/22 21:02:07 HEARTBEAT_ACK node_id=nodo-2 ts=1795381327835270027
+2026/11/22 21:02:08 HEARTBEAT_ACK node_id=nodo-2 ts=1795381328035269868
+2026/11/22 21:02:08 HEARTBEAT_ACK node_id=nodo-2 ts=1795381328235118871
+2026/11/22 21:02:08 HEARTBEAT_ACK node_id=nodo-2 ts=1795381328435287899
+2026/11/22 21:02:08 HEARTBEAT_ACK node_id=nodo-2 ts=1795381328635237196
+2026/11/22 21:02:08 HEARTBEAT_ACK node_id=nodo-2 ts=1795381328835050807
+2026/11/22 21:02:09 HEARTBEAT_ACK node_id=nodo-2 ts=1795381329034788451
+2026/11/22 21:02:09 HEARTBEAT_ACK node_id=nodo-2 ts=1795381329234644296
+2026/11/22 21:02:09 HEARTBEAT_ACK node_id=nodo-2 ts=1795381329435664803
+2026/11/22 21:02:09 HEARTBEAT_ACK node_id=nodo-2 ts=1795381329635334431

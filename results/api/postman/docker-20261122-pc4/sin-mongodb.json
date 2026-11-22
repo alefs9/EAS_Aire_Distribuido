@@ -1,0 +1,1509 @@
+{
+  "collection": {
+    "item": [
+      {
+        "id": "c83cc50e-cd8e-49d3-8e80-c649dd479eb8",
+        "name": "1. Funcionales",
+        "item": [
+          {
+            "id": "312c4c7c-73ac-410f-a755-29ae1b5fa48f",
+            "name": "Salud del servicio",
+            "request": {
+              "url": {
+                "path": [
+                  "health"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "e9b89c35-28a6-435b-90d2-0b59c8435404",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "pm.test('MongoDB disponible', () => pm.expect(pm.response.json().dependencias.mongodb).to.eql('ok'));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "5424a033-b9ff-4d67-93a3-9bc72de65b90",
+            "name": "Crear ejecución horaria",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"periodo\": \"1_hora\",\n  \"k\": 4,\n  \"semilla\": 42,\n  \"tolerancia\": 0.0001,\n  \"max_iter\": 100,\n  \"nodos\": 2\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "5e45acf7-8cd5-409e-b5e4-9fba068a4925",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 202', () => pm.response.to.have.status(202));",
+                    "const j = pm.response.json(); pm.environment.set('job_horario', j.job_id);",
+                    "pm.test('Estado inicial queued', () => pm.expect(j.estado).to.eql('queued'));",
+                    "pm.test('Cabecera Location', () => pm.response.to.have.header('Location'));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "307a33ef-4acd-47d4-90d9-2bb7a63661a9",
+            "name": "Resultado pendiente (409)",
+            "request": {
+              "description": {
+                "content": "Ejecutar inmediatamente después de crear la ejecución horaria.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "jobs",
+                  "{{job_horario}}",
+                  "results"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "f45a1a05-749c-4f8b-a5ac-f8b06112efff",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 409', () => pm.response.to.have.status(409));",
+                    "pm.test('Estado queued o running', () => pm.expect(['queued','running']).to.include(pm.response.json().estado));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "0d602a5e-b8a4-48c8-91a2-b61577d30af9",
+            "name": "Estado de la ejecución",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs",
+                  "{{job_horario}}"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "9a46b133-3904-4c95-9768-b0044939850a",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Estado válido', () => pm.expect(['queued','running','completed']).to.include(pm.response.json().trabajo.estado));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "8c08ce2c-0297-41df-8e78-3f9ebefca104",
+            "name": "Esperar resultado final horario",
+            "request": {
+              "description": {
+                "content": "Repite la consulta cada segundo mientras responda 409 (máximo 60 intentos).",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "jobs",
+                  "{{job_horario}}",
+                  "results"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "9452824c-7c9e-4531-9d4d-8f4878a0ab78",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const n = Number(pm.environment.get('reintentos') || 0);",
+                    "if (pm.response.code === 409 && n < 60) {",
+                    "  pm.environment.set('reintentos', n + 1);",
+                    "  setTimeout(() => {}, 1000);",
+                    "  pm.execution.setNextRequest(pm.info.requestName);",
+                    "  return;",
+                    "}",
+                    "pm.environment.set('reintentos', 0);",
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "const r = pm.response.json().resultado;",
+                    "pm.test('Centroides y conteos por clúster', () => { pm.expect(r.centroides.length).to.eql(r.conteos.length); });",
+                    "pm.test('Fuente informada', () => pm.expect(['Redis','MongoDB','memoria']).to.include(pm.response.json().fuente));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "0a676ab8-a8bb-40e3-97ae-081d59b491ca",
+            "name": "Crear ejecución de 24 horas",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"periodo\": \"24_horas\",\n  \"k\": 4\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "39454ac6-e9ed-4d3e-b5c4-76921c1d055d",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 202', () => pm.response.to.have.status(202));",
+                    "const j = pm.response.json(); pm.environment.set('job_id', j.job_id);",
+                    "pm.test('Estado inicial queued', () => pm.expect(j.estado).to.eql('queued'));",
+                    "pm.test('Cabecera Location', () => pm.response.to.have.header('Location'));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "3454ed96-2079-409a-9fcf-c9f8fbeae240",
+            "name": "Esperar resultado final 24 horas",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs",
+                  "{{job_id}}",
+                  "results"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "208e334f-4b2c-4997-b265-450fb43c954e",
+                  "type": "text/javascript",
+                  "exec": [
+                    "const n = Number(pm.environment.get('reintentos') || 0);",
+                    "if (pm.response.code === 409 && n < 60) {",
+                    "  pm.environment.set('reintentos', n + 1);",
+                    "  setTimeout(() => {}, 1000);",
+                    "  pm.execution.setNextRequest(pm.info.requestName);",
+                    "  return;",
+                    "}",
+                    "pm.environment.set('reintentos', 0);",
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "const r = pm.response.json().resultado;",
+                    "pm.test('Centroides y conteos por clúster', () => { pm.expect(r.centroides.length).to.eql(r.conteos.length); });",
+                    "pm.test('Fuente informada', () => pm.expect(['Redis','MongoDB','memoria']).to.include(pm.response.json().fuente));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "a81e5552-eaa5-46dd-b16b-69aa0e21c5d9",
+            "name": "Resultado con caché (Redis)",
+            "request": {
+              "description": {
+                "content": "Segunda lectura del mismo resultado: debe venir de Redis mientras no venza el TTL.",
+                "type": "text/plain"
+              },
+              "url": {
+                "path": [
+                  "jobs",
+                  "{{job_id}}",
+                  "results"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "ec44802e-19c5-4918-8ec3-9f17f76b28a4",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Leído desde Redis', () => pm.expect(pm.response.json().fuente).to.eql('Redis'));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "388a889d-761e-4c2e-94fc-5132f87fcb44",
+            "name": "Parámetros inválidos",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"periodo\": \"semanal\",\n  \"k\": 99\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "334cbceb-5bdf-4730-9df3-faf789c9280c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 400', () => pm.response.to.have.status(400));",
+                    "pm.test('Código parametros_invalidos', () => pm.expect(pm.response.json().codigo).to.eql('parametros_invalidos'));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "78deb8e4-fa32-4d2b-8073-8e6c08551c30",
+            "name": "Campo desconocido",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"k\": 4,\n  \"workers\": 8\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "351295b1-3a13-42dd-aebb-d8d924777c24",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 400', () => pm.response.to.have.status(400));",
+                    "pm.test('Código json_invalido', () => pm.expect(pm.response.json().codigo).to.eql('json_invalido'));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "de355407-28fd-45fb-8dc3-436ad7484d30",
+            "name": "Identificador inexistente",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs",
+                  "pc4-no-existe"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "98d986c1-5ef0-41b6-b89e-9731b03f8f3c",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 404', () => pm.response.to.have.status(404));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "86ece24f-243c-430f-82ec-04ac7de81162",
+        "name": "2. Dependencia no disponible (manual)",
+        "description": {
+          "content": "Detener MongoDB antes de ejecutar: docker stop eas-mongo. Volver a iniciarlo después: docker start eas-mongo.",
+          "type": "text/plain"
+        },
+        "item": [
+          {
+            "id": "8e8ef440-6d02-406a-9c8b-519e54010063",
+            "name": "Salud sin MongoDB (503)",
+            "request": {
+              "url": {
+                "path": [
+                  "health"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "dc97b637-b932-44b8-bede-738b028a72e2",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 503', () => pm.response.to.have.status(503));",
+                    "pm.test('MongoDB no disponible', () => pm.expect(pm.response.json().dependencias.mongodb).to.eql('no disponible'));"
+                  ],
+                  "_lastExecutionId": "791d10ed-91b3-4701-8203-857152f20540"
+                }
+              }
+            ]
+          },
+          {
+            "id": "600fe9ac-99e8-4489-a651-5fac2d2f070e",
+            "name": "Crear sin MongoDB (503)",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "POST",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"periodo\": \"24_horas\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "7821293d-4649-4c3e-90bd-2d7ceddbba8b",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 503', () => pm.response.to.have.status(503));",
+                    "pm.test('Código almacen_no_disponible', () => pm.expect(pm.response.json().codigo).to.eql('almacen_no_disponible'));"
+                  ],
+                  "_lastExecutionId": "c02a4e5b-56e0-4be7-b83b-e9f5bfeeeb0b"
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      },
+      {
+        "id": "2908252a-6962-49b3-b175-1e949ccd4b4f",
+        "name": "3. Latencia (Runner, 30 iteraciones)",
+        "description": {
+          "content": "Ejecutar después de la carpeta 1 para que job_id tenga un resultado completado. Collection Runner > esta carpeta > Iterations: 30 > Run > Export Results.",
+          "type": "text/plain"
+        },
+        "item": [
+          {
+            "id": "9dcd1dd1-37e0-464e-a78f-7b683a2e965d",
+            "name": "GET /health",
+            "request": {
+              "url": {
+                "path": [
+                  "health"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "fc302837-8634-4a7e-8ec5-3c690496542b",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "c6c46245-ac7a-4dec-8b63-93a6e914a452",
+            "name": "GET /jobs/{id}",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs",
+                  "{{job_id}}"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "085cd0a6-a0e8-481b-acca-25a6ca8eb703",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "b27ba6d1-b7ae-4286-b7dc-448dd6408908",
+            "name": "GET /jobs/{id}/results",
+            "request": {
+              "url": {
+                "path": [
+                  "jobs",
+                  "{{job_id}}",
+                  "results"
+                ],
+                "host": [
+                  "{{base_url}}"
+                ],
+                "query": [],
+                "variable": []
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "method": "GET"
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "id": "c6210f0f-93e7-4625-b46e-5aacba22dccb",
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+                    "pm.test('Latencia menor a 100 ms', () => pm.expect(pm.response.responseTime).to.be.below(100));"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ],
+    "event": [],
+    "variable": [],
+    "info": {
+      "_postman_id": "5213d4d1-06f1-4645-9aab-9761361aad96",
+      "name": "EAS Aire Distribuido - API PC4",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "description": {
+        "content": "Pruebas funcionales y de latencia de la API coordinadora. Usar con el entorno 'EAS local'. Los nodos deben estar ejecutándose (scripts/api/nodo-en-bucle.ps1).",
+        "type": "text/plain"
+      }
+    }
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment"
+    },
+    "id": "5e2e6410-753a-43cd-8fac-5c2ed9c6657c",
+    "name": "EAS local",
+    "values": [
+      {
+        "type": "any",
+        "value": "http://127.0.0.1:51223",
+        "key": "base_url"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "job_id"
+      },
+      {
+        "type": "any",
+        "value": "",
+        "key": "job_horario"
+      },
+      {
+        "type": "any",
+        "value": "0",
+        "key": "reintentos"
+      }
+    ]
+  },
+  "globals": {
+    "id": "8b9368fb-8198-496b-b561-b8eccb83eefb",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 4,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 2,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 1264,
+      "responseMin": 524,
+      "responseMax": 2004,
+      "responseSd": 740,
+      "dnsAverage": 0,
+      "dnsMin": 0,
+      "dnsMax": 0,
+      "dnsSd": 0,
+      "firstByteAverage": 0,
+      "firstByteMin": 0,
+      "firstByteMax": 0,
+      "firstByteSd": 0,
+      "started": 1795381326031,
+      "completed": 1795381328687
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 2,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "6f504501-b71c-4cee-86aa-6ad1faf40a34",
+          "httpRequestId": "1061f7a7-aa24-4d44-a9c8-991a17f90727"
+        },
+        "item": {
+          "id": "8e8ef440-6d02-406a-9c8b-519e54010063",
+          "name": "Salud sin MongoDB (503)",
+          "request": {
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "dc97b637-b932-44b8-bede-738b028a72e2",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 503', () => pm.response.to.have.status(503));",
+                  "pm.test('MongoDB no disponible', () => pm.expect(pm.response.json().dependencias.mongodb).to.eql('no disponible'));"
+                ],
+                "_lastExecutionId": "791d10ed-91b3-4701-8203-857152f20540"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "51223",
+            "path": [
+              "health"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "d54de1c2-56ec-48e2-a5e3-e62cbb889856",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:51223",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            }
+          ],
+          "method": "GET"
+        },
+        "response": {
+          "id": "4313dc9f-60e9-40d9-8d16-2dc5cbae8e0c",
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 22 Nov 2026 21:02:06 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "94"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              100,
+              101,
+              112,
+              101,
+              110,
+              100,
+              101,
+              110,
+              99,
+              105,
+              97,
+              115,
+              34,
+              58,
+              123,
+              34,
+              109,
+              111,
+              110,
+              103,
+              111,
+              100,
+              98,
+              34,
+              58,
+              34,
+              110,
+              111,
+              32,
+              100,
+              105,
+              115,
+              112,
+              111,
+              110,
+              105,
+              98,
+              108,
+              101,
+              34,
+              44,
+              34,
+              114,
+              101,
+              100,
+              105,
+              115,
+              34,
+              58,
+              34,
+              110,
+              111,
+              32,
+              100,
+              105,
+              115,
+              112,
+              111,
+              110,
+              105,
+              98,
+              108,
+              101,
+              34,
+              125,
+              44,
+              34,
+              101,
+              115,
+              116,
+              97,
+              100,
+              111,
+              34,
+              58,
+              34,
+              110,
+              111,
+              32,
+              100,
+              105,
+              115,
+              112,
+              111,
+              110,
+              105,
+              98,
+              108,
+              101,
+              34,
+              125,
+              10
+            ]
+          },
+          "cookie": [],
+          "responseTime": 524,
+          "responseSize": 94
+        },
+        "id": "8e8ef440-6d02-406a-9c8b-519e54010063",
+        "assertions": [
+          {
+            "assertion": "Código HTTP 503",
+            "skipped": false
+          },
+          {
+            "assertion": "MongoDB no disponible",
+            "skipped": false
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "3529c654-dbe8-4671-bd03-73c70ee2e835",
+          "length": 2,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0,
+          "httpRequestId": "0a003bc5-73a4-4529-aa2b-5cf93d31677b"
+        },
+        "item": {
+          "id": "600fe9ac-99e8-4489-a651-5fac2d2f070e",
+          "name": "Crear sin MongoDB (503)",
+          "request": {
+            "url": {
+              "path": [
+                "jobs"
+              ],
+              "host": [
+                "{{base_url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"periodo\": \"24_horas\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "7821293d-4649-4c3e-90bd-2d7ceddbba8b",
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Código HTTP 503', () => pm.response.to.have.status(503));",
+                  "pm.test('Código almacen_no_disponible', () => pm.expect(pm.response.json().codigo).to.eql('almacen_no_disponible'));"
+                ],
+                "_lastExecutionId": "c02a4e5b-56e0-4be7-b83b-e9f5bfeeeb0b"
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": {
+            "protocol": "http",
+            "port": "51223",
+            "path": [
+              "jobs"
+            ],
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "query": [],
+            "variable": []
+          },
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/7.39.1",
+              "system": true
+            },
+            {
+              "key": "Accept",
+              "value": "*/*",
+              "system": true
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache",
+              "system": true
+            },
+            {
+              "key": "Postman-Token",
+              "value": "27ff4a27-7393-4313-8743-476bcc5e5d02",
+              "system": true
+            },
+            {
+              "key": "Host",
+              "value": "127.0.0.1:51223",
+              "system": true
+            },
+            {
+              "key": "Accept-Encoding",
+              "value": "gzip, deflate, br",
+              "system": true
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive",
+              "system": true
+            },
+            {
+              "key": "Content-Length",
+              "value": "27",
+              "system": true
+            }
+          ],
+          "method": "POST",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"periodo\": \"24_horas\"\n}",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          }
+        },
+        "response": {
+          "id": "1b4f07e0-8796-4b62-a22b-b07d67a062d9",
+          "status": "Service Unavailable",
+          "code": 503,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 22 Nov 2026 21:02:08 GMT"
+            },
+            {
+              "key": "Content-Length",
+              "value": "249"
+            }
+          ],
+          "stream": {
+            "type": "Buffer",
+            "data": [
+              123,
+              34,
+              99,
+              111,
+              100,
+              105,
+              103,
+              111,
+              34,
+              58,
+              34,
+              97,
+              108,
+              109,
+              97,
+              99,
+              101,
+              110,
+              95,
+              110,
+              111,
+              95,
+              100,
+              105,
+              115,
+              112,
+              111,
+              110,
+              105,
+              98,
+              108,
+              101,
+              34,
+              44,
+              34,
+              101,
+              114,
+              114,
+              111,
+              114,
+              34,
+              58,
+              34,
+              115,
+              101,
+              114,
+              118,
+              101,
+              114,
+              32,
+              115,
+              101,
+              108,
+              101,
+              99,
+              116,
+              105,
+              111,
+              110,
+              32,
+              101,
+              114,
+              114,
+              111,
+              114,
+              58,
+              32,
+              99,
+              111,
+              110,
+              116,
+              101,
+              120,
+              116,
+              32,
+              100,
+              101,
+              97,
+              100,
+              108,
+              105,
+              110,
+              101,
+              32,
+              101,
+              120,
+              99,
+              101,
+              101,
+              100,
+              101,
+              100,
+              44,
+              32,
+              99,
+              117,
+              114,
+              114,
+              101,
+              110,
+              116,
+              32,
+              116,
+              111,
+              112,
+              111,
+              108,
+              111,
+              103,
+              121,
+              58,
+              32,
+              123,
+              32,
+              84,
+              121,
+              112,
+              101,
+              58,
+              32,
+              83,
+              105,
+              110,
+              103,
+              108,
+              101,
+              44,
+              32,
+              83,
+              101,
+              114,
+              118,
+              101,
+              114,
+              115,
+              58,
+              32,
+              91,
+              123,
+              32,
+              65,
+              100,
+              100,
+              114,
+              58,
+              32,
+              109,
+              111,
+              110,
+              103,
+              111,
+              58,
+              50,
+              55,
+              48,
+              49,
+              55,
+              44,
+              32,
+              84,
+              121,
+              112,
+              101,
+              58,
+              32,
+              85,
+              110,
+              107,
+              110,
+              111,
+              119,
+              110,
+              44,
+              32,
+              76,
+              97,
+              115,
+              116,
+              32,
+              101,
+              114,
+              114,
+              111,
+              114,
+              58,
+              32,
+              100,
+              105,
+              97,
+              108,
+              32,
+              116,
+              99,
+              112,
+              58,
+              32,
+              108,
+              111,
+              111,
+              107,
+              117,
+              112,
+              32,
+              109,
+              111,
+              110,
+              103,
+              111,
+              32,
+              111,
+              110,
+              32,
+              49,
+              50,
+              55,
+              46,
+              48,
+              46,
+              48,
+              46,
+              49,
+              49,
+              58,
+              53,
+              51,
+              58,
+              32,
+              110,
+              111,
+              32,
+              115,
+              117,
+              99,
+              104,
+              32,
+              104,
+              111,
+              115,
+              116,
+              32,
+              125,
+              44,
+              32,
+              93,
+              32,
+              125,
+              34,
+              125,
+              10
+            ]
+          },
+          "cookie": [],
+          "responseTime": 2004,
+          "responseSize": 249
+        },
+        "id": "600fe9ac-99e8-4489-a651-5fac2d2f070e",
+        "assertions": [
+          {
+            "assertion": "Código HTTP 503",
+            "skipped": false
+          },
+          {
+            "assertion": "Código almacen_no_disponible",
+            "skipped": false
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 343
+    },
+    "failures": [],
+    "error": null
+  }
+}

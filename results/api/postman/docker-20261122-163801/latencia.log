@@ -1,0 +1,538 @@
+command=npx.cmd "--yes" "newman@6.2.3" "run" "C:\Users\Alex\EAS_Aire_Distribuido\docs\pc4\postman\EAS_API_PC4.postman_collection.json" "-e" "C:\Users\Alex\EAS_Aire_Distribuido\results\api\postman\docker-20261122-163801\entorno-final.json" "--env-var" "base_url=http://127.0.0.1:63809" "--folder" "3. Latencia (Runner, 30 iteraciones)" "-n" "30" "-r" "cli,json" "--reporter-json-export" "C:\Users\Alex\EAS_Aire_Distribuido\results\api\postman\docker-20261122-163801\latencia.json"
+exit=0
+(node:6204) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+EAS Aire Distribuido - API PC4
+
+Iteration 1/30
+
+□ 3. Latencia (Runner, 30 iteraciones)
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 28ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 2/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 3/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 4/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 5/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 6/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 7/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 8/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 9/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 10/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 2ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 11/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 2ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 12/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 13/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 14/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 2ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 15/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 16/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 17/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 6ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 6ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 18/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 19/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 20/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 6ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 21/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 6ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 22/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 2ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 23/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 24/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 25/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 26/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 7ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 2ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 27/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 4ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 28/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 7ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 29/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+Iteration 30/30
+
+└ GET /health
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 3ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d [200 OK, 459B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+└ GET /jobs/{id}/results
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 5ms]
+  √  Código HTTP 200
+  √  Latencia menor a 100 ms
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │              30 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              90 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              90 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               0 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │             180 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 7.9s                                    │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 31.26kB (approx)                       │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 4ms [min: 2ms, max: 28ms, s.d.: 2ms] │
+└─────────────────────────────────────────────────────────────┘

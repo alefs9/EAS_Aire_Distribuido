@@ -1,0 +1,9 @@
+command=docker.exe "logs" "pc4-docker-20261122-163801-redis"
+exit=0
+1:C 22 Nov 2026 21:38:09.785 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 22 Nov 2026 21:38:09.785 * Redis version=7.4.12, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 22 Nov 2026 21:38:09.785 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+1:M 22 Nov 2026 21:38:09.785 * monotonic clock: POSIX clock_gettime
+1:M 22 Nov 2026 21:38:09.788 * Running mode=standalone, port=6379.
+1:M 22 Nov 2026 21:38:09.789 * Server initialized
+1:M 22 Nov 2026 21:38:09.789 * Ready to accept connections tcp

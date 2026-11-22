@@ -1,0 +1,3 @@
+command=docker.exe "info" "--format" "{{.OSType}} {{.Architecture}}"
+exit=0
+linux x86_64

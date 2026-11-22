@@ -1,0 +1,5 @@
+command=docker.exe "image" "inspect" "--format" "{{index .RepoDigests 0}}" "golang:1.27-bookworm" "mongo:8" "redis:7"
+exit=0
+golang@sha256:4fa7c968ba93f1635670522dbb01a2c78150443e1385746924566079f36570ea
+mongo@sha256:747773029b84309981a3624a1af64ffc8c4d792283cc0834f26fe01fc6d28b34
+redis@sha256:2e3eb11462c4e3759e6972678dd051d150ff54b1e60714b3c33b701260172a90

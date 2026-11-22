@@ -1,0 +1,8 @@
+fecha_lima=2026-11-22T16:00:43.4732555-05:00
+run_id=docker-20261122-pc4
+base=pc4_docker_20261122_pc4
+ttl_demo_segundos=3
+ttl_api_segundos=60
+windows=10.0.26300.0
+commit=7fc852547a1ccc65240fc940658e1e228d3180d4
+node=v24.21.0

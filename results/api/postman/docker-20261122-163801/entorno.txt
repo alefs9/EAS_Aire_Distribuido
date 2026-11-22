@@ -1,0 +1,9 @@
+fecha_lima=2026-11-22T16:38:08.2300735-05:00
+run_id=docker-20261122-163801
+base=pc4_docker_20261122_163801
+ttl_demo_segundos=3
+ttl_api_segundos=60
+windows=10.0.26300.0
+commit=04e2d5d5e99851b5682bf1e89a70fe87f60b81fb
+node=v24.21.0
+base_url=http://127.0.0.1:63809

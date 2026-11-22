@@ -1,0 +1,6 @@
+                 archivo   periodo  vectores
+0    features_1_hora.csv    1_hora    445347
+1  features_24_horas.csv  24_horas     18297
+    Periodo  Vectores  Iteraciones  Convergió       Inercia
+0    1_hora    445347           96       True  3.898451e+08
+1  24_horas     18297           44       True  6.283275e+06

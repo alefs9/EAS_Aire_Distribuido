@@ -1,0 +1,8 @@
+{
+    "sha256":  "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6",
+    "dataset_id":  "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6:24_horas",
+    "fuente":  "CSV versionado del repositorio",
+    "archivo":  "data/vectors/features_24_horas.csv",
+    "vectores":  18297,
+    "periodo":  "24_horas"
+}

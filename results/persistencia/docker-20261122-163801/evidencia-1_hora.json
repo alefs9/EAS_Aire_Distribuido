@@ -1,0 +1,207 @@
+{
+  "alcance": "A1-A3: persistencia y caché; API y clúster no ejecutados",
+  "clave_redis": "pc4_docker_20261122_163801:resultado:v1:pc4-b97ca8baa3bc04bd448339fafa3e0fdf",
+  "dataset": {
+    "dataset_id": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204:1_hora",
+    "archivo": "data/vectors/features_1_hora.csv",
+    "fuente": "CSV versionado del repositorio",
+    "sha256": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204",
+    "periodo": "1_hora",
+    "vectores": 445347
+  },
+  "documento_mongodb": {
+    "job_id": "pc4-b97ca8baa3bc04bd448339fafa3e0fdf",
+    "dataset_id": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204:1_hora",
+    "parametros": {
+      "k": 4,
+      "semilla": 42,
+      "tolerancia": 0.001,
+      "max_iter": 100
+    },
+    "estado": "completed",
+    "creado": "2026-11-22T21:38:58.787Z",
+    "actualizado": "2026-11-22T21:38:58.79Z",
+    "resultado": {
+      "centroides": [
+        [
+          541.6888822205555,
+          117.24969242310581
+        ],
+        [
+          18.480415299025292,
+          9.64450403409993
+        ],
+        [
+          185.7344724944855,
+          92.2620391334228
+        ],
+        [
+          80.52150335633091,
+          34.10091832929305
+        ]
+      ],
+      "conteos": [
+        1333,
+        330559,
+        27648,
+        85807
+      ],
+      "iteraciones": 96,
+      "inercia": 389845120.224682,
+      "convergio": true,
+      "segundos_carga": 0.30377647,
+      "segundos_ml": 1.034371887,
+      "origen": "referencia secuencial PC3; demostración independiente de persistencia"
+    }
+  },
+  "ejecucion_fallida": {
+    "job_id": "pc4-fallo-d9472a367447a45cda44c3d45b80c155",
+    "dataset_id": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204:1_hora",
+    "parametros": {
+      "k": 4,
+      "semilla": 42,
+      "tolerancia": 0.001,
+      "max_iter": 100
+    },
+    "estado": "failed",
+    "creado": "2026-11-22T21:39:01.896Z",
+    "actualizado": "2026-11-22T21:39:01.897Z",
+    "error": "fallo de procesamiento simulado para probar almacenamiento"
+  },
+  "fecha_utc": "2026-11-22T21:39:01.899037177Z",
+  "indices": {
+    "datasets": [
+      {
+        "key": {
+          "_id": 1
+        },
+        "name": "_id_",
+        "v": 2
+      },
+      {
+        "key": {
+          "sha256": 1,
+          "periodo": 1
+        },
+        "name": "dataset_hash_periodo",
+        "unique": true,
+        "v": 2
+      }
+    ],
+    "jobs": [
+      {
+        "key": {
+          "_id": 1
+        },
+        "name": "_id_",
+        "v": 2
+      },
+      {
+        "key": {
+          "dataset_id": 1,
+          "creado": -1
+        },
+        "name": "jobs_dataset_fecha",
+        "v": 2
+      },
+      {
+        "key": {
+          "estado": 1,
+          "creado": -1
+        },
+        "name": "jobs_estado_fecha",
+        "v": 2
+      }
+    ]
+  },
+  "job_id": "pc4-b97ca8baa3bc04bd448339fafa3e0fdf",
+  "pruebas": [
+    {
+      "caso": "Consulta de estado",
+      "estado": "queued",
+      "fuente": "MongoDB",
+      "ttl_ms": -2,
+      "resultado": "PASS: sin resultado ni caché"
+    },
+    {
+      "caso": "Consulta de estado",
+      "estado": "running",
+      "fuente": "MongoDB",
+      "ttl_ms": -2,
+      "resultado": "PASS: sin resultado ni caché"
+    },
+    {
+      "caso": "Primera consulta sin caché",
+      "estado": "completed",
+      "fuente": "MongoDB",
+      "ttl_ms": 3000,
+      "resultado": "PASS"
+    },
+    {
+      "caso": "Segunda consulta con caché",
+      "estado": "completed",
+      "fuente": "Redis",
+      "ttl_ms": 2999,
+      "resultado": "PASS"
+    },
+    {
+      "caso": "Consulta después de expirar",
+      "estado": "completed",
+      "fuente": "MongoDB",
+      "ttl_ms": 3000,
+      "resultado": "PASS"
+    },
+    {
+      "caso": "Consulta después de invalidar",
+      "estado": "completed",
+      "fuente": "MongoDB",
+      "ttl_ms": 3000,
+      "resultado": "PASS"
+    }
+  ],
+  "valor_redis": {
+    "job_id": "pc4-b97ca8baa3bc04bd448339fafa3e0fdf",
+    "dataset_id": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204:1_hora",
+    "parametros": {
+      "k": 4,
+      "semilla": 42,
+      "tolerancia": 0.001,
+      "max_iter": 100
+    },
+    "estado": "completed",
+    "creado": "2026-11-22T21:38:58.787Z",
+    "actualizado": "2026-11-22T21:38:58.79Z",
+    "resultado": {
+      "centroides": [
+        [
+          541.6888822205555,
+          117.24969242310581
+        ],
+        [
+          18.480415299025292,
+          9.64450403409993
+        ],
+        [
+          185.7344724944855,
+          92.2620391334228
+        ],
+        [
+          80.52150335633091,
+          34.10091832929305
+        ]
+      ],
+      "conteos": [
+        1333,
+        330559,
+        27648,
+        85807
+      ],
+      "iteraciones": 96,
+      "inercia": 389845120.224682,
+      "convergio": true,
+      "segundos_carga": 0.30377647,
+      "segundos_ml": 1.034371887,
+      "origen": "referencia secuencial PC3; demostración independiente de persistencia"
+    }
+  }
+}

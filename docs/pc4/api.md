@@ -11,6 +11,8 @@ La API es un servidor HTTP escrito con `net/http` dentro del módulo `go/platafo
 3. El clúster devuelve centroides, conteos, iteraciones, motivo y tiempos. La API calcula la **inercia** en paralelo con goroutines, porque el clúster no la devuelve, y guarda el resultado con `Completar`. Si el clúster falla o vence `JOB_TIMEOUT`, el trabajo pasa a `failed` con el motivo.
 4. `GET /jobs/{id}` y `GET /jobs/{id}/results` usan `Servicio.Resultado`. Un resultado completado se sirve desde Redis mientras dura el TTL; si no está en Redis o Redis no responde, se lee de MongoDB. Un trabajo pendiente nunca se lee de la caché.
 
+El `job_id` externo se mantiene en las rutas HTTP, en `jobs._id` de MongoDB y en la clave de Redis. El coordinador genera otro identificador para el cálculo. Al persistir el resultado, la API registra en `resultado.origen` el `cluster_job` interno y los IDs de los nodos. La [ejecución de Newman con servicios reales](../../results/api/postman/docker-20261122-pc4/RESUMEN.md) conserva las respuestas de ambos periodos y la segunda lectura del resultado de 24 horas desde Redis.
+
 ## Rutas
 
 | Método | Ruta | Respuesta correcta | Otros códigos |

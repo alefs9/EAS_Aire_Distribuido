@@ -191,7 +191,7 @@ func resumir(ms []muestra, base string, n int) string {
 	var sb strings.Builder
 	fmt.Fprintf(&sb, "# Latencia de la API\n\nFecha: %s · Base: %s · Solicitudes por escenario: %d · Cliente: Go %s %s/%s\n\n",
 		time.Now().Format("2006-01-02 15:04:05 MST"), base, n, runtime.Version(), runtime.GOOS, runtime.GOARCH)
-	sb.WriteString("| Escenario | Ruta | n | Bytes (mediana) | Primera (ms) | Mediana (ms) | p95 (ms) | Máx (ms) | Errores | Fuente | < 100 ms |\n")
+	sb.WriteString("| Escenario | Ruta | n | Bytes (P50 por rango más cercano) | Primera (ms) | P50 por rango más cercano (ms) | p95 (ms) | Máx (ms) | Errores | Fuente | < 100 ms |\n")
 	sb.WriteString("|---|---|---:|---:|---:|---:|---:|---:|---:|---|---|\n")
 	var orden []string
 	grupos := map[string][]muestra{}
@@ -229,7 +229,9 @@ func resumir(ms []muestra, base string, n int) string {
 		fmt.Fprintf(&sb, "| %s | %s | %d | %.0f | %.2f | %.2f | %.2f | %.2f | %d | %s | %s |\n",
 			esc, g[0].ruta, len(g), percentil(bs, 0.5), g[0].ms, percentil(t, 0.5), percentil(t, 0.95), maximo, errores, strings.Join(fs, ", "), cumple)
 	}
-	sb.WriteString("\nLa latencia es el tiempo de ida y vuelta medido por el cliente. No incluye el entrenamiento,\n" +
+	sb.WriteString("\nP50 y p95 seleccionan la posición `techo(p × n)` de la muestra ordenada, contando desde 1.\n" +
+		"Con 30 observaciones corresponden a las posiciones 15 y 29.\n\n" +
+		"La latencia es el tiempo de ida y vuelta medido por el cliente. No incluye el entrenamiento,\n" +
 		"que se ejecuta de forma asíncrona y se informa en `resultado.segundos_ml`.\n")
 	return sb.String()
 }

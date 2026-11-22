@@ -6,6 +6,6 @@ Responsable: Valentina Montenegro (A2).
 
 Estados: `queued → running → completed`, o `queued/running → failed`. Los resultados completados no se modifican. Una nueva ejecución utiliza otro identificador.
 
-Configuración: `MONGODB_URI` y `MONGODB_DATABASE`. No se guardan contraseñas en Git. La API y el coordinador pueden importar `eas-aire/plataforma/internal/persistencia` y compartir el mismo job_id; su conexión se realiza en la integración del equipo.
+La API configura el repositorio con `MONGODB_URI` y `MONGODB_DATABASE`. MongoDB conserva el `job_id` externo en `jobs._id`. La API guarda el ID interno devuelto por el coordinador como `cluster_job` en `resultado.origen`. Véase el [recorrido de un trabajo](api.md#recorrido-de-un-trabajo).
 
-Desde `go/plataforma`: `go test ./...`. La prueba de conexión se habilita con `PC4_INTEGRATION=1`. Las pruebas completas con los servicios se incorporan en A3.
+Las pruebas con `PC4_INTEGRATION=1` comprueban conexión, índices, estados y escritura atómica con MongoDB real. La [guía de persistencia](../../results/persistencia/README.md) contiene la reproducción con servicios activos y los documentos recuperados.

@@ -1,0 +1,3 @@
+command=docker.exe "run" "-dt" "--name" "pc4-docker-20261122-163801-api" "--network" "pc4-docker-20261122-163801-net" "--network-alias" "api" "-p" "127.0.0.1::8080" "--mount" "type=bind,source=C:\Users\Alex\EAS_Aire_Distribuido,target=/repo,readonly" "--mount" "type=volume,source=pc4-docker-20261122-163801-bin,target=/binout,readonly" "-e" "MONGODB_URI=mongodb://mongo:27017" "-e" "REDIS_ADDR=redis:6379" "-e" "PC4_INTEGRATION=1" "-e" "MONGODB_DATABASE=pc4_docker_20261122_163801" "-e" "DATA_DIR=/repo/data/vectors" "-e" "CACHE_TTL_SECONDS=60" "golang:1.27-bookworm" "/binout/api"
+exit=0
+59fecd24d01aaf5561ac48a9444e9799b7257970a73d10daeb27b9ba3c06370a

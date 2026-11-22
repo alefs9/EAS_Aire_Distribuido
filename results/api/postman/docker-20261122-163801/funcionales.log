@@ -1,0 +1,107 @@
+command=npx.cmd "--yes" "newman@6.2.3" "run" "C:\Users\Alex\EAS_Aire_Distribuido\docs\pc4\postman\EAS_API_PC4.postman_collection.json" "-e" "C:\Users\Alex\EAS_Aire_Distribuido\docs\pc4\postman\EAS_local.postman_environment.json" "--env-var" "base_url=http://127.0.0.1:63809" "--folder" "1. Funcionales" "-n" "1" "-r" "cli,json" "--reporter-json-export" "C:\Users\Alex\EAS_Aire_Distribuido\results\api\postman\docker-20261122-163801\funcionales.json" "--export-environment" "C:\Users\Alex\EAS_Aire_Distribuido\results\api\postman\docker-20261122-163801\entorno-final.json"
+exit=0
+(node:26012) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+EAS Aire Distribuido - API PC4
+
+□ 1. Funcionales
+└ Salud del servicio
+  GET http://127.0.0.1:63809/health [200 OK, 184B, 33ms]
+  √  Código HTTP 200
+  √  MongoDB disponible
+  √  Latencia menor a 100 ms
+
+└ Crear ejecución horaria
+  POST http://127.0.0.1:63809/jobs [202 Accepted, 485B, 6ms]
+  √  Código HTTP 202
+  √  Estado inicial queued
+  √  Cabecera Location
+  √  Latencia menor a 100 ms
+
+└ Resultado pendiente (409)
+  GET http://127.0.0.1:63809/jobs/pc4-d2d447385a00cb8130b3c524c9b352ed/results [409 Conflict, 227B, 3ms]
+  √  Código HTTP 409
+  √  Estado queued o running
+  √  Latencia menor a 100 ms
+
+└ Estado de la ejecución
+  GET http://127.0.0.1:63809/jobs/pc4-d2d447385a00cb8130b3c524c9b352ed [200 OK, 457B, 4ms]
+  √  Código HTTP 200
+  √  Estado válido
+  √  Latencia menor a 100 ms
+
+└ Esperar resultado final horario
+  GET http://127.0.0.1:63809/jobs/pc4-d2d447385a00cb8130b3c524c9b352ed/results [409 Conflict, 227B, 3ms]
+
+Attempting to set next request to Esperar resultado final horario
+
+└ Esperar resultado final horario
+  GET http://127.0.0.1:63809/jobs/pc4-d2d447385a00cb8130b3c524c9b352ed/results [200 OK, 773B, 5ms]
+  √  Código HTTP 200
+  √  Centroides y conteos por clúster
+  √  Fuente informada
+  √  Latencia menor a 100 ms
+
+└ Crear ejecución de 24 horas
+  POST http://127.0.0.1:63809/jobs [202 Accepted, 487B, 6ms]
+  √  Código HTTP 202
+  √  Estado inicial queued
+  √  Cabecera Location
+  √  Latencia menor a 100 ms
+
+└ Esperar resultado final 24 horas
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [409 Conflict, 227B, 6ms]
+
+Attempting to set next request to Esperar resultado final 24 horas
+
+└ Esperar resultado final 24 horas
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 772B, 7ms]
+  √  Código HTTP 200
+  √  Centroides y conteos por clúster
+  √  Fuente informada
+  √  Latencia menor a 100 ms
+
+└ Resultado con caché (Redis)
+  GET http://127.0.0.1:63809/jobs/pc4-600c435a84079331c725c1888b6e300d/results [200 OK, 770B, 6ms]
+  √  Código HTTP 200
+  √  Leído desde Redis
+  √  Latencia menor a 100 ms
+
+└ Parámetros inválidos
+  POST http://127.0.0.1:63809/jobs [400 Bad Request, 215B, 5ms]
+  √  Código HTTP 400
+  √  Código parametros_invalidos
+  √  Latencia menor a 100 ms
+
+└ Campo desconocido
+  POST http://127.0.0.1:63809/jobs [400 Bad Request, 201B, 6ms]
+  √  Código HTTP 400
+  √  Código json_invalido
+  √  Latencia menor a 100 ms
+
+└ Identificador inexistente
+  GET http://127.0.0.1:63809/jobs/pc4-no-existe [404 Not Found, 210B, 6ms]
+  √  Código HTTP 404
+  √  Latencia menor a 100 ms
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              13 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              13 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               0 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              36 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 3.1s                                    │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 3.47kB (approx)                        │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 7ms [min: 3ms, max: 33ms, s.d.: 7ms] │
+└─────────────────────────────────────────────────────────────┘

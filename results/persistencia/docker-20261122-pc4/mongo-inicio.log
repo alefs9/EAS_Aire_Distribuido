@@ -1,0 +1,3 @@
+command=docker.exe "run" "-d" "--name" "pc4-docker-20261122-pc4-mongo" "--network" "pc4-docker-20261122-pc4-net" "--network-alias" "mongo" "mongo:8"
+exit=0
+121ed2b6a052b74bcdd662b1ae9d92a7793fe723a9e2859d8144c290f6b08fb9

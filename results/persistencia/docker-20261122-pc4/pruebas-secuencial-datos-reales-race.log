@@ -1,0 +1,18 @@
+command=docker.exe "run" "--rm" "-t" "--mount" "type=bind,source=C:\Users\Alex\EAS_Aire_Distribuido,target=/repo,readonly" "--mount" "type=volume,source=pc4-docker-20261122-pc4-go,target=/go" "-e" "KMEANS_REAL_DATA=1" "-w" "/repo/go/kmeans_secuencial" "golang:1.27-bookworm" "go" "test" "-v" "-count=1" "-run" "TestRealPeriodsEquivalence" "-race" "./..."
+exit=0
+=== RUN   TestRealPeriodsEquivalence
+=== RUN   TestRealPeriodsEquivalence/1_hora
+    integration_test.go:81: period=1_hora N=445347 workers=1 iterations=96 inertia=389845120.224682 labels=equal
+    integration_test.go:81: period=1_hora N=445347 workers=2 iterations=96 inertia=389845120.224682 labels=equal
+    integration_test.go:81: period=1_hora N=445347 workers=4 iterations=96 inertia=389845120.224682 labels=equal
+    integration_test.go:81: period=1_hora N=445347 workers=8 iterations=96 inertia=389845120.224682 labels=equal
+=== RUN   TestRealPeriodsEquivalence/24_horas
+    integration_test.go:81: period=24_horas N=18297 workers=1 iterations=44 inertia=6283274.55223338 labels=equal
+    integration_test.go:81: period=24_horas N=18297 workers=2 iterations=44 inertia=6283274.55223337 labels=equal
+    integration_test.go:81: period=24_horas N=18297 workers=4 iterations=44 inertia=6283274.55223337 labels=equal
+    integration_test.go:81: period=24_horas N=18297 workers=8 iterations=44 inertia=6283274.55223337 labels=equal
+--- PASS: TestRealPeriodsEquivalence (37.71s)
+    --- PASS: TestRealPeriodsEquivalence/1_hora (36.94s)
+    --- PASS: TestRealPeriodsEquivalence/24_horas (0.77s)
+PASS
+ok  	kmeans-secuencial	38.732s

@@ -1,0 +1,10 @@
+command=docker.exe "run" "--rm" "-t" "--network" "pc4-docker-20261122-163801-net" "--mount" "type=bind,source=C:\Users\Alex\EAS_Aire_Distribuido,target=/repo,readonly" "--mount" "type=bind,source=C:\Users\Alex\EAS_Aire_Distribuido\results\persistencia\docker-20261122-163801,target=/evidence" "--mount" "type=volume,source=pc4-docker-20261122-163801-bin,target=/binout" "--mount" "type=volume,source=pc4-docker-20261122-163801-go,target=/go" "-e" "MONGODB_URI=mongodb://mongo:27017" "-e" "REDIS_ADDR=redis:6379" "-e" "PC4_INTEGRATION=1" "-e" "MONGODB_DATABASE=pc4_docker_20261122_163801" "-e" "CACHE_TTL_SECONDS=3" "golang:1.27-bookworm" "/binout/persistencia" "-dataset" "/evidence/dataset-24_horas.json" "-reporte" "/evidence/reporte-24_horas.json" "-salida" "/evidence/evidencia-24_horas.json"
+exit=0
+Consulta de estado | queued | MongoDB | PASS: sin resultado ni caché
+Consulta de estado | running | MongoDB | PASS: sin resultado ni caché
+Primera consulta sin caché | completed | MongoDB | PASS
+Segunda consulta con caché | completed | Redis | PASS
+Consulta después de expirar | completed | MongoDB | PASS
+Consulta después de invalidar | completed | MongoDB | PASS
+Evidencia: /evidence/evidencia-24_horas.json
+job_id: pc4-9e9835467bcf3e5fea946b1ce35549cd

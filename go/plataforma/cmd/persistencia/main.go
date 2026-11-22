@@ -120,7 +120,7 @@ func ejecutar() error {
 		return err
 	}
 	p := persistencia.Parametros{K: a.K, Semilla: a.Seed, Tolerancia: a.Tolerance, MaxIter: a.MaxIterations}
-	result := persistencia.Resultado{Centroides: a.Centroids, Conteos: a.Counts, Iteraciones: a.Iterations, Inercia: a.Inertia, Convergio: a.Converged, SegundosCarga: a.LoadSeconds, SegundosML: a.TrainSeconds, Origen: "referencia secuencial PC3 ejecutada en este cuaderno; no es clúster PC4"}
+	result := persistencia.Resultado{Centroides: a.Centroids, Conteos: a.Counts, Iteraciones: a.Iterations, Inercia: a.Inertia, Convergio: a.Converged, SegundosCarga: a.LoadSeconds, SegundosML: a.TrainSeconds, Origen: "referencia secuencial PC3; demostración independiente de persistencia"}
 	id := "pc4-" + nuevoID()
 	if err = r.Crear(ctx, id, d.ID, p); err != nil {
 		return err

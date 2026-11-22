@@ -1,0 +1,32 @@
+{
+  "_": {
+    "postman_variable_scope": "environment"
+  },
+  "id": "3c7da3ed-64e5-4cba-82bd-2d5b15c0277d",
+  "name": "EAS local",
+  "values": [
+    {
+      "type": "any",
+      "value": "http://127.0.0.1:51223",
+      "key": "base_url"
+    },
+    {
+      "type": "any",
+      "value": "pc4-056f2068eda56157e04b07158f994415",
+      "key": "job_id"
+    },
+    {
+      "type": "any",
+      "value": "pc4-727752cbe04e743b99a9d3302c049fcf",
+      "key": "job_horario"
+    },
+    {
+      "type": "any",
+      "value": 0,
+      "key": "reintentos"
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2026-11-22T21:01:53.441Z",
+  "_postman_exported_using": "Newman/6.2.3"
+}

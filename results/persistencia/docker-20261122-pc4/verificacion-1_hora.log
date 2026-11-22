@@ -1,0 +1,7 @@
+exit=0
+vectores=445347
+sha256=2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204
+iteraciones=96
+convergio=True
+fuentes=MongoDB,MongoDB,MongoDB,Redis,MongoDB,MongoDB
+mongodb_redis_referencia=verificados

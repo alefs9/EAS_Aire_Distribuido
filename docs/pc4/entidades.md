@@ -4,7 +4,7 @@ Responsable: Valentina Montenegro (A1, parte intercambiada con Alexandra).
 
 Se reutiliza el código del Colab dentro del módulo existente `go/plataforma`.
 
-`datasets._id` se relaciona con `jobs.dataset_id`. `jobs._id` es el `job_id`.
+`datasets._id` se relaciona con `jobs.dataset_id`. `jobs._id` conserva el `job_id` externo que devuelve la API. Redis usa ese mismo identificador en la clave `<base>:resultado:v1:<job_id>`. La API registra el identificador interno del coordinador como `cluster_job=...` en `resultado.origen`.
 
 | Colección | Índices |
 |---|---|

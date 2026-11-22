@@ -33,6 +33,8 @@ Importar ambos en Postman y seleccionar el entorno **EAS local**. Antes de ejecu
 | 2. Dependencia no disponible | Salud y creación con MongoDB detenido (`docker stop eas-mongo`) | 503 |
 | 3. Latencia | `/health`, `/jobs/{id}`, `/jobs/{id}/results` | Para el Collection Runner con 30 iteraciones |
 
-Cada solicitud verifica el código HTTP y que el tiempo de respuesta sea menor a 100 ms.
+Las respuestas verificadas por las carpetas funcional y de latencia incluyen el umbral estricto de 100 ms. Las consultas intermedias de espera se registran como solicitudes y el escenario con MongoDB detenido comprueba los 503 esperados sin imponer ese umbral.
 
 Para ejecutar la carpeta 1 completa: **Run collection** → seleccionar solo "1. Funcionales" → **Run**. Ejecutarla en orden, porque las solicitudes comparten `job_horario` y `job_id`.
+
+La ejecución del 22 de noviembre usó Newman 6.2.3. Hay un JSON por carpeta, con códigos HTTP, tiempos y aserciones, y un log con el código de salida. Consulte [el resumen y el procedimiento](../../results/api/postman/docker-20261122-pc4/RESUMEN.md).

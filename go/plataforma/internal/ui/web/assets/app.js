@@ -1,6 +1,7 @@
 import {resolveRoute, shouldNavigate} from './routes.js';
 import {emptyState, loadingState, errorState} from './states.js';
 import {createViewHost} from './view-host.js';
+import {bindMenu} from './menu.js';
 import {homeView} from './views/home.js';
 
 // Screen modules register render functions here; keep the shell shared.
@@ -21,6 +22,7 @@ function placeholderView(route) {
  section.append(label, heading, emptyState(title, description), back); return section;
 }
 const content = document.querySelector('#contenido');
+const closeMenu = bindMenu(document.querySelector('.menu-toggle'), document.querySelector('#navegacion'));
 const showView = createViewHost({
  replace: node => content.replaceChildren(node),
  loading: () => loadingState(),
@@ -31,8 +33,7 @@ function render(moveFocus = false) {
  document.title = `EAS Aire · ${route.title}`;
 
  document.querySelectorAll('nav [data-route]').forEach(link => {if(link.getAttribute('href') === route.path) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');});
- document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'false');
- document.querySelector('#navegacion').classList.remove('is-open');
+ closeMenu();
  showView(views.get(route.path) || placeholderView, route, () => {
   if (moveFocus) {(document.querySelector('#titulo-vista') || content).focus(); window.scrollTo(0, 0);}
  });
@@ -46,7 +47,4 @@ document.addEventListener('click', event => {
  render(true);
 });
 window.addEventListener('popstate', () => render(true));
-const toggle = document.querySelector('.menu-toggle');
-toggle.addEventListener('click', () => {const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); document.querySelector('#navegacion').classList.toggle('is-open', open);});
-document.addEventListener('keydown', event => {if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {toggle.setAttribute('aria-expanded', 'false'); document.querySelector('#navegacion').classList.remove('is-open'); toggle.focus();}});
 render();

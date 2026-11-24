@@ -17,6 +17,7 @@ export function createDatasetsView({load=loadCatalog,selection=datasetSelection}
   const controller=createCatalogController({load,signal,onState(state){
    if(state.kind==='data' || state.kind==='empty')selection.reconcile(state.datasets);else selection.invalidate();
    updateSummary();
+   shell.refresh.disabled=state.kind==='loading' || state.kind==='unavailable';
    shell.content.setAttribute('aria-busy',String(state.kind==='loading'));
    if(state.kind==='loading')shell.content.replaceChildren(loadingState('Consultando los conjuntos disponibles.'));
    else if(state.kind==='unavailable')shell.content.replaceChildren(emptyState('Catálogo todavía no disponible','La consulta de conjuntos aún no está conectada al servicio. No se ha verificado qué datos están disponibles para una ejecución.'));
@@ -24,6 +25,7 @@ export function createDatasetsView({load=loadCatalog,selection=datasetSelection}
    else if(state.kind==='error')shell.content.replaceChildren(errorState('No se pudo consultar el catálogo. Tu selección no se utilizará sin verificarla.',()=>controller.refresh()));
    else shell.content.replaceChildren(renderCatalog(state.datasets,{selectedId:selection.current()?.id,onSelect:id=>{selection.choose(id);updateSummary();}}).element);
   }});
+  shell.refresh.addEventListener('click',()=>controller.refresh());
   void controller.refresh();
   return shell.root;
  };

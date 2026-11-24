@@ -16,3 +16,13 @@ test('ignores stale responses and cancels reads after leaving the route',async()
  const last=c.refresh();parent.abort();completions[2]([{id:'late'}]);await last;
  assert.equal(signals[2].aborted,true);assert.equal(states.at(-1).kind,'loading');
 });
+
+test('a refresh disables stale selection until a new catalog succeeds',async()=>{
+ const {createSelectionStore}=await import('../web/assets/datasets/selection.js');
+ const selection=createSelectionStore({storage:null});let fail=false;
+ const fixture={id:'fixture-hour',period:'1_hora'};
+ const controller=createCatalogController({load:async()=>{if(fail)throw new Error('503');return [fixture];},onState:s=>{if(s.kind==='data'||s.kind==='empty')selection.reconcile(s.datasets);else selection.invalidate();}});
+ await controller.refresh();selection.choose(fixture.id);assert.equal(selection.current().id,fixture.id);
+ fail=true;const pending=controller.refresh();assert.equal(selection.current(),null);await pending;assert.equal(selection.current(),null);
+ fail=false;await controller.refresh();assert.equal(selection.current().id,fixture.id);
+});

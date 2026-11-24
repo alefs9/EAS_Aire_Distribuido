@@ -37,7 +37,12 @@ func NewHandler(upstream string) (http.Handler, error) {
 		w.Header().Set("Cache-Control", "no-store")
 		_ = json.NewEncoder(w).Encode(map[string]string{"apiBaseURL": "/api"})
 	})
-	mux.Handle("GET /assets/", http.StripPrefix("/assets/", http.FileServer(http.FS(assets))))
+	assetHandler := http.StripPrefix("/assets/", http.FileServer(http.FS(assets)))
+	mux.Handle("GET /assets/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Asset names are stable across releases: always revalidate the current version.
+		w.Header().Set("Cache-Control", "no-cache")
+		assetHandler.ServeHTTP(w, r)
+	}))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet && r.Method != http.MethodHead {
 			w.Header().Set("Allow", "GET, HEAD")

@@ -79,3 +79,17 @@ func TestRejectInvalidUpstream(t *testing.T) {
 		}
 	}
 }
+
+func TestAssetsRevalidateAndKeepContentTypes(t *testing.T) {
+	h, err := NewHandler("http://127.0.0.1:8080")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for path, mime := range map[string]string{"/assets/app.js": "javascript", "/assets/styles.css": "text/css"} {
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, httptest.NewRequest("GET", path, nil))
+		if w.Code != 200 || w.Header().Get("Cache-Control") != "no-cache" || !strings.Contains(w.Header().Get("Content-Type"), mime) {
+			t.Fatalf("%s: %d %v", path, w.Code, w.Header())
+		}
+	}
+}

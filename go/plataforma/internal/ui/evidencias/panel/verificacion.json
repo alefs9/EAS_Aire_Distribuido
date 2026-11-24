@@ -1,0 +1,42 @@
+{
+  "fecha": "2026-11-23",
+  "alcance": "Panel general de Alexandra; backend y pantallas detalladas sin modificar",
+  "pruebas_antes_integrar_datasets": {
+    "node --test internal/ui/tests/*.test.mjs": "22 aprobadas, 0 fallidas",
+    "go test -count=1 ./internal/ui": "aprobado",
+    "go build ./...": "aprobado",
+    "go vet ./...": "aprobado"
+  },
+  "api_real": {
+    "modo": "API Go existente con STORE=memoria; sin MongoDB/Redis ni nodos de entrenamiento",
+    "puertos": "API 8087, TCP coordinador 9007, UI 8094, loopback",
+    "resultado": "GET /health real 200, estado ok y memoria ok; no se crearon trabajos",
+    "prueba_caida": "Se detuvo únicamente esa API temporal; al actualizar, la UI mostró error y retiró el estado Disponible anterior."
+  },
+  "navegador_real": [
+    "Apertura directa y actualización de /panel",
+    "Actualizar información mediante Enter y foco en título",
+    "Acceso a Ejecuciones y navegación Atrás",
+    "Móvil: ancho útil 375px igual al ancho desplazable",
+    "Catálogo y trabajos sin conectar, sin ceros ni tiempos simulados"
+  ],
+  "fixtures": {
+    "comando": "go run internal/ui/tests/panel_browser_fixture.go",
+    "ruta": "http://127.0.0.1:8095/panel?fixture=full (también empty y error)",
+    "advertencia": "Catálogo y trabajos sintéticos rotulados. No son resultados científicos ni evidencia de catálogo real.",
+    "verificado": [
+      "Cuatro estados de trabajos y conteos correspondientes",
+      "Tiempo sintético 0.25s desde segundos_ml, separado de respuesta HTTP",
+      "Acceso a Resultados y navegación Atrás",
+      "Catálogo vacío y sesión sin trabajos",
+      "Errores parciales preservan otras secciones verificadas",
+      "Tabla accesible y móvil sin desbordamiento horizontal"
+    ]
+  },
+  "pendientes": [
+    "Nicole: fuente real de catálogo y referencias de trabajos de la sesión",
+    "Valentina: consumir ID seleccionado en la pantalla de resultados",
+    "Integración completa con MongoDB, Redis, nodos y trabajos reales; no se simula como aprobada"
+  ],
+  "sin_markdown": true
+}

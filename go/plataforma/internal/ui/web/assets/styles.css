@@ -630,3 +630,5 @@ main {
 .panel-status-ok{background:#e2eddd;color:#245136}.panel-status-warning{background:#fbefcf;color:#6a450c}
 .panel-facts{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:20px 0}.panel-facts dd{margin:0}.panel-facts dt{color:var(--muted)}
 .panel-note{font-size:.85rem;margin-top:18px}.panel-overview .message{margin-top:20px}
+
+.panel-job-counts{display:flex;gap:16px;flex-wrap:wrap;list-style:none;padding:16px 0}.panel-job-counts li{background:#e8efdf;border-radius:8px;padding:6px 12px}.panel-job-id{overflow-wrap:anywhere;max-width:24rem}.panel-jobs .table-wrap{margin-top:18px}

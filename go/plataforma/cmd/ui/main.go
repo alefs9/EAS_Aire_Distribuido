@@ -5,7 +5,9 @@ import (
 	"context"
 	"eas-aire/plataforma/internal/ui"
 	"errors"
+	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,23 +24,37 @@ func main() {
 	if addr == "" {
 		addr = "127.0.0.1:8090"
 	}
-	handler, err := ui.NewHandler(upstream)
-	if err != nil {
-		log.Fatal(err)
-	}
-	srv := &http.Server{Addr: addr, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 30 * time.Second, IdleTimeout: 60 * time.Second}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
-	go func() {
-		log.Printf("Interfaz disponible en http://%s", addr)
-		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Fatal(err)
+	if err := run(ctx, addr, upstream, log.Default()); err != nil {
+		log.Fatal(err)
+	}
+}
+
+// run only announces availability after the listening socket is acquired.
+func run(ctx context.Context, addr, upstream string, logger *log.Logger) error {
+	handler, err := ui.NewHandler(upstream)
+	if err != nil {
+		return err
+	}
+	listener, err := net.Listen("tcp", addr)
+	if err != nil {
+		return fmt.Errorf("no se pudo iniciar la interfaz en %s; comprueba si el puerto está ocupado: %w", addr, err)
+	}
+	defer listener.Close()
+	srv := &http.Server{Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 30 * time.Second, IdleTimeout: 60 * time.Second}
+	done := make(chan error, 1)
+	go func() { done <- srv.Serve(listener) }()
+	logger.Printf("Interfaz disponible en http://%s", listener.Addr())
+	select {
+	case err := <-done:
+		if errors.Is(err, http.ErrServerClosed) {
+			return nil
 		}
-	}()
-	<-ctx.Done()
-	closeCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	if err := srv.Shutdown(closeCtx); err != nil {
-		log.Print(err)
+		return err
+	case <-ctx.Done():
+		closeCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		return srv.Shutdown(closeCtx)
 	}
 }

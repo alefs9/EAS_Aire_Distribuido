@@ -1,0 +1,57 @@
+{
+  "fecha": "2026-11-23",
+  "alcance": "Interfaz de Alexandra; backend de Nicole sin modificar",
+  "integracion_real": "Pendiente. No hay endpoint de catálogo y no se presupone ruta ni esquema HTTP.",
+  "pruebas": [
+    {
+      "comando": "node --test internal/ui/tests/*.test.mjs",
+      "resultado": "24 aprobadas, 0 fallidas"
+    },
+    {
+      "comando": "go test -count=1 ./internal/ui",
+      "resultado": "aprobado"
+    },
+    {
+      "comando": "go build ./...",
+      "resultado": "aprobado"
+    },
+    {
+      "comando": "go vet ./...",
+      "resultado": "aprobado"
+    }
+  ],
+  "navegador_produccion": {
+    "servidor": "cmd/ui en loopback:8093",
+    "resultado": "Pantalla de datos, catálogo no conectado, sin conjuntos simulados ni continuación habilitada; escritorio y móvil sin desbordamiento horizontal (ancho útil 375px)."
+  },
+  "navegador_fixtures": {
+    "comando": "go run internal/ui/tests/browser_fixture.go",
+    "servidor": "loopback:8092, separado de cmd/ui",
+    "advertencia": "Datos sintéticos de prueba; nunca evidencia de catálogo real ni de resultados científicos.",
+    "comprobaciones": [
+      "selección de una hora y 24 horas",
+      "selección exclusiva",
+      "conservación al ir a Ejecuciones y volver a Datos",
+      "restauración y revalidación al recargar",
+      "actualizar catálogo",
+      "catálogo vacío",
+      "error y reintento con foco en mensaje",
+      "selección por teclado con Space",
+      "quitar selección y devolver foco al primer radio",
+      "diseño móvil sin desbordamiento horizontal"
+    ]
+  },
+  "pendientes": [
+    "Definir y publicar el contrato real de catálogo por Nicole",
+    "Implementar su adaptador de respuesta en configureCatalogLoader",
+    "Verificar contra la API real y comparar ID, periodo y metadatos",
+    "Integrar el consumo de selección en la pantalla de ejecuciones de Nicole"
+  ],
+  "no_modificado": [
+    "API, TCP, MongoDB y Redis",
+    "pantalla de configuración y seguimiento",
+    "resultados y análisis ambiental",
+    "panel general",
+    "archivos Markdown"
+  ]
+}

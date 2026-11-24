@@ -614,3 +614,21 @@ main {
     outline:2px solid Highlight
   }
 }
+
+/* General overview, isolated from dataset and execution screens. */
+.panel-page>h1{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:24px}
+.panel-toolbar{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:30px 0}
+.panel-toolbar p{font-size:.85rem}
+.panel-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.panel-overview .card{min-width:0;display:block}
+.panel-overview h2,.panel-jobs>h2,.panel-metrics>h2{font-size:1.5rem;margin-bottom:18px}
+.panel-jobs,.panel-metrics{margin-top:36px}.panel-jobs>p{margin-bottom:18px}
+.panel-shortcuts{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+@media(max-width:700px){.panel-overview{grid-template-columns:1fr}.panel-toolbar .button,.panel-shortcuts .button{width:100%}}
+
+.panel-status{font-size:1.15rem;font-weight:700;padding:10px 14px;border-radius:10px;border:1px solid var(--line)}
+.panel-status-ok{background:#e2eddd;color:#245136}.panel-status-warning{background:#fbefcf;color:#6a450c}
+.panel-facts{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:20px 0}.panel-facts dd{margin:0}.panel-facts dt{color:var(--muted)}
+.panel-note{font-size:.85rem;margin-top:18px}.panel-overview .message{margin-top:20px}
+
+.panel-job-counts{display:flex;gap:16px;flex-wrap:wrap;list-style:none;padding:16px 0}.panel-job-counts li{background:#e8efdf;border-radius:8px;padding:6px 12px}.panel-job-id{overflow-wrap:anywhere;max-width:24rem}.panel-jobs .table-wrap{margin-top:18px}

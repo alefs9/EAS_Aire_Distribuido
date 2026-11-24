@@ -14,7 +14,7 @@ func TestSPARoutes(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, path := range []string{"/", "/datos", "/datos/", "/ejecuciones", "/resultados", "/analisis-ambiental"} {
+	for _, path := range []string{"/", "/panel", "/panel/", "/datos", "/datos/", "/ejecuciones", "/resultados", "/analisis-ambiental"} {
 		t.Run(path, func(t *testing.T) {
 			w := httptest.NewRecorder()
 			h.ServeHTTP(w, httptest.NewRequest("GET", path, nil))

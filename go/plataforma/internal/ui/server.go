@@ -51,7 +51,7 @@ func NewHandler(upstream string) (http.Handler, error) {
 		}
 		path := strings.TrimSuffix(r.URL.Path, "/")
 		switch path {
-		case "", "/datos", "/ejecuciones", "/resultados", "/analisis-ambiental":
+		case "", "/panel", "/datos", "/ejecuciones", "/resultados", "/analisis-ambiental":
 			page, _ := content.ReadFile("web/index.html")
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			w.Header().Set("Cache-Control", "no-cache")

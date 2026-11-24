@@ -1,0 +1,10 @@
+{
+  "codigo_http": 200,
+  "respuesta": {
+    "dependencias": {
+      "memoria": "ok"
+    },
+    "estado": "ok"
+  },
+  "contexto": "API Go existente, STORE=memoria, sin trabajos ni entrenamiento; sin MongoDB/Redis reales"
+}

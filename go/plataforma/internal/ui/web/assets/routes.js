@@ -1,6 +1,7 @@
 // Shared route catalog. Add a view here without changing the shell.
 export const routes = Object.freeze([
   {path: '/', title: 'Inicio'},
+  {path: '/panel', title: 'Panel general'},
   {path: '/datos', title: 'Datos'},
   {path: '/ejecuciones', title: 'Ejecuciones'},
   {path: '/resultados', title: 'Resultados'},

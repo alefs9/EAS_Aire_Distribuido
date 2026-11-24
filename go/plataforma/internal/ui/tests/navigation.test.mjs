@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {routes, resolveRoute, shouldNavigate} from '../web/assets/routes.js';
 import {apiRequest, getAPIConfig} from '../web/assets/api.js';
 
-test('all five routes resolve, trailing slash and unknown path are handled', () => {
-  assert.equal(routes.length, 5);
+test('all registered routes resolve, trailing slash and unknown path are handled', () => {
+  assert.equal(routes.length, 6);
   for (const route of routes) assert.equal(resolveRoute(route.path + (route.path === '/' ? '' : '/')).title, route.title);
   assert.equal(resolveRoute('/no-existe').title, 'Página no encontrada');
 });

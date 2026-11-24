@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {bindMenu} from '../web/assets/menu.js';
+test('menu keyboard entry, Escape, outside click and breakpoint reset', () => {
+ const root = new EventTarget(); const viewport = new EventTarget();
+ const toggle = new EventTarget(); let expanded = 'false'; let styled = false;
+ toggle.getAttribute = () => expanded;
+ toggle.setAttribute = (_,value) => expanded = value;
+ toggle.focus = () => root.activeElement = toggle;
+ toggle.contains = value => value === toggle;
+ const firstLink = {focus: () => root.activeElement = firstLink};
+ const navigation = {classList: {toggle: (_,value) => styled = value}, querySelector: () => firstLink, contains: value => value === firstLink};
+ bindMenu(toggle,navigation,root,viewport);
+ const key = (target,name) => {const e=new Event('keydown',{cancelable:true});Object.defineProperty(e,'key',{value:name});target.dispatchEvent(e);return e;};
+ assert.equal(key(toggle,'ArrowDown').defaultPrevented,true);
+ assert.equal(expanded,'true'); assert.equal(styled,true); assert.equal(root.activeElement,firstLink);
+ key(root,'Escape'); assert.equal(expanded,'false'); assert.equal(root.activeElement,toggle);
+ toggle.dispatchEvent(new Event('click')); root.activeElement = 'outside'; root.dispatchEvent(new Event('click'));
+ assert.equal(expanded,'false'); assert.equal(root.activeElement,'outside');
+ toggle.dispatchEvent(new Event('click')); viewport.dispatchEvent(new Event('change'));
+ assert.equal(expanded,'false'); assert.equal(styled,false);
+});

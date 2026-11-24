@@ -1,3 +1,4 @@
+import {clearPanelResult} from '../panel/handoff.js';
 import {createPanelShell} from '../panel/shell.js';
 import {createPanelController} from '../panel/controller.js';
 import {loadHealth} from '../panel/health.js';
@@ -21,7 +22,7 @@ export function createPanelView({sources={health:loadHealth,catalog:loadCatalogS
    else if(state.kind==='unavailable' || state.kind==='empty')content=emptyState(...unavailable[state.region]);
    else content=renderers[state.region](state.value);
    region.replaceChildren(content);
-  },onRefresh(state){shell.refresh.disabled=state.loading;shell.updated.textContent=state.loading?'Actualización en curso…':`Último intento: ${new Date(state.checkedAt).toLocaleString('es-PE')} (hora de este navegador).`;}});
+  },onRefresh(state){if(state.loading)clearPanelResult();shell.refresh.disabled=state.loading;shell.updated.textContent=state.loading?'Actualización en curso…':`Último intento: ${new Date(state.checkedAt).toLocaleString('es-PE')} (hora de este navegador).`;}});
   const refresh=async()=>{await controller.refresh();if(!signal?.aborted)shell.root.querySelector('h1').focus();};
   shell.refresh.addEventListener('click',refresh);void controller.refresh();return shell.root;
  };

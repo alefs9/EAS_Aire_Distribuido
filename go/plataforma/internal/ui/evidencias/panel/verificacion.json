@@ -38,5 +38,15 @@
     "Valentina: consumir ID seleccionado en la pantalla de resultados",
     "Integración completa con MongoDB, Redis, nodos y trabajos reales; no se simula como aprobada"
   ],
-  "sin_markdown": true
+  "sin_markdown": true,
+  "integracion_con_develop": {
+    "base": "488bcd2: PR #31 de datasets integrado",
+    "combinacion": "Registro de vistas conserva datasetsView y panelView; no se elimina ninguna pantalla.",
+    "node --test internal/ui/tests/*.test.mjs": "37 aprobadas, 0 fallidas",
+    "go test -count=1 ./internal/ui": "aprobado",
+    "go build ./...": "aprobado",
+    "go vet ./...": "aprobado",
+    "node --check internal/ui/web/assets/app.js": "aprobado",
+    "navegador": "Aplicación normal recompilada: /panel → /datos muestra la pantalla de consulta integrada → /panel conserva el panel y sus estados reales. No se realizaron consultas de catálogo ficticias."
+  }
 }

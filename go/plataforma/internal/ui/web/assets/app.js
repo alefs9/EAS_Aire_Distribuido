@@ -3,9 +3,10 @@ import {emptyState, loadingState, errorState} from './states.js';
 import {createViewHost} from './view-host.js';
 import {bindMenu} from './menu.js';
 import {homeView} from './views/home.js';
+import {datasetsView} from './views/datasets.js';
 
 // Screen modules register render functions here; keep the shell shared.
-const views = new Map([['/', homeView]]);
+const views = new Map([['/', homeView], ['/datos', datasetsView]]);
 export function registerView(path, renderView) {views.set(path, renderView);}
 const descriptions = {
  '/datos': ['Consulta de datos en preparación', 'Aquí podrás consultar y seleccionar conjuntos de mediciones. Esta función todavía no está disponible.'],

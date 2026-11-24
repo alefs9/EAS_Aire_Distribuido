@@ -1,5 +1,6 @@
 import {resolveRoute, shouldNavigate} from './routes.js';
-import {emptyState} from './states.js';
+import {emptyState, loadingState, errorState} from './states.js';
+import {createViewHost} from './view-host.js';
 import {homeView} from './views/home.js';
 
 // Screen modules register render functions here; keep the shell shared.
@@ -19,14 +20,22 @@ function placeholderView(route) {
  const back = document.createElement('a'); back.href = '/'; back.dataset.route = ''; back.className = 'button button-secondary'; back.textContent = 'Volver al inicio';
  section.append(label, heading, emptyState(title, description), back); return section;
 }
+const content = document.querySelector('#contenido');
+const showView = createViewHost({
+ replace: node => content.replaceChildren(node),
+ loading: () => loadingState(),
+ failure: () => errorState('No se pudo mostrar esta sección. Intenta nuevamente.', () => render(true)),
+});
 function render(moveFocus = false) {
  const route = resolveRoute(location.pathname);
  document.title = `EAS Aire · ${route.title}`;
- document.querySelector('#contenido').replaceChildren(views.has(route.path) ? views.get(route.path)(route) : placeholderView(route));
+
  document.querySelectorAll('nav [data-route]').forEach(link => {if(link.getAttribute('href') === route.path) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');});
  document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'false');
  document.querySelector('#navegacion').classList.remove('is-open');
- if (moveFocus) {document.querySelector('#titulo-vista').focus(); window.scrollTo(0, 0);}
+ showView(views.get(route.path) || placeholderView, route, () => {
+  if (moveFocus) {(document.querySelector('#titulo-vista') || content).focus(); window.scrollTo(0, 0);}
+ });
 }
 document.addEventListener('click', event => {
  const anchor = event.target.closest('a[data-route]');

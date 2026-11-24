@@ -4,11 +4,13 @@ import {loadCatalog} from '../datasets/catalog-source.js';
 import {createCatalogController} from '../datasets/controller.js';
 import {datasetSelection} from '../datasets/selection.js';
 import {periodLabels} from '../datasets/model.js';
+import {renderSelectionActions} from '../datasets/handoff.js';
 import {emptyState,loadingState,errorState} from '../states.js';
 export function createDatasetsView({load=loadCatalog,selection=datasetSelection}={}){
  return function datasetsView({signal}={}){
   const shell=createDatasetsShell();
   const updateSummary=()=>{
+   renderSelectionActions(shell,selection,()=>{selection.clear();shell.root.querySelectorAll('input[name=dataset]').forEach(input=>input.checked=false);updateSummary();});
    const selected=selection.current();
    shell.summary.textContent=selected ? `Conjunto seleccionado: ${periodLabels[selected.period]} · ${selected.id}. La ejecución todavía no se ha iniciado.` : 'Selecciona un conjunto verificado para continuar.';
   };

@@ -1,0 +1,26 @@
+{
+  "fecha": "2026-11-23",
+  "alcance": "Base SPA; no se ejecutaron trabajos científicos",
+  "comprobaciones": [
+    {
+      "comando": "go build ./cmd/ui",
+      "resultado": "correcto"
+    },
+    {
+      "comando": "go vet ./...",
+      "resultado": "correcto"
+    },
+    {
+      "comando": "go test -count=1 ./...",
+      "resultado": "correcto; API, cluster, persistencia, protocol y UI"
+    },
+    {
+      "comando": "node --test internal/ui/tests/navigation.test.mjs",
+      "resultado": "3 aprobadas, 0 fallidas"
+    },
+    {
+      "comando": "go test -race -count=1 ./internal/ui",
+      "resultado": "no ejecutada: requiere CGO, deshabilitado en este entorno"
+    }
+  ]
+}

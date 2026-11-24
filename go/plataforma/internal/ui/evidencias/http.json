@@ -1,0 +1,71 @@
+{
+  "origen": "Servidor Go local real, 127.0.0.1:8090; API upstream no iniciada",
+  "rutas": [
+    {
+      "ruta": "/",
+      "codigo": 200,
+      "tipo": "text/html; charset=utf-8",
+      "bytes": 1517
+    },
+    {
+      "ruta": "/datos",
+      "codigo": 200,
+      "tipo": "text/html; charset=utf-8",
+      "bytes": 1517
+    },
+    {
+      "ruta": "/ejecuciones",
+      "codigo": 200,
+      "tipo": "text/html; charset=utf-8",
+      "bytes": 1517
+    },
+    {
+      "ruta": "/resultados",
+      "codigo": 200,
+      "tipo": "text/html; charset=utf-8",
+      "bytes": 1517
+    },
+    {
+      "ruta": "/analisis-ambiental",
+      "codigo": 200,
+      "tipo": "text/html; charset=utf-8",
+      "bytes": 1517
+    },
+    {
+      "ruta": "/assets/app.js",
+      "codigo": 200,
+      "tipo": "application/javascript",
+      "bytes": 3485
+    },
+    {
+      "ruta": "/assets/styles.css",
+      "codigo": 200,
+      "tipo": "text/css; charset=utf-8",
+      "bytes": 8298
+    },
+    {
+      "ruta": "/ui-config.json",
+      "codigo": 200,
+      "tipo": "application/json; charset=utf-8",
+      "bytes": 22
+    },
+    {
+      "ruta": "/no-existe",
+      "codigo": 404,
+      "tipo": "text/plain; charset=utf-8",
+      "bytes": 19
+    },
+    {
+      "ruta": "/assets/no-existe.js",
+      "codigo": 404,
+      "tipo": "text/plain; charset=utf-8",
+      "bytes": 19
+    },
+    {
+      "ruta": "/api/health",
+      "codigo": 502,
+      "tipo": "text/plain; charset=utf-8",
+      "bytes": 64
+    }
+  ]
+}

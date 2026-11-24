@@ -50,7 +50,7 @@ go build ./cmd/ui
 go vet ./...
 go test -count=1 ./...
 go test -race -count=1 ./internal/ui
-node --test internal/ui/tests/navigation.test.mjs
+node --test internal/ui/tests/*.test.mjs
 ```
 
 Las pruebas Go cubren rutas directas, método no permitido, recursos inexistentes, configuración, rechazo de destinos inválidos, conservación del contrato a través del proxy y respuesta 502. El servidor upstream de la prueba es un doble local de HTTP, no evidencia de una ejecución científica ni de bases reales. Las pruebas JavaScript verifican resolución de rutas, preservación de interacciones propias del navegador, reintento y configuración compartida y conservación de errores HTTP.
@@ -64,12 +64,23 @@ En `evidencias/`:
 - `inicio-escritorio.jpg`: captura real del inicio con fuente, periodos y recorrido.
 - `inicio-movil.jpg`: captura real de la composición en una columna y menú compacto.
 - `datos-movil.jpg`: estado vacío real, sin catálogo inventado.
+- `menu-teclado-movil.jpg`: menú abierto con ArrowDown y foco en el primer enlace; verificado también Escape y reinicio al cambiar de ancho.
 - `http.json`: códigos, tipos y tamaños observados en el servidor Go real; API upstream no iniciada. No contiene respuestas científicas ni credenciales.
 
 Revisión en navegador realizada el 23 de noviembre de 2026: cinco enlaces, Atrás, actualización de `/datos`, apertura directa y actualización de `/resultados`, foco en el título y enlace activo; menú móvil con Enter/Escape y cierre al navegar. Viewport solicitado 390 × 844; ancho útil observado 375 px, igual al ancho desplazable, sin desbordamiento horizontal. Se revisó visualmente el inicio de escritorio y móvil. Las capturas no prueban datos reales ni ejecución del algoritmo.
 
-Resultado automatizado: `go build ./cmd/ui`, `go vet ./...` y `go test -count=1 ./...` finalizaron correctamente; pasaron las tres pruebas JavaScript. `go test -race -count=1 ./internal/ui` no pudo ejecutarse porque el entorno tiene CGO deshabilitado. Para esa comprobación se necesita CGO y un compilador C compatible; no se considera aprobada.
+Resultado automatizado actualizado: `go build ./...` y `go vet ./...` correctos; nueve pruebas JavaScript aprobadas. Las pruebas de `cmd/ui` pasaron al incorporar el arranque y cierre. En la última ejecución de `go test -count=1 ./...`, Windows bloqueó el binario temporal de `cmd/ui`; API, clúster, persistencia, protocolo e `internal/ui` pasaron. No se considera aprobada la ejecución final completa. `-race` permanece pendiente por CGO deshabilitado.
 
 Las pruebas no incluyen lector de pantalla, auditoría WCAG completa, despliegue público ni una sesión real con MongoDB/Redis. No se ejecutaron cálculos K-Means para esta tarea. Un bloqueo inicial de Windows al binario temporal de pruebas no cambió las políticas del equipo; la ejecución posterior del módulo completo sí pudo completarse.
 
 Esta rama entrega solo la base. No hacer merge automático. Iniciar consulta de datasets únicamente cuando este PR esté integrado en `develop` y se indique continuar; crear entonces `feature/ui-datasets` desde `develop` actualizado.
+
+## Robustez adicional de la base
+
+El servidor anuncia su disponibilidad solo tras abrir el puerto y explica los conflictos de dirección. Los módulos y estilos se revalidan para evitar versiones antiguas después de actualizar la interfaz.
+
+El cliente compartido valida configuración y rutas antes de consultar: rechaza destinos externos, traversal, separadores codificados y rutas malformadas. La configuración tiene un plazo de 5 segundos y las consultas 15 segundos hasta recibir sus encabezados; `apiRequest` admite `timeoutMs` y `signal`. La lectura posterior de un cuerpo se gestiona en cada pantalla, según su contrato.
+
+`view-host.js` admite vistas síncronas o promesas: muestra carga, contiene errores y cancela el contexto anterior al navegar. La función de vista recibe `{path, title, signal}`; debe pasar `signal` a sus consultas. Una resolución tardía no puede reemplazar una vista más reciente. Los errores permiten reintentar sin perder el menú.
+
+`menu.js` comparte el control del menú: ArrowDown entra al primer enlace, Escape restaura el foco cuando corresponde, un clic exterior lo cierra sin robar el foco y un cambio de breakpoint reinicia su estado. Estas utilidades pertenecen exclusivamente a la base: no implementan consulta o selección de datasets, panel general, configuración de trabajos ni resultados.

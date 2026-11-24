@@ -15,16 +15,21 @@ export async function getAPIConfig() {
       const response = await fetch('/ui-config.json', {cache: 'no-store', signal});
       if (!response.ok) throw new Error('No se pudo cargar la configuración.');
       const config = await response.json();
-      if (config.apiBaseURL !== '/api') throw new Error('Configuración no válida.');
-      return Object.freeze(config);
+      if (!config || typeof config !== 'object' || config.apiBaseURL !== '/api') throw new Error('Configuración no válida.');
+      return Object.freeze({apiBaseURL: config.apiBaseURL});
     }, undefined, 5000)
       .catch(error => {configuration = undefined; throw error;});
   }
   return configuration;
 }
+function validateServicePath(path) {
+  let decoded;
+  try {decoded = decodeURIComponent(path);} catch {throw new Error('Ruta de servicio no válida.');}
+  if (typeof path !== 'string' || !path.startsWith('/') || decoded.includes('//') || /[\\\s?#\x00-\x1f]/.test(decoded) || /%2f|%5c/i.test(path) || decoded.split('/').some(part => part === '.' || part === '..')) throw new Error('Ruta de servicio no válida.');
+}
 // Response formats are owned by the existing API; views handle their own schema.
 export async function apiRequest(path, options = {}) {
-  if (!path.startsWith('/') || path.startsWith('//') || /[?#]/.test(path) || path.split('/').includes('..')) throw new Error('Ruta de servicio no válida.');
+  validateServicePath(path);
   const {timeoutMs = 15000, signal, ...request} = options;
   signal?.throwIfAborted();
   const {apiBaseURL} = await getAPIConfig();

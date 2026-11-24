@@ -22,5 +22,14 @@
       "comando": "go test -race -count=1 ./internal/ui",
       "resultado": "no ejecutada: requiere CGO, deshabilitado en este entorno"
     }
-  ]
+  ],
+  "actualizacion_base": {
+    "alcance": "Exclusivamente inicio, navegación y soporte compartido; sin datasets ni panel general",
+    "pruebas_js": "9 aprobadas, 0 fallidas",
+    "go_build": "go build ./... correcto",
+    "go_vet": "go vet ./... correcto",
+    "go_cmd_ui": "pruebas de puerto ocupado y cierre aprobadas al incorporar la corrección; repetición final bloqueada por Application Control de Windows",
+    "go_test_final": "internal/api, cluster, persistencia, protocol e internal/ui aprobados; cmd/ui bloqueado, no se considera aprobada la ejecución completa",
+    "navegador": "Servidor Go real en 8091: inicio, navegación, actualización directa y menú móvil con ArrowDown/Escape; foco correcto; estado reiniciado al cambiar breakpoint"
+  }
 }

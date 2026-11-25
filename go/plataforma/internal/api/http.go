@@ -19,6 +19,7 @@ func NuevoRouter(s *Servicio, logger *log.Logger) *http.ServeMux {
 	mux.HandleFunc("POST /jobs", h.crear)
 	mux.HandleFunc("GET /jobs/{id}", h.estado)
 	mux.HandleFunc("GET /jobs/{id}/results", h.resultado)
+	mux.HandleFunc("GET /datasets", h.datasets)
 	registrarDocumentacion(mux)
 	return mux
 }
@@ -126,6 +127,32 @@ func (h *handlers) resultado(w http.ResponseWriter, r *http.Request) {
 	default: // queued o running
 		responderJSON(w, http.StatusConflict, map[string]string{"codigo": "no_disponible_aun", "job_id": l.Trabajo.ID, "estado": l.Trabajo.Estado})
 	}
+}
+
+func (h *handlers) datasets(w http.ResponseWriter, _ *http.Request) {
+	if h.s.datasets == nil { // nil = catálogo no disponible; mapa vacío no nil = catálogo confirmado vacío.
+		responderError(w, http.StatusServiceUnavailable, "catalogo_no_disponible", "El catálogo no está disponible temporalmente.")
+		return
+	}
+	periodos := []string{"1_hora", "24_horas"}
+	items := make([]map[string]any, 0, len(h.s.datasets))
+	for _, periodo := range periodos {
+		d, ok := h.s.datasets[periodo]
+		if !ok {
+			continue
+		}
+		item := map[string]any{
+			"id": d.ID, "period": d.Periodo,
+			"vector_count":      len(d.Puntos),
+			"measurement_count": len(d.Puntos) * 2,
+		}
+		if d.SHA256 != "" {
+			item["sha256"] = d.SHA256
+		}
+		items = append(items, item)
+	}
+	w.Header().Set("Cache-Control", "no-store")
+	responderJSON(w, http.StatusOK, map[string]any{"datasets": items})
 }
 
 // ConRegistro escribe método, ruta, código y duración de cada solicitud.

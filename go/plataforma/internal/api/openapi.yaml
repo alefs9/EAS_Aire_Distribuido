@@ -16,7 +16,37 @@ servers:
 tags:
   - name: Servicio
   - name: Trabajos
+  - name: Conjuntos
 paths:
+  /datasets:
+    get:
+      tags: [Conjuntos]
+      summary: Consultar metadatos de los conjuntos disponibles
+      description: Solo informa metadatos; nunca descarga los CSV de vectores.
+      responses:
+        "200":
+          description: Catálogo disponible; datasets vacío confirma que no hay conjuntos.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [datasets]
+                properties:
+                  datasets:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, period]
+                      properties:
+                        id: {type: string}
+                        period: {type: string, enum: [1_hora, 24_horas]}
+                        vector_count: {type: integer, minimum: 0}
+                        measurement_count: {type: integer, minimum: 0, description: Total de valores escalares PM10 y PM2.5; no es el conteo de registros originales de monitoreo.}
+                        sha256: {type: string, pattern: '^[a-fA-F0-9]{64}$'}
+        "500":
+          description: Error inesperado al construir el catálogo
+        "503":
+          description: Catálogo no disponible temporalmente (mapa no inicializado)
   /health:
     get:
       tags: [Servicio]
@@ -66,6 +96,13 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/Trabajo" }
+        "429":
+          description: Se alcanzó el límite de creación por minuto
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+                example: 60
         "400":
           description: JSON inválido, campo desconocido o parámetros fuera de rango
           content:

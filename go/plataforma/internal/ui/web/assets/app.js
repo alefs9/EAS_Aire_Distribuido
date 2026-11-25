@@ -5,9 +5,10 @@ import {bindMenu} from './menu.js';
 import {homeView} from './views/home.js';
 import {datasetsView} from './views/datasets.js';
 import {panelView} from './views/panel.js';
+import {executionsView} from './views/executions.js';
 
 // Screen modules register render functions here; keep the shell shared.
-const views = new Map([['/', homeView], ['/datos', datasetsView]]);
+const views = new Map([['/', homeView], ['/datos', datasetsView], ['/ejecuciones', executionsView]]);
 export function registerView(path, renderView) {views.set(path, renderView);}
 registerView('/panel', panelView);
 const descriptions = {

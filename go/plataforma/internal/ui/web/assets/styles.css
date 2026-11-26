@@ -632,3 +632,16 @@ main {
 .panel-note{font-size:.85rem;margin-top:18px}.panel-overview .message{margin-top:20px}
 
 .panel-job-counts{display:flex;gap:16px;flex-wrap:wrap;list-style:none;padding:16px 0}.panel-job-counts li{background:#e8efdf;border-radius:8px;padding:6px 12px}.panel-job-id{overflow-wrap:anywhere;max-width:24rem}.panel-jobs .table-wrap{margin-top:18px}
+
+.execution-page { max-width: 900px; }
+.execution-page > h1 { font-size: clamp(2rem,5vw,3.5rem); margin-bottom: 18px; }
+.execution-content { display: grid; gap: 22px; margin-top: 30px; }
+.execution-dataset, .execution-form { display: block; min-width: 0; }
+.execution-dataset h2, .execution-form h2 { font-size: 1.35rem; margin-bottom: 18px; }
+.execution-form .button { margin-top: 4px; }
+.execution-feedback { margin-top: 20px; }
+.job-id { overflow-wrap: anywhere; font-family: ui-monospace,monospace; }
+.execution-form input[aria-invalid="true"] { border: 2px solid #a33e30; }
+@media(max-width:700px) {
+  .execution-form .button, .execution-dataset .button { width: 100%; }
+}

@@ -12,7 +12,7 @@ export function createDatasetsView({load=loadCatalog,selection=datasetSelection}
   const updateSummary=()=>{
    renderSelectionActions(shell,selection,()=>{selection.clear();shell.root.querySelectorAll('input[name=dataset]').forEach(input=>input.checked=false);updateSummary();shell.root.querySelector('input[name=dataset]:not(:disabled)')?.focus();});
    const selected=selection.current();
-   shell.summary.textContent=selected ? `Conjunto seleccionado: ${periodLabels[selected.period]} · ${selected.id}. La ejecución todavía no se ha iniciado.` : 'Selecciona un conjunto verificado para continuar.';
+  shell.summary.textContent=selected ? `Conjunto seleccionado: ${periodLabels[selected.period]}. La ejecución todavía no se ha iniciado.` : 'Selecciona un conjunto verificado para continuar.';
   };
   const controller=createCatalogController({load,signal,onState(state){
    if(state.kind==='data' || state.kind==='empty')selection.reconcile(state.datasets);else selection.invalidate();

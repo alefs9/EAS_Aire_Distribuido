@@ -8,64 +8,81 @@ export class CatalogNotConfiguredError extends Error {
   }
 }
 
-function textIfPresent(value, field) {
-  if (value == null) return undefined;
-  if (typeof value !== 'string' || value.trim() === '') {
-    throw new Error(`Metadato ${field} no válido.`);
+function toDatasetModel(item) {
+  if (
+    !item ||
+    typeof item !== 'object' ||
+    typeof item.id !== 'string' ||
+    !item.id.trim() ||
+    !['1_hora', '24_horas'].includes(item.period)
+  ) {
+    throw new Error('Conjunto de catálogo no válido.');
   }
-  return value;
+
+  const model = {id: item.id, period: item.period};
+  if (item.vector_count != null) model.vectorCount = item.vector_count;
+  if (item.measurement_count != null) model.measurementCount = item.measurement_count;
+  if (item.features != null) model.features = item.features;
+
+  for (const key of ['unit', 'source', 'coverage']) {
+    if (item[key] != null) model[key] = item[key];
+  }
+
+  if (item.sha256 != null) model.sha256 = item.sha256;
+  return model;
 }
 
-export async function fetchCatalog({signal} = {}) {
-  const response = await apiRequest('/datasets', {signal, timeoutMs: 10000});
-  if (!response.ok) {
-    throw new Error(`No se pudo consultar el catálogo (HTTP ${response.status}).`);
-  }
-  let body;
-  try {
-    body = await response.json();
-  } catch {
-    throw new Error('La respuesta del catálogo no contiene JSON válido.');
-  }
-  if (!body || typeof body !== 'object' || !Array.isArray(body.datasets)) {
-    throw new Error('La respuesta del catálogo no tiene el formato esperado.');
-  }
-  const mapped = body.datasets.map(item => {
-    if (!item || typeof item !== 'object') throw new Error('Conjunto no válido.');
-    if (typeof item.id !== 'string' || !item.id.trim()) throw new Error('ID de conjunto no válido.');
-    if (!['1_hora', '24_horas'].includes(item.period)) throw new Error('Periodo no válido.');
-    const model = {id: item.id, period: item.period};
-    if (item.vector_count != null) model.vectorCount = item.vector_count;
-    if (item.measurement_count != null) model.measurementCount = item.measurement_count;
-    if (item.features != null) model.features = item.features;
-    for (const key of ['unit', 'source', 'coverage']) {
-      const value = textIfPresent(item[key], key);
-      if (value !== undefined) model[key] = value;
+export function createCatalogLoader(request = apiRequest) {
+  return async ({signal} = {}) => {
+    signal?.throwIfAborted();
+
+    const response = await request('/datasets', {signal, timeoutMs: 10000});
+    if (!response.ok) {
+      throw new Error(`Catálogo no disponible (HTTP ${response.status}).`);
     }
-    if (item.sha256 != null) model.sha256 = item.sha256;
-    return model;
-  });
-  return mapped;
+
+    let body;
+    try {
+      body = await response.json();
+    } catch {
+      throw new Error('La respuesta del catálogo no contiene JSON válido.');
+    }
+
+    if (!body || typeof body !== 'object' || !Array.isArray(body.datasets)) {
+      throw new Error('Respuesta de catálogo no válida.');
+    }
+
+    signal?.throwIfAborted();
+    return validateCatalog(body.datasets.map(toDatasetModel));
+  };
 }
+
+export const fetchCatalog = createCatalogLoader();
 
 export function createCatalogSource(nextLoader) {
   if (nextLoader != null && typeof nextLoader !== 'function') {
     throw new TypeError('loader debe ser una función.');
   }
+
   return async ({signal} = {}) => {
     signal?.throwIfAborted();
     if (!nextLoader) throw new CatalogNotConfiguredError();
-    const records=await nextLoader({signal});
+
+    const records = await nextLoader({signal});
     signal?.throwIfAborted();
     return validateCatalog(records);
   };
 }
 
 let source = createCatalogSource();
+
 export function configureCatalogLoader(nextLoader) {
-  if (typeof nextLoader !== 'function') throw new TypeError('loader debe ser una función.');
+  if (typeof nextLoader !== 'function') {
+    throw new TypeError('loader debe ser una función.');
+  }
   source = createCatalogSource(nextLoader);
 }
+
 export function loadCatalog(options) {
   return source(options);
 }

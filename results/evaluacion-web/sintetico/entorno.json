@@ -1,0 +1,21 @@
+﻿{
+    "captured_at":  "2026-11-26T12:54:33.6496826-05:00",
+    "commit":  "54e68176a24df2e22ae04dd047c700c1a278a5f7",
+    "os":  "Microsoft Windows 11 Home Single Language",
+    "cpu":  "Intel(R) Core(TM) 7 240H",
+    "ram_gib":  15.6,
+    "go":  "go version go1.27.1 windows/amd64",
+    "docker_compose":  "Docker Compose version v5.1.4",
+    "data_host_dir":  "../../data/evaluacion-sintetica",
+    "job_posts_per_minute":  "0",
+    "queue_size":  "64",
+    "job_timeout":  "3m",
+    "compose_images":  [
+                           "sha256:118dbd96c68de940a768a743edc1c19e505433e72c0720f1bfc1cdff703e1a11 | [\"plataforma-ui:latest\"] | [\"plataforma-ui@sha256:118dbd96c68de940a768a743edc1c19e505433e72c0720f1bfc1cdff703e1a11\"]",
+                           "sha256:479e85ced54ffb8a40dade1dcde2da2a9ae858515b9415e9cc54bfb8f0575d01 | [\"mongo:8.0\"] | [\"mongo@sha256:479e85ced54ffb8a40dade1dcde2da2a9ae858515b9415e9cc54bfb8f0575d01\"]",
+                           "sha256:5294e52e93aac9334473328efb8cc26f7c2a60621956b983a71a225b7fe6eda9 | [\"plataforma-nodo-2:latest\"] | [\"plataforma-nodo-2@sha256:5294e52e93aac9334473328efb8cc26f7c2a60621956b983a71a225b7fe6eda9\"]",
+                           "sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe | [\"redis:7.4-alpine\"] | [\"redis@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe\"]",
+                           "sha256:d346c43443f58bf4c8d49ee0e91e4c9f228b7c76d5a512af9ef0f25ac8f7373b | [\"plataforma-api:latest\"] | [\"plataforma-api@sha256:d346c43443f58bf4c8d49ee0e91e4c9f228b7c76d5a512af9ef0f25ac8f7373b\"]",
+                           "sha256:f8fbe592c6e260d7f9dbd1a289c1e8bd2143f306e9ae53a2325c3c6698630edb | [\"plataforma-nodo-1:latest\"] | [\"plataforma-nodo-1@sha256:f8fbe592c6e260d7f9dbd1a289c1e8bd2143f306e9ae53a2325c3c6698630edb\"]"
+                       ]
+}

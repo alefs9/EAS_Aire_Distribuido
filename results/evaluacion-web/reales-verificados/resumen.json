@@ -1,0 +1,130 @@
+﻿[
+    {
+        "group":  "1_hora, 1",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  10.864,
+        "p95":  16.128,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 1",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  1104.355,
+        "p95":  1365.888,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 1",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  717.477,
+        "p95":  813.325,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 1",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  4780.472,
+        "p95":  5859.522,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  8.182,
+        "p95":  13.773,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  658.7,
+        "p95":  1247.834,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  387.981,
+        "p95":  416.947,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  5784.755,
+        "p95":  5893.559,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  11.246,
+        "p95":  18.982,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  60.56,
+        "p95":  139.167,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  38.034,
+        "p95":  45.138,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  2115.085,
+        "p95":  3030.409,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  7.6,
+        "p95":  10.132,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  36.59,
+        "p95":  46.454,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  31.714,
+        "p95":  39.199,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  5056.913,
+        "p95":  5166.016,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    }
+]

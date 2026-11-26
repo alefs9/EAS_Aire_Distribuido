@@ -1,0 +1,21 @@
+﻿{
+    "captured_at":  "2026-11-26T14:09:41.6939152-05:00",
+    "commit":  "0658dae6e1d813c76bfdc351172f1ea787a62dbc",
+    "os":  "Microsoft Windows 11 Home Single Language",
+    "cpu":  "Intel(R) Core(TM) 7 240H",
+    "ram_gib":  15.6,
+    "go":  "go version go1.27.1 windows/amd64",
+    "docker_compose":  "Docker Compose version v5.1.4",
+    "data_host_dir":  "../../data/evaluacion-sintetica",
+    "job_posts_per_minute":  "0",
+    "queue_size":  "64",
+    "job_timeout":  "3m",
+    "compose_images":  [
+                           "sha256:3fc934562d14bb47c9ddb0fbd10a8d776f51590f22e587ef23a1ae2c5105fb5d | [\"eas-eval-nicole-20261126-nodo-1:latest\"] | [\"eas-eval-nicole-20261126-nodo-1@sha256:3fc934562d14bb47c9ddb0fbd10a8d776f51590f22e587ef23a1ae2c5105fb5d\"]",
+                           "sha256:479e85ced54ffb8a40dade1dcde2da2a9ae858515b9415e9cc54bfb8f0575d01 | [\"mongo:8.0\"] | [\"mongo@sha256:479e85ced54ffb8a40dade1dcde2da2a9ae858515b9415e9cc54bfb8f0575d01\"]",
+                           "sha256:5f16d79d0e1fec5c4014118ef050e8d4a4332d7fa86c221a9b9cbe787a81b643 | [\"eas-eval-nicole-20261126-api:latest\"] | [\"eas-eval-nicole-20261126-api@sha256:5f16d79d0e1fec5c4014118ef050e8d4a4332d7fa86c221a9b9cbe787a81b643\"]",
+                           "sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe | [\"redis:7.4-alpine\"] | [\"redis@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe\"]",
+                           "sha256:a083ae5b5bdf9c329d0144fee29f1e1e71bfa1be92da53c02ed0b8c1584b5228 | [\"eas-eval-nicole-20261126-ui:latest\"] | [\"eas-eval-nicole-20261126-ui@sha256:a083ae5b5bdf9c329d0144fee29f1e1e71bfa1be92da53c02ed0b8c1584b5228\"]",
+                           "sha256:d640a9e1d29f1786f907fc006832f8a2ccab995a8b4943e8cda008818f2a326a | [\"eas-eval-nicole-20261126-nodo-2:latest\"] | [\"eas-eval-nicole-20261126-nodo-2@sha256:d640a9e1d29f1786f907fc006832f8a2ccab995a8b4943e8cda008818f2a326a\"]"
+                       ]
+}

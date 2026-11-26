@@ -1,0 +1,7 @@
+NAME                                IMAGE                             COMMAND                  SERVICE   CREATED         STATUS                    PORTS
+eas-eval-nicole-20261126-api-1      eas-eval-nicole-20261126-api      "/usr/local/bin/app"     api       4 minutes ago   Up 4 minutes (healthy)    8080/tcp, 9000/tcp
+eas-eval-nicole-20261126-mongo-1    mongo:8.0                         "docker-entrypoint.sÔÇª"   mongo     2 hours ago     Up 22 minutes (healthy)   27017/tcp
+eas-eval-nicole-20261126-nodo-1-1   eas-eval-nicole-20261126-nodo-1   "/bin/sh /usr/local/ÔÇª"   nodo-1    2 hours ago     Up 21 minutes             
+eas-eval-nicole-20261126-nodo-2-1   eas-eval-nicole-20261126-nodo-2   "/bin/sh /usr/local/ÔÇª"   nodo-2    2 hours ago     Up 21 minutes             
+eas-eval-nicole-20261126-redis-1    redis:7.4-alpine                  "docker-entrypoint.sÔÇª"   redis     2 hours ago     Up 22 minutes (healthy)   6379/tcp
+eas-eval-nicole-20261126-ui-1       eas-eval-nicole-20261126-ui       "/usr/local/bin/app"     ui        2 hours ago     Up 2 hours (healthy)      127.0.0.1:8090->8090/tcp

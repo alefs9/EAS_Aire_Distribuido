@@ -99,6 +99,11 @@ func main() {
 	for i := 1; i <= *n; i++ {
 		medir("salud", "GET", "/health", "", 200, i)
 	}
+
+	// 2. Catálogo real, solo lectura.
+	for i := 1; i <= *n; i++ {
+		medir("catalogo", "GET", "/datasets", "", 200, i)
+	}
 	// 2. Aceptación de trabajos: mide solo la respuesta 202, no el entrenamiento.
 	var ids []string
 	cuerpo := fmt.Sprintf(`{"periodo":%q,"k":4,"semilla":42}`, *periodo)

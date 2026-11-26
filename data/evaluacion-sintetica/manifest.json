@@ -1,0 +1,20 @@
+{
+    "orden_features":  [
+                           "PM10",
+                           "PM2.5"
+                       ],
+    "unidad":  "",
+    "cobertura":  "",
+    "por_periodo":  [
+                        {
+                            "periodo":  "1 hora",
+                            "filas":  200,
+                            "sha256_features":  "df234f98484e69957dcd718fd7845ec01fad4a449e409ee4d7945b109fff6502"
+                        },
+                        {
+                            "periodo":  "24 horas",
+                            "filas":  200,
+                            "sha256_features":  "df234f98484e69957dcd718fd7845ec01fad4a449e409ee4d7945b109fff6502"
+                        }
+                    ]
+}

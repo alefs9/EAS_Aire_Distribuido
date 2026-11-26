@@ -30,6 +30,11 @@ class IndicadoresTest(unittest.TestCase):
         self.assertEqual(por_periodo(self.con).filter("periodo='24 horas' AND contaminante='PM10'").fetchone()[2],1)
     def test_exclusiones(self):
         self.assertEqual(self.audit, {'incluido':4,'concentracion_negativa':1,'concentracion_ausente_o_no_finita':1,'periodo_no_admitido':1})
+    def test_ceros_son_observaciones_y_no_se_imputan(self):
+        self.con.execute('UPDATE vectores SET "PM10"=0 WHERE vector_id=1')
+        row = por_periodo(self.con).filter("periodo='1 hora' AND contaminante='PM10'").fetchone()
+        self.assertEqual(row[2],3)
+        self.assertEqual(row[10],1)
     def test_fecha_desconocida_no_se_imputa(self):
         rows = por_anio(self.con).fetchall()
         self.assertEqual(sum(r[3] for r in rows),6)

@@ -9,7 +9,8 @@ def abrir(con, root=ROOT):
     manifest_path = root / 'data/vectors/manifest.json'
     manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
     source = root / manifest['parquet']
-    digest = hashlib.file_digest(source.open('rb'), 'sha256').hexdigest()
+    with source.open('rb') as stream:
+        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
     if digest != manifest['sha256_parquet']:
         raise ValueError('El Parquet no coincide con el manifiesto.')
     con.read_parquet(str(source)).create_view('vectores')

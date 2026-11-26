@@ -23,7 +23,8 @@ def main():
         source['scripts_sha256'] = {}
         import hashlib
         for path in sorted((ROOT / 'scripts/indicadores').glob('*.py')):
-            source['scripts_sha256'][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+            source['scripts_sha256'][path.name] = hashlib.sha256(path.read_text(encoding='utf-8').encode('utf-8')).hexdigest()
+        source['hash_scripts'] = 'UTF-8 con saltos de linea LF'
         exportar({'por_periodo':por_periodo(con), 'por_anio':por_anio(con), 'por_punto':por_punto(con)}, args.salida, source)
         print('Indicadores exportados:', args.salida)
 

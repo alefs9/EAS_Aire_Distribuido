@@ -2,7 +2,8 @@
 STATS = '''count(*) AS n_observaciones, min(concentracion) AS minimo,
  quantile_cont(concentracion,0.25) AS p25, median(concentracion) AS mediana,
  avg(concentracion) AS media, quantile_cont(concentracion,0.75) AS p75,
- quantile_cont(concentracion,0.95) AS p95, max(concentracion) AS maximo'''
+ quantile_cont(concentracion,0.95) AS p95, max(concentracion) AS maximo,
+ count(*) FILTER (WHERE concentracion=0) AS valores_cero'''
 
 def por_periodo(con):
     return con.sql(f'''SELECT periodo, contaminante, {STATS},

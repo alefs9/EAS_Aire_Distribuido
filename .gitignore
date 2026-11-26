@@ -36,3 +36,8 @@ Vectores_PM/
 
 # Configuración local del editor
 .idea/
+
+# Variables locales; conservar solo la plantilla sin secretos
+.env
+.env.*
+!.env.example

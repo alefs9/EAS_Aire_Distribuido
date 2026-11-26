@@ -19,7 +19,7 @@ func TestDocumentacionPublicada(t *testing.T) {
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("/openapi.yaml: %d", resp.StatusCode)
 	}
-	for _, ruta := range []string{"/health:", "/jobs:", "/jobs/{id}:", "/jobs/{id}/results:"} {
+	for _, ruta := range []string{"/health:", "/jobs:", "/jobs/{id}:", "/jobs/{id}/results:", "/datasets:"} {
 		if !strings.Contains(string(cuerpo), ruta) {
 			t.Errorf("la especificación no documenta %s", ruta)
 		}

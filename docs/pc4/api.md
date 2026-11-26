@@ -18,9 +18,10 @@ El `job_id` externo se mantiene en las rutas HTTP, en `jobs._id` de MongoDB y en
 | Método | Ruta | Respuesta correcta | Otros códigos |
 |---|---|---|---|
 | GET | `/health` | 200 (`ok` o `degradado` si falta Redis) | 503 si MongoDB no responde |
-| POST | `/jobs` | 202 + `Location: /jobs/{id}` | 400 parámetros o JSON inválido, 503 cola llena o MongoDB caído |
+| GET | `/datasets` | 200 con metadatos; `datasets: []` confirma catálogo vacío | 503 si el catálogo no está disponible |
+| POST | `/jobs` | 202 + `Location: /jobs/{id}` | 400 parámetros o JSON inválido, 429 límite alcanzado, 503 cola llena o MongoDB caído |
 | GET | `/jobs/{id}` | 200 con `trabajo` y `fuente` | 404, 503 |
-| GET | `/jobs/{id}/results` | 200 con el resultado resumido y `fuente` | 404, 409 pendiente, 422 fallido, 503 |
+| GET | `/jobs/{id}/results` | 200 con resultado resumido | 404, 409 pendiente, 422 fallido, 503 |
 
 El cuerpo de `POST /jobs` admite `periodo` (`1_hora` o `24_horas`), `k` (1-20), `semilla`, `tolerancia` (≥ 0), `max_iter` (1-1000) y `nodos` (1-8). Todos son opcionales; los valores por defecto son `1_hora`, 4, 42, 0.0001, 100 y `CLUSTER_NODES`. Se rechazan campos desconocidos.
 
@@ -32,8 +33,8 @@ Al arrancar, la API lee `features_1_hora.csv` y `features_24_horas.csv` de `DATA
 
 | Variable | Por defecto | Uso |
 |---|---|---|
-| `API_ADDR` | `:8080` | Dirección HTTP |
-| `COORDINATOR_LISTEN` | `:9000` | Dirección TCP donde se registran los nodos |
+| `API_ADDR` | `127.0.0.1:8080` | Dirección HTTP |
+| `COORDINATOR_LISTEN` | `127.0.0.1:9000` | Dirección TCP donde se registran los nodos |
 | `DATA_DIR` | `../../data/vectors` | Carpeta de los CSV de vectores |
 | `CLUSTER_NODES` | `2` | Nodos por trabajo si la solicitud no los indica |
 | `QUEUE_SIZE` | `8` | Capacidad de la cola |
@@ -44,6 +45,7 @@ Al arrancar, la API lee `features_1_hora.csv` y `features_24_horas.csv` de `DATA
 | `REDIS_ADDR` | `127.0.0.1:6379` | Conexión a Redis |
 | `REDIS_PASSWORD` | vacío | No se guarda en Git |
 | `CACHE_TTL_SECONDS` | `60` | Duración de un resultado en Redis |
+| `JOB_POSTS_PER_MINUTE` | `10` | Máximo de solicitudes `POST /jobs` por IP y minuto; `0` desactiva el límite solo para pruebas locales aisladas |
 
 ## Ejecución local (PowerShell, desde la raíz del repositorio)
 

@@ -49,7 +49,11 @@ paths:
                         coverage: {type: string}
                         sha256: {type: string, pattern: '^[a-fA-F0-9]{64}$'}
         "503":
-          description: Catálogo no disponible temporalmente (mapa no inicializado)
+          description: Catálogo no disponible temporalmente
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              example: { codigo: catalogo_no_disponible, error: "El catálogo no está disponible temporalmente." }
   /health:
     get:
       tags: [Servicio]
@@ -124,7 +128,7 @@ paths:
                 cola:
                   value: { codigo: cola_llena, error: "la cola de trabajos está llena" }
                 almacen:
-                  value: { codigo: almacen_no_disponible, error: "server selection error" }
+                  value: { codigo: almacen_no_disponible, error: "El servicio no está disponible. Intenta nuevamente más tarde." }
   /jobs/{id}:
     get:
       tags: [Trabajos]

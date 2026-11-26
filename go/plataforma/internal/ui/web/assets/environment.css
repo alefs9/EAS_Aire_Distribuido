@@ -1,0 +1,13 @@
+.environment-form {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0}
+.environment-form label {display:block;margin-bottom:.4rem}
+.environment-form input,.environment-form select {width:100%;min-width:0;padding:.7rem;font:inherit;border:1px solid #647970;border-radius:.4rem;background:white}
+.environment-form button {align-self:end}
+.environment-profile {margin:1.5rem 0;padding:1rem;border:1px solid #c9d8cf;border-radius:.7rem}
+.environment-profile h3 {margin-bottom:.5rem}
+.environment-id {overflow-wrap:anywhere}
+.environment-bars {margin:1rem 0}
+.environment-bar-row {margin:.8rem 0}
+.environment-bar-row span {overflow-wrap:anywhere}
+.environment-bar {display:block;height:14px;margin-top:.35rem;border-radius:3px;background:#176855}
+.environment-bar.pm25 {background:#9b5425}
+@media(max-width:540px){.environment-form{grid-template-columns:1fr}.environment-profile{padding:.7rem}}

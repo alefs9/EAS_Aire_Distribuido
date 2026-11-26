@@ -1,0 +1,39 @@
+{
+  "archivo": "data/vectors/vectores_PM10_PM25.parquet",
+  "sha256": "b12512b4aab472d309687deb287d45a5540ad14ff3d58bfb015e9b5c32fd6721",
+  "run_id": "20261105T005132_156935Z",
+  "unidad": "µg/m³",
+  "pares_entrada": 463644,
+  "mediciones_sin_par_excluidas_previamente": 135609,
+  "clasificacion_pares": {
+    "incluido": 463644
+  },
+  "duckdb": "1.3.2",
+  "denominador": "Un par completo por observación y periodo; una concentración por contaminante. No población.",
+  "fecha_ausente_excluida_solo_del_resumen_anual": 0,
+  "scripts_sha256": {
+    "calidad.py": "c266e60b1528ff157f477f3425ff85af0330e67e03a9688ab7a14e3ff4548e46",
+    "ejecutar.py": "7c5a2b1c6ffbb36afe848c7d15e4fc2eb93e9963293ceaf58599ef62528c1400",
+    "exportar.py": "37b9815c882e8f385689fefdecd4d3163d38fcb1108a81f9635a7ebd63f04904",
+    "fuente.py": "6d9744cc7ef1bd1490cb19ad958f4ec0821866f10aaeaeebb53f3f361d87db80",
+    "puntos.py": "dd4782f92a20a39e8d5549b07a932877094ea6d9c3355c4b7e0359004e627726",
+    "resumen.py": "81613537a5db0bff5aad794aa1453f938faa96d55bc0f73ccfbb6b8d0e675874",
+    "temporal.py": "6f1fd4c789f3f3f1383b47ed0dbd88d887eda31dfa5684a79b0d0f8f8da21826",
+    "test_indicadores.py": "d46757f92b8a42326f856b92a1d227d8336932706c2c2a0d9f32153d1a28e4c7"
+  },
+  "hash_scripts": "UTF-8 con saltos de linea LF",
+  "salidas": {
+    "por_periodo.csv": {
+      "filas": 4,
+      "sha256": "7864dec252d222285b7b6ca6dc8599a350d77af1af716c66a89b63d2948dd36f"
+    },
+    "por_anio.csv": {
+      "filas": 24,
+      "sha256": "e4b6cf0f541db5ea5a20e2b1800b0fc690b287114ed5067150b3c24a80baa11b"
+    },
+    "por_punto.csv": {
+      "filas": 426,
+      "sha256": "f3966457ad032c54bba1a6f57648304b8dff1034d81baf63fbaf75ebb043bde1"
+    }
+  }
+}

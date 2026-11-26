@@ -1,0 +1,128 @@
+services:
+  mongo:
+    image: mongo:8.0
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - backend
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - backend
+
+  api:
+    build:
+      context: ../..
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: api
+    restart: unless-stopped
+    environment:
+      API_ADDR: ":8080"
+      COORDINATOR_LISTEN: ":9000"
+      DATA_DIR: /data/vectors
+      STORE: mongo
+      MONGODB_URI: mongodb://mongo:27017
+      MONGODB_DATABASE: eas_pc4
+      REDIS_ADDR: redis:6379
+      CLUSTER_NODES: "2"
+      QUEUE_SIZE: "${QUEUE_SIZE:-8}"
+      JOB_TIMEOUT: "${JOB_TIMEOUT:-3m}"
+      JOB_POSTS_PER_MINUTE: "${JOB_POSTS_PER_MINUTE:-10}"
+    volumes:
+      - "${DATA_HOST_DIR:-../../data/vectors}:/data/vectors:ro"
+    expose:
+      - "8080"
+      - "9000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+    networks:
+      - backend
+
+  ui:
+    build:
+      context: ../..
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: ui
+    restart: unless-stopped
+    environment:
+      UI_ADDR: ":8090"
+      UI_API_URL: "http://api:8080"
+    ports:
+      - "127.0.0.1:8090:8090"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8090/"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - frontend
+      - backend
+
+  nodo-1:
+    build:
+      context: ../..
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: node
+    entrypoint: ["/bin/sh", "/usr/local/bin/node-loop.sh"]
+    command: ["-coordinator", "api:9000", "-id", "nodo-1"]
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - backend
+
+  nodo-2:
+    build:
+      context: ../..
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: node
+    entrypoint: ["/bin/sh", "/usr/local/bin/node-loop.sh"]
+    command: ["-coordinator", "api:9000", "-id", "nodo-2"]
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - backend
+
+networks:
+  frontend: {}
+  backend:
+    internal: true
+
+volumes:
+  mongo-data: {}
+  redis-data: {}

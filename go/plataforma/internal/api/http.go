@@ -16,9 +16,10 @@ func NuevoRouter(s *Servicio, logger *log.Logger) *http.ServeMux {
 	h := &handlers{s: s}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /health", h.salud)
-	mux.HandleFunc("POST /jobs", h.crear)
+	mux.Handle("POST /jobs", limitJobCreation(http.HandlerFunc(h.crear), configuredJobLimit()))
 	mux.HandleFunc("GET /jobs/{id}", h.estado)
 	mux.HandleFunc("GET /jobs/{id}/results", h.resultado)
+	mux.HandleFunc("GET /datasets", h.datasets)
 	registrarDocumentacion(mux)
 	return mux
 }
@@ -57,14 +58,24 @@ func (h *handlers) crear(w http.ResponseWriter, r *http.Request) {
 	var sol Solicitud
 	dec := json.NewDecoder(http.MaxBytesReader(w, r.Body, 1<<14))
 	dec.DisallowUnknownFields()
+
 	if err := dec.Decode(&sol); err != nil {
-		responderError(w, http.StatusBadRequest, "json_invalido", err.Error())
+		log.Printf("POST /jobs: cuerpo JSON inválido: %v", err)
+		responderError(
+			w,
+			http.StatusBadRequest,
+			"json_invalido",
+			"El cuerpo JSON no es válido o excede el límite permitido.",
+		)
 		return
 	}
+
 	ctx, cancel := contexto(r)
 	defer cancel()
+
 	t, err := h.s.Enviar(ctx, sol)
 	var ve ErrorValidacion
+
 	switch {
 	case errors.As(err, &ve):
 		responderError(w, http.StatusBadRequest, "parametros_invalidos", ve.Mensaje)
@@ -73,7 +84,13 @@ func (h *handlers) crear(w http.ResponseWriter, r *http.Request) {
 	case errors.Is(err, ErrColaLlena):
 		responderError(w, http.StatusServiceUnavailable, "cola_llena", err.Error())
 	case err != nil:
-		responderError(w, http.StatusServiceUnavailable, "almacen_no_disponible", err.Error())
+		log.Printf("POST /jobs: dependencia no disponible: %v", err)
+		responderError(
+			w,
+			http.StatusServiceUnavailable,
+			"almacen_no_disponible",
+			"El servicio no está disponible. Intenta nuevamente más tarde.",
+		)
 	default:
 		w.Header().Set("Location", "/jobs/"+t.ID)
 		responderJSON(w, http.StatusAccepted, t)
@@ -84,6 +101,7 @@ func (h *handlers) crear(w http.ResponseWriter, r *http.Request) {
 func (h *handlers) leer(w http.ResponseWriter, r *http.Request) (persistencia.Lectura, bool, bool) {
 	ctx, cancel := contexto(r)
 	defer cancel()
+
 	l, err := h.s.Leer(ctx, r.PathValue("id"))
 	switch {
 	case errors.Is(err, persistencia.ErrNoEncontrado):
@@ -92,9 +110,16 @@ func (h *handlers) leer(w http.ResponseWriter, r *http.Request) (persistencia.Le
 	case errors.Is(err, persistencia.ErrPendiente):
 		return l, false, true
 	case err != nil:
-		responderError(w, http.StatusServiceUnavailable, "almacen_no_disponible", err.Error())
+		log.Printf("%s: dependencia no disponible: %v", r.URL.Path, err)
+		responderError(
+			w,
+			http.StatusServiceUnavailable,
+			"almacen_no_disponible",
+			"El servicio no está disponible. Intenta nuevamente más tarde.",
+		)
 		return l, false, false
 	}
+
 	return l, true, true
 }
 
@@ -126,6 +151,41 @@ func (h *handlers) resultado(w http.ResponseWriter, r *http.Request) {
 	default: // queued o running
 		responderJSON(w, http.StatusConflict, map[string]string{"codigo": "no_disponible_aun", "job_id": l.Trabajo.ID, "estado": l.Trabajo.Estado})
 	}
+}
+
+func (h *handlers) datasets(w http.ResponseWriter, _ *http.Request) {
+	if h.s.datasets == nil { // nil = catálogo no disponible; mapa vacío no nil = catálogo confirmado vacío.
+		responderError(w, http.StatusServiceUnavailable, "catalogo_no_disponible", "El catálogo no está disponible temporalmente.")
+		return
+	}
+	periodos := []string{"1_hora", "24_horas"}
+	items := make([]map[string]any, 0, len(h.s.datasets))
+	for _, periodo := range periodos {
+		d, ok := h.s.datasets[periodo]
+		if !ok {
+			continue
+		}
+		item := map[string]any{
+			"id": d.ID, "period": d.Periodo,
+			"vector_count":      len(d.Puntos),
+			"measurement_count": len(d.Puntos) * 2,
+		}
+		if len(d.Features) == 2 {
+			item["features"] = d.Features
+		}
+		if d.Unit != "" {
+			item["unit"] = d.Unit
+		}
+		if d.Coverage != "" {
+			item["coverage"] = d.Coverage
+		}
+		if d.SHA256 != "" {
+			item["sha256"] = d.SHA256
+		}
+		items = append(items, item)
+	}
+	w.Header().Set("Cache-Control", "no-store")
+	responderJSON(w, http.StatusOK, map[string]any{"datasets": items})
 }
 
 // ConRegistro escribe método, ruta, código y duración de cada solicitud.

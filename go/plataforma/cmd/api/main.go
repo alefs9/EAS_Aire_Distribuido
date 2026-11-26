@@ -2,14 +2,18 @@
 //
 // Variables de entorno (valores por defecto entre paréntesis):
 //
-//	API_ADDR (:8080)              dirección HTTP
-//	COORDINATOR_LISTEN (:9000)    dirección TCP donde se registran los nodos
+// API_ADDR (127.0.0.1:8080)        dirección HTTP
+// COORDINATOR_LISTEN (127.0.0.1:9000) dirección TCP donde se registran los nodos
+//
 //	DATA_DIR (../../data/vectors) carpeta con features_1_hora.csv y features_24_horas.csv
 //	CLUSTER_NODES (2)             nodos por trabajo si la solicitud no lo indica
 //	QUEUE_SIZE (8)                capacidad de la cola de trabajos
 //	JOB_TIMEOUT (3m)              plazo total de un trabajo, incluida la espera de nodos
 //	STORE (mongo)                 "mongo" (MongoDB + Redis) o "memoria" (desarrollo)
 //	MONGODB_URI, MONGODB_DATABASE (eas_pc4), REDIS_ADDR, REDIS_PASSWORD, CACHE_TTL_SECONDS (60)
+//
+// JOB_POSTS_PER_MINUTE: máximo de POST /jobs por minuto; default 10.
+// El valor 0 desactiva el límite y se reserva para pruebas locales aisladas.
 package main
 
 import (
@@ -99,7 +103,7 @@ func main() {
 	}
 
 	// 3. Coordinador del clúster (Alexandra): los nodos se registran por TCP.
-	ln, err := net.Listen("tcp", env("COORDINATOR_LISTEN", ":9000"))
+	ln, err := net.Listen("tcp", env("COORDINATOR_LISTEN", "127.0.0.1:9000"))
 	if err != nil {
 		logger.Fatal(err)
 	}
@@ -113,7 +117,7 @@ func main() {
 		TamanoCola: envEntero("QUEUE_SIZE", 8), Timeout: timeout, NodosDefecto: envEntero("CLUSTER_NODES", 2),
 	}, logger)
 	srv := &http.Server{
-		Addr:              env("API_ADDR", ":8080"),
+		Addr:              env("API_ADDR", "127.0.0.1:8080"),
 		Handler:           api.ConRegistro(api.NuevoRouter(servicio, logger), logger),
 		ReadHeaderTimeout: 5 * time.Second,
 		WriteTimeout:      10 * time.Second,

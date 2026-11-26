@@ -16,7 +16,44 @@ servers:
 tags:
   - name: Servicio
   - name: Trabajos
+  - name: Conjuntos
 paths:
+  /datasets:
+    get:
+      tags: [Conjuntos]
+      summary: Consultar metadatos de los conjuntos disponibles
+      description: Solo informa metadatos; nunca descarga los CSV de vectores.
+      responses:
+        "200":
+          description: Catálogo disponible; datasets vacío confirma que no hay conjuntos.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [datasets]
+                properties:
+                  datasets:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, period]
+                      properties:
+                        id: {type: string}
+                        period: {type: string, enum: [1_hora, 24_horas]}
+                        vector_count: {type: integer, minimum: 0}
+                        measurement_count: {type: integer, minimum: 0, description: Total de valores escalares PM10 y PM2.5; no es el conteo de registros originales de monitoreo.}
+                        features:
+                          type: array
+                          items: {type: string}
+                        unit: {type: string}
+                        coverage: {type: string}
+                        sha256: {type: string, pattern: '^[a-fA-F0-9]{64}$'}
+        "503":
+          description: Catálogo no disponible temporalmente
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              example: { codigo: catalogo_no_disponible, error: "El catálogo no está disponible temporalmente." }
   /health:
     get:
       tags: [Servicio]
@@ -66,6 +103,16 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/Trabajo" }
+        "429":
+          description: Se alcanzó el límite de creación por minuto
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+                example: 60
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
         "400":
           description: JSON inválido, campo desconocido o parámetros fuera de rango
           content:
@@ -81,7 +128,7 @@ paths:
                 cola:
                   value: { codigo: cola_llena, error: "la cola de trabajos está llena" }
                 almacen:
-                  value: { codigo: almacen_no_disponible, error: "server selection error" }
+                  value: { codigo: almacen_no_disponible, error: "El servicio no está disponible. Intenta nuevamente más tarde." }
   /jobs/{id}:
     get:
       tags: [Trabajos]

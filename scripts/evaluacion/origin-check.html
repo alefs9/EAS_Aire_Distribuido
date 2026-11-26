@@ -1,0 +1,15 @@
+﻿<!doctype html>
+<meta charset="utf-8">
+<button id="run">Probar acceso directo a la API</button>
+<pre id="out"></pre>
+<script>
+document.querySelector('#run').addEventListener('click', async () => {
+  const out = document.querySelector('#out');
+  try {
+    const r = await fetch('http://127.0.0.1:8080/health');
+    out.textContent = `Permitido: HTTP ${r.status}`;
+  } catch {
+    out.textContent = 'Bloqueado por CORS desde otro origen (esperado).';
+  }
+});
+</script>

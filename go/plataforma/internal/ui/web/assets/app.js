@@ -5,11 +5,13 @@ import {bindMenu} from './menu.js';
 import {homeView} from './views/home.js';
 import {datasetsView} from './views/datasets.js';
 import {panelView} from './views/panel.js';
+import {environmentView} from './views/environment.js';
 
 // Screen modules register render functions here; keep the shell shared.
 const views = new Map([['/', homeView], ['/datos', datasetsView]]);
 export function registerView(path, renderView) {views.set(path, renderView);}
 registerView('/panel', panelView);
+registerView('/analisis-ambiental', environmentView);
 const descriptions = {
  '/datos': ['Consulta de datos en preparación', 'Aquí podrás consultar y seleccionar conjuntos de mediciones. Esta función todavía no está disponible.'],
  '/ejecuciones': ['Ejecuciones en preparación', 'Aquí podrás configurar un trabajo y seguir su avance. Esta función todavía no está disponible.'],

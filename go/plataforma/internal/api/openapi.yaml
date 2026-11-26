@@ -42,9 +42,12 @@ paths:
                         period: {type: string, enum: [1_hora, 24_horas]}
                         vector_count: {type: integer, minimum: 0}
                         measurement_count: {type: integer, minimum: 0, description: Total de valores escalares PM10 y PM2.5; no es el conteo de registros originales de monitoreo.}
+                        features:
+                          type: array
+                          items: {type: string}
+                        unit: {type: string}
+                        coverage: {type: string}
                         sha256: {type: string, pattern: '^[a-fA-F0-9]{64}$'}
-        "500":
-          description: Error inesperado al construir el catálogo
         "503":
           description: Catálogo no disponible temporalmente (mapa no inicializado)
   /health:
@@ -103,6 +106,9 @@ paths:
               schema:
                 type: integer
                 example: 60
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
         "400":
           description: JSON inválido, campo desconocido o parámetros fuera de rango
           content:

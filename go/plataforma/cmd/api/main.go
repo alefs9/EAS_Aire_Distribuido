@@ -10,6 +10,9 @@
 //	JOB_TIMEOUT (3m)              plazo total de un trabajo, incluida la espera de nodos
 //	STORE (mongo)                 "mongo" (MongoDB + Redis) o "memoria" (desarrollo)
 //	MONGODB_URI, MONGODB_DATABASE (eas_pc4), REDIS_ADDR, REDIS_PASSWORD, CACHE_TTL_SECONDS (60)
+//
+// JOB_POSTS_PER_MINUTE: máximo de POST /jobs por minuto; default 10.
+// El valor 0 desactiva el límite y se reserva para pruebas locales aisladas.
 package main
 
 import (

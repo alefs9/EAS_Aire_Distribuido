@@ -225,3 +225,104 @@ func TestCatalogoConservaSHA(t *testing.T) {
 		t.Fatalf("esperaba SHA %q; obtuvo %#v", sha, item["sha256"])
 	}
 }
+
+func pedirCatalogoParaTest(t *testing.T, datos map[string]Dataset) (int, map[string]any) {
+	t.Helper()
+
+	h := &handlers{s: &Servicio{datasets: datos}}
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/datasets", nil)
+	h.datasets(rec, req)
+
+	var body map[string]any
+	if err := json.Unmarshal(rec.Body.Bytes(), &body); err != nil {
+		t.Fatal(err)
+	}
+	return rec.Code, body
+}
+
+func TestCatalogoNilDevuelve503(t *testing.T) {
+	status, _ := pedirCatalogoParaTest(t, nil)
+	if status != http.StatusServiceUnavailable {
+		t.Fatalf("esperaba 503; obtuvo %d", status)
+	}
+}
+
+func TestCatalogoVacioDevuelveListaVacia(t *testing.T) {
+	status, body := pedirCatalogoParaTest(t, map[string]Dataset{})
+	if status != http.StatusOK {
+		t.Fatalf("esperaba 200; obtuvo %d", status)
+	}
+	items, ok := body["datasets"].([]any)
+	if !ok || len(items) != 0 {
+		t.Fatalf("esperaba datasets vacío; obtuvo %#v", body["datasets"])
+	}
+}
+
+func TestCatalogoIncluyeSHAyOmiteMetadatosNoDisponibles(t *testing.T) {
+	sha := strings.Repeat("a", 64)
+	status, body := pedirCatalogoParaTest(t, map[string]Dataset{
+		"1_hora": {
+			ID:      "prueba:1_hora",
+			Periodo: "1_hora",
+			SHA256:  sha,
+		},
+	})
+	if status != http.StatusOK {
+		t.Fatalf("esperaba 200; obtuvo %d", status)
+	}
+
+	items := body["datasets"].([]any)
+	item := items[0].(map[string]any)
+	if item["sha256"] != sha {
+		t.Fatalf("esperaba SHA %q; obtuvo %#v", sha, item["sha256"])
+	}
+	for _, campo := range []string{"features", "unit", "coverage", "source"} {
+		if _, existe := item[campo]; existe {
+			t.Errorf("no esperaba el campo %q: %#v", campo, item)
+		}
+	}
+}
+
+func consultarCatalogoTest(t *testing.T, datasets map[string]Dataset) (int, string) {
+	t.Helper()
+
+	h := &handlers{s: &Servicio{datasets: datasets}}
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/datasets", nil)
+	h.datasets(rec, req)
+
+	return rec.Code, rec.Body.String()
+}
+
+func TestCatalogoNoInicializadoDevuelve503(t *testing.T) {
+	status, _ := consultarCatalogoTest(t, nil)
+	if status != http.StatusServiceUnavailable {
+		t.Fatalf("esperaba 503; obtuvo %d", status)
+	}
+}
+
+func TestCatalogoVacioDevuelve200ConListaVacia(t *testing.T) {
+	status, body := consultarCatalogoTest(t, map[string]Dataset{})
+	if status != http.StatusOK {
+		t.Fatalf("esperaba 200; obtuvo %d", status)
+	}
+	if !strings.Contains(body, `"datasets":[]`) {
+		t.Fatalf("esperaba datasets vacío; obtuvo %s", body)
+	}
+}
+
+func consultarCatalogoFixture(t *testing.T, datasets map[string]Dataset) (int, map[string]any) {
+	t.Helper()
+
+	h := &handlers{s: &Servicio{datasets: datasets}}
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/datasets", nil)
+	h.datasets(rec, req)
+
+	var body map[string]any
+	if err := json.Unmarshal(rec.Body.Bytes(), &body); err != nil {
+		t.Fatal(err)
+	}
+	return rec.Code, body
+}

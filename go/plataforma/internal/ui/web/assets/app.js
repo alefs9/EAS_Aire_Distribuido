@@ -11,6 +11,7 @@ import {executionsView} from './views/executions.js';
 const views = new Map([['/', homeView], ['/datos', datasetsView], ['/ejecuciones', executionsView]]);
 export function registerView(path, renderView) {views.set(path, renderView);}
 registerView('/panel', panelView);
+registerView('/analisis-ambiental', environmentView);
 const descriptions = {
  '/datos': ['Consulta de datos en preparación', 'Aquí podrás consultar y seleccionar conjuntos de mediciones. Esta función todavía no está disponible.'],
  '/ejecuciones': ['Ejecuciones en preparación', 'Aquí podrás configurar un trabajo y seguir su avance. Esta función todavía no está disponible.'],

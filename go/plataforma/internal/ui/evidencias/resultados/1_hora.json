@@ -1,0 +1,43 @@
+{
+  "dataset_id": "cd6e82224deebf069ee6e247e12f2096835b2af747c8c2d27f5fed48609162d0:1_hora",
+  "fuente": "memoria",
+  "job_id": "pc4-20145359df2768be9507ffcb1e916fc9",
+  "parametros": {
+    "k": 4,
+    "semilla": 42,
+    "tolerancia": 0.0001,
+    "max_iter": 100
+  },
+  "resultado": {
+    "centroides": [
+      [
+        541.6888822205549,
+        117.24969242310588
+      ],
+      [
+        18.48138867041,
+        9.645060380920128
+      ],
+      [
+        185.74054404051392,
+        92.26903273648014
+      ],
+      [
+        80.52865584317223,
+        34.10236838731468
+      ]
+    ],
+    "conteos": [
+      1333,
+      330571,
+      27645,
+      85798
+    ],
+    "iteraciones": 100,
+    "inercia": 389845115.41781795,
+    "convergio": false,
+    "segundos_carga": 0.100872,
+    "segundos_ml": 0.2863632,
+    "origen": "clúster PC4 cluster_job=10674fc5c7b6df68af5b98a95c6f6dac nodos=ui-1,ui-2"
+  }
+}

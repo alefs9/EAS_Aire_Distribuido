@@ -9,7 +9,7 @@ document.querySelector('#run').addEventListener('click', async () => {
     const r = await fetch('http://127.0.0.1:8080/health');
     out.textContent = `Permitido: HTTP ${r.status}`;
   } catch {
-    out.textContent = 'Bloqueado por el navegador: origen no autorizado.';
+    out.textContent = 'Bloqueado por CORS desde otro origen (esperado).';
   }
 });
 </script>

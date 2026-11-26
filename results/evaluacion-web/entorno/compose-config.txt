@@ -1,0 +1,176 @@
+name: eas-eval-nicole-20261126
+services:
+  api:
+    build:
+      context: C:\Concurrente\Final\EAS_Aire_Distribuido
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: api
+    depends_on:
+      mongo:
+        condition: service_healthy
+        required: true
+      redis:
+        condition: service_healthy
+        required: true
+    environment:
+      API_ADDR: :8080
+      CLUSTER_NODES: "2"
+      COORDINATOR_LISTEN: :9000
+      DATA_DIR: /data/vectors
+      JOB_POSTS_PER_MINUTE: "0"
+      JOB_TIMEOUT: 3m
+      MONGODB_DATABASE: eas_pc4
+      MONGODB_URI: mongodb://mongo:27017
+      QUEUE_SIZE: "64"
+      REDIS_ADDR: redis:6379
+      STORE: mongo
+    expose:
+      - "8080"
+      - "9000"
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -qO-
+        - http://127.0.0.1:8080/health
+      timeout: 3s
+      interval: 5s
+      retries: 30
+      start_period: 10s
+    networks:
+      backend: null
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: C:\Concurrente\Final\EAS_Aire_Distribuido\data\vectors
+        target: /data/vectors
+        read_only: true
+        bind: {}
+  mongo:
+    healthcheck:
+      test:
+        - CMD
+        - mongosh
+        - --quiet
+        - --eval
+        - db.adminCommand('ping').ok
+      timeout: 3s
+      interval: 5s
+      retries: 20
+    image: mongo:8.0
+    networks:
+      backend: null
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: mongo-data
+        target: /data/db
+        volume: {}
+  nodo-1:
+    build:
+      context: C:\Concurrente\Final\EAS_Aire_Distribuido
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: node
+    command:
+      - -coordinator
+      - api:9000
+      - -id
+      - nodo-1
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+    entrypoint:
+      - /bin/sh
+      - /usr/local/bin/node-loop.sh
+    networks:
+      backend: null
+    restart: unless-stopped
+  nodo-2:
+    build:
+      context: C:\Concurrente\Final\EAS_Aire_Distribuido
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: node
+    command:
+      - -coordinator
+      - api:9000
+      - -id
+      - nodo-2
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+    entrypoint:
+      - /bin/sh
+      - /usr/local/bin/node-loop.sh
+    networks:
+      backend: null
+    restart: unless-stopped
+  redis:
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      timeout: 3s
+      interval: 5s
+      retries: 20
+    image: redis:7.4-alpine
+    networks:
+      backend: null
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: redis-data
+        target: /data
+        volume: {}
+  ui:
+    build:
+      context: C:\Concurrente\Final\EAS_Aire_Distribuido
+      dockerfile: go/plataforma/Dockerfile
+      args:
+        TARGET: ui
+    depends_on:
+      api:
+        condition: service_healthy
+        required: true
+    environment:
+      UI_ADDR: :8090
+      UI_API_URL: http://api:8080
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -qO-
+        - http://127.0.0.1:8090/
+      timeout: 3s
+      interval: 5s
+      retries: 20
+    networks:
+      backend: null
+      frontend: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8090
+        published: "8090"
+        protocol: tcp
+    restart: unless-stopped
+networks:
+  backend:
+    name: eas-eval-nicole-20261126_backend
+    internal: true
+  frontend:
+    name: eas-eval-nicole-20261126_frontend
+volumes:
+  mongo-data:
+    name: eas-eval-nicole-20261126_mongo-data
+  redis-data:
+    name: eas-eval-nicole-20261126_redis-data

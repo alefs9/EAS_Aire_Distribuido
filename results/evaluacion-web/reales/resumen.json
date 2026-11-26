@@ -1,0 +1,130 @@
+﻿[
+    {
+        "group":  "1_hora, 1",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  8.959,
+        "p95":  25.627,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 1",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  4.462,
+        "p95":  8.433,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 1",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  3.574,
+        "p95":  5.562,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 1",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  5050.727,
+        "p95":  10092.404,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  7.329,
+        "p95":  20.915,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  4.947,
+        "p95":  11.646,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  4.453,
+        "p95":  6.399,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "1_hora, 2",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  9996.003,
+        "p95":  10099.047,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  7.447,
+        "p95":  15.294,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  4.92,
+        "p95":  6.579,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  3.82,
+        "p95":  5.784,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 1",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  5026.811,
+        "p95":  15087.562,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "acceptance_ms",
+        "n":  20,
+        "p50":  7.101,
+        "p95":  11.737,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "load_ms",
+        "n":  20,
+        "p50":  5.787,
+        "p95":  9.424,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "training_ms",
+        "n":  20,
+        "p50":  4.432,
+        "p95":  6.93,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    },
+    {
+        "group":  "24_horas, 2",
+        "metric":  "total_ms",
+        "n":  20,
+        "p50":  9999.216,
+        "p95":  10114.441,
+        "method":  "nearest-rank: ceil(p*n), base 1"
+    }
+]

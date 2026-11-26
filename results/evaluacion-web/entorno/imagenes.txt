@@ -1,0 +1,7 @@
+CONTAINER                           REPOSITORY                        TAG                 PLATFORM            IMAGE ID            SIZE                CREATED
+eas-eval-nicole-20261126-api-1      eas-eval-nicole-20261126-api      latest              linux/amd64         5f16d79d0e1f        10.1MB              2 hours ago
+eas-eval-nicole-20261126-mongo-1    mongo                             8.0                 linux/amd64         479e85ced54f        320MB               6 days ago
+eas-eval-nicole-20261126-nodo-1-1   eas-eval-nicole-20261126-nodo-1   latest              linux/amd64         3fc934562d14        7.04MB              2 hours ago
+eas-eval-nicole-20261126-nodo-2-1   eas-eval-nicole-20261126-nodo-2   latest              linux/amd64         d640a9e1d29f        7.04MB              2 hours ago
+eas-eval-nicole-20261126-redis-1    redis                             7.4-alpine          linux/amd64         7f7d30b7fdd0        16.4MB              2 weeks ago
+eas-eval-nicole-20261126-ui-1       eas-eval-nicole-20261126-ui       latest              linux/amd64         a083ae5b5bdf        8.6MB               2 hours ago

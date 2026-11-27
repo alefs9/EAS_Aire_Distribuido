@@ -1,9 +1,11 @@
 import {chromium,expect} from '@playwright/test';
 import {mkdir,writeFile} from 'node:fs/promises';
-import {resolve,join} from 'node:path';
+import {resolve,join,dirname} from 'node:path';
 import {execFileSync} from 'node:child_process';
 const output=resolve(process.argv[2] || 'test-results/real-compose');
-await mkdir(join(output,'capturas'),{recursive:true});
+await mkdir(dirname(output),{recursive:true});
+await mkdir(output); // Refuse to overwrite an existing evidence campaign.
+await mkdir(join(output,'capturas'));
 const browser=await chromium.launch({channel:process.env.PLAYWRIGHT_CHANNEL || 'msedge',headless:true});
 const context=await browser.newContext({viewport:{width:1280,height:900}});
 const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));

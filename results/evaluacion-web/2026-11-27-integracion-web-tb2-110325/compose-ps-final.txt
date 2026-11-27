@@ -1,0 +1,7 @@
+NAME                           IMAGE                        COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+eas-tb2-integracion-api-1      eas-tb2-integracion-api      "/usr/local/bin/app"     api       10 minutes ago   Up 10 minutes (healthy)   8080/tcp, 9000/tcp
+eas-tb2-integracion-mongo-1    mongo:8.0                    "docker-entrypoint.s…"   mongo     10 minutes ago   Up 10 minutes (healthy)   27017/tcp
+eas-tb2-integracion-nodo-1-1   eas-tb2-integracion-nodo-1   "/bin/sh /usr/local/…"   nodo-1    10 minutes ago   Up 10 minutes
+eas-tb2-integracion-nodo-2-1   eas-tb2-integracion-nodo-2   "/bin/sh /usr/local/…"   nodo-2    10 minutes ago   Up 10 minutes
+eas-tb2-integracion-redis-1    redis:7.4-alpine             "docker-entrypoint.s…"   redis     10 minutes ago   Up 10 minutes (healthy)   6379/tcp
+eas-tb2-integracion-ui-1       eas-tb2-integracion-ui       "/usr/local/bin/app"     ui        3 minutes ago    Up 3 minutes (healthy)    127.0.0.1:8090->8090/tcp

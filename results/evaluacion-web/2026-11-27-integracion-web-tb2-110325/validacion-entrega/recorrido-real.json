@@ -1,0 +1,114 @@
+{
+  "kind": "API, nodos TCP, MongoDB y Redis reales; sin fixtures",
+  "started": "2026-11-27T16:17:50.193Z",
+  "revision": "7167f3115ccc954538ca5d6b2047fc1f580a815f",
+  "base": "http://127.0.0.1:8090",
+  "desktop": {
+    "width": 1280,
+    "height": 900
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844
+  },
+  "checks": [
+    "Inicio y navegación",
+    "Catálogo real de ambos periodos",
+    "Selección conservada en ejecuciones",
+    "POST 202 y seguimiento hasta completado",
+    "Mismo job_id en Resultados, enlace directo y recarga",
+    "Panel consulta y revalida referencias de sesión",
+    "Análisis ambiental existente con trabajo real",
+    "Inicio móvil"
+  ],
+  "catalog": {
+    "datasets": [
+      {
+        "coverage": "todos los años disponibles en la limpieza",
+        "features": [
+          "PM10",
+          "PM2.5"
+        ],
+        "id": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204:1_hora",
+        "measurement_count": 890694,
+        "period": "1_hora",
+        "sha256": "2996aeea838e11ebb0613034ceabd7a51c0a7df9ba1a83f8657f908bfb267204",
+        "unit": "µg/m³",
+        "vector_count": 445347
+      },
+      {
+        "coverage": "todos los años disponibles en la limpieza",
+        "features": [
+          "PM10",
+          "PM2.5"
+        ],
+        "id": "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6:24_horas",
+        "measurement_count": 36594,
+        "period": "24_horas",
+        "sha256": "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6",
+        "unit": "µg/m³",
+        "vector_count": 18297
+      }
+    ]
+  },
+  "created": {
+    "job_id": "pc4-86357b4c37f392421dd8a01d00956c15",
+    "dataset_id": "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6:24_horas",
+    "parametros": {
+      "k": 4,
+      "semilla": 42,
+      "tolerancia": 0.0001,
+      "max_iter": 100
+    },
+    "estado": "queued",
+    "creado": "2026-11-27T16:17:51.383Z",
+    "actualizado": "2026-11-27T16:17:51.383Z"
+  },
+  "jobId": "pc4-86357b4c37f392421dd8a01d00956c15",
+  "result": {
+    "dataset_id": "5866449404c20a23e52b65f94871a365c7979b1fcf0abd7ed91554d70ea609a6:24_horas",
+    "fuente": "Redis",
+    "job_id": "pc4-86357b4c37f392421dd8a01d00956c15",
+    "parametros": {
+      "k": 4,
+      "semilla": 42,
+      "tolerancia": 0.0001,
+      "max_iter": 100
+    },
+    "resultado": {
+      "centroides": [
+        [
+          15.529418124857349,
+          8.366580451636088
+        ],
+        [
+          172.24817737877714,
+          93.1765084471024
+        ],
+        [
+          46.40252377017275,
+          19.043611101426915
+        ],
+        [
+          97.60514404721894,
+          40.91580267557605
+        ]
+      ],
+      "conteos": [
+        10075,
+        992,
+        4848,
+        2382
+      ],
+      "iteraciones": 44,
+      "inercia": 6283274.552233539,
+      "convergio": true,
+      "segundos_carga": 0.019663234,
+      "segundos_ml": 0.018809535,
+      "origen": "clúster PC4 cluster_job=32f7c5e2e6ccf5f2a8f24276dc132faa nodos=nodo-1,nodo-2"
+    }
+  },
+  "success": true,
+  "pageErrors": [],
+  "finished": "2026-11-27T16:17:54.598Z"
+}

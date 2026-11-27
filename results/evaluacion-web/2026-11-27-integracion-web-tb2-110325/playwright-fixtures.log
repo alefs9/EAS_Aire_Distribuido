@@ -1,0 +1,23 @@
+
+> test
+> playwright test
+
+
+Running 12 tests using 1 worker
+
+
+(node:8948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/12] integration.spec.mjs:6:1 › loads the actual entry module and renders all registered routes
+[2/12] integration.spec.mjs:13:1 › opens a completed result directly, preserves charts and survives reload
+[3/12] integration.spec.mjs:18:152 › shows fixture-pending without invented results
+[4/12] integration.spec.mjs:18:152 › shows fixture-failed without invented results
+[5/12] integration.spec.mjs:18:152 › shows fixture-missing without invented results
+[6/12] integration.spec.mjs:22:1 › rejects ambiguous links and clears the previous result while editing manually
+[7/12] integration.spec.mjs:28:1 › handles a new query on the same SPA route and supports history
+[8/12] integration.spec.mjs:36:1 › cancels pending reads on navigation and ignores their late results
+[9/12] integration.spec.mjs:41:1 › created work reaches results and session references feed the real panel provider
+[10/12] integration.spec.mjs:48:1 › empty sessions and failed reads remain different, without local confirmed states
+[11/12] integration.spec.mjs:54:1 › a failing view does not prevent returning to another route
+[12/12] integration.spec.mjs:58:1 › keeps the results link hidden until a running job has actual results
+  12 passed (11.8s)

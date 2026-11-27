@@ -645,3 +645,5 @@ main {
 @media(max-width:700px) {
   .execution-form .button, .execution-dataset .button { width: 100%; }
 }
+/* Preserve semantic hidden state even on flex/grid components. */
+[hidden] { display: none !important; }

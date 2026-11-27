@@ -41,3 +41,8 @@ Vectores_PM/
 .env
 .env.*
 !.env.example
+
+# Dependencias y salidas locales de pruebas de navegador
+node_modules/
+playwright-report/
+test-results/

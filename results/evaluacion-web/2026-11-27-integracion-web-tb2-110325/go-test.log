@@ -1,0 +1,15 @@
+?   	eas-aire/plataforma	[no test files]
+?   	eas-aire/plataforma/cmd/api	[no test files]
+?   	eas-aire/plataforma/cmd/coordinator	[no test files]
+?   	eas-aire/plataforma/cmd/latencia	[no test files]
+?   	eas-aire/plataforma/cmd/node	[no test files]
+?   	eas-aire/plataforma/cmd/persistencia	[no test files]
+fork/exec C:\Users\Alex\AppData\Local\Temp\go-build3400772447\b302\ui.test.exe: An Application Control policy has blocked this file.
+FAIL	eas-aire/plataforma/cmd/ui	2.770s
+ok  	eas-aire/plataforma/internal/api	5.211s
+ok  	eas-aire/plataforma/internal/cluster	3.577s
+ok  	eas-aire/plataforma/internal/persistencia	1.819s
+ok  	eas-aire/plataforma/internal/protocol	2.235s
+fork/exec C:\Users\Alex\AppData\Local\Temp\go-build3400772447\b332\ui.test.exe: An Application Control policy has blocked this file.
+FAIL	eas-aire/plataforma/internal/ui	2.707s
+FAIL

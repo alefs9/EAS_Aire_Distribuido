@@ -6,14 +6,22 @@ import {homeView} from './views/home.js';
 import {datasetsView} from './views/datasets.js';
 import {panelView} from './views/panel.js';
 import {executionsView} from './views/executions.js';
-import {configureCatalogLoader, fetchCatalog} from './datasets/catalog-source.js';
+import {resultsView} from './views/results.js';
+import {environmentView} from './views/environment.js';
+import {configureCatalogLoader, fetchCatalog, loadCatalog} from './datasets/catalog-source.js';
+import {configurePanelJobIdsProvider} from './panel/jobs.js';
+import {configurePanelCatalogLoader} from './panel/catalog-summary.js';
+import {sessionJobReferences} from './session-jobs.js';
 
 configureCatalogLoader(fetchCatalog);
+configurePanelCatalogLoader(loadCatalog);
+configurePanelJobIdsProvider(()=>sessionJobReferences.list());
 // Screen modules register render functions here; keep the shell shared.
 const views = new Map([['/', homeView], ['/datos', datasetsView], ['/ejecuciones', executionsView]]);
 export function registerView(path, renderView) {views.set(path, renderView);}
 registerView('/panel', panelView);
 registerView('/analisis-ambiental', environmentView);
+registerView('/resultados', resultsView);
 const descriptions = {
  '/datos': ['Consulta de datos en preparación', 'Aquí podrás consultar y seleccionar conjuntos de mediciones. Esta función todavía no está disponible.'],
  '/ejecuciones': ['Ejecuciones en preparación', 'Aquí podrás configurar un trabajo y seguir su avance. Esta función todavía no está disponible.'],
@@ -36,7 +44,7 @@ const showView = createViewHost({
  failure: () => errorState('No se pudo mostrar esta sección. Intenta nuevamente.', () => render(true)),
 });
 function render(moveFocus = false) {
- const route = resolveRoute(location.pathname);
+ const route = {...resolveRoute(location.pathname), search: location.search};
  document.title = `EAS Aire · ${route.title}`;
 
  document.querySelectorAll('nav [data-route]').forEach(link => {if(link.getAttribute('href') === route.path) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');});
@@ -50,7 +58,7 @@ document.addEventListener('click', event => {
  if (!shouldNavigate(event, anchor, location.origin)) return;
  event.preventDefault();
  const url = new URL(anchor.href);
- if (url.pathname !== location.pathname) history.pushState(null, '', url.pathname + url.search);
+ if (url.pathname + url.search !== location.pathname + location.search) history.pushState(null, '', url.pathname + url.search);
  render(true);
 });
 window.addEventListener('popstate', () => render(true));

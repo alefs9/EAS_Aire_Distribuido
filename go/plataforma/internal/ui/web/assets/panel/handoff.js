@@ -7,6 +7,6 @@ export function rememberPanelResult(job){
 export const getPanelResultJobId=()=>selectedResultJobId;
 export function clearPanelResult(){selectedResultJobId=null;}
 export function resultLink(job){
- const link=document.createElement('a');link.href='/resultados';link.dataset.route='';link.className='text-link';link.textContent='Consultar resultados';link.setAttribute('aria-label',`Consultar resultados del trabajo ${job.id}`);
+ const link=document.createElement('a');link.href=`/resultados?job_id=${encodeURIComponent(job.id)}`;link.dataset.route='';link.className='text-link';link.textContent='Consultar resultados';link.setAttribute('aria-label',`Consultar resultados del trabajo ${job.id}`);
  link.addEventListener('click',()=>rememberPanelResult(job));return link;
 }

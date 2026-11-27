@@ -8,9 +8,14 @@ import {panelView} from './views/panel.js';
 import {executionsView} from './views/executions.js';
 import {resultsView} from './views/results.js';
 import {environmentView} from './views/environment.js';
-import {configureCatalogLoader, fetchCatalog} from './datasets/catalog-source.js';
+import {configureCatalogLoader, fetchCatalog, loadCatalog} from './datasets/catalog-source.js';
+import {configurePanelJobIdsProvider} from './panel/jobs.js';
+import {configurePanelCatalogLoader} from './panel/catalog-summary.js';
+import {sessionJobReferences} from './session-jobs.js';
 
 configureCatalogLoader(fetchCatalog);
+configurePanelCatalogLoader(loadCatalog);
+configurePanelJobIdsProvider(()=>sessionJobReferences.list());
 // Screen modules register render functions here; keep the shell shared.
 const views = new Map([['/', homeView], ['/datos', datasetsView], ['/ejecuciones', executionsView]]);
 export function registerView(path, renderView) {views.set(path, renderView);}

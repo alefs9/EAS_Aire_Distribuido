@@ -1,4 +1,5 @@
 import {apiRequest} from '../api.js';
+import {rememberAcceptedJob} from '../session-jobs.js';
 import {loadCatalog} from '../datasets/catalog-source.js';
 import {getSelectedDataset} from '../datasets/handoff.js';
 import {datasetSelection} from '../datasets/selection.js';
@@ -100,9 +101,10 @@ export function createExecutionsView({catalog=loadCatalog, selection=datasetSele
           throw new Error('El conjunto cambió o ya no puede verificarse. Vuelve a Datos y selecciona uno disponible.');
         }
         const payload={periodo:verified.period,k,semilla,tolerancia,max_iter,nodos};
-        const created=await checkedJSON(await apiRequest('/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal}));
-        if(typeof created.job_id!=='string'||!created.job_id) throw new Error('La API no devolvió un job_id válido.');
-        await followJob(created.job_id, feedback, submit, controller.signal);
+        const response=await apiRequest('/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
+        const created=await checkedJSON(response);
+        const jobId=rememberAcceptedJob(response.status,created);
+        await followJob(jobId, feedback, submit, controller.signal);
       } catch(error) {
         if(!isAbort(error)) feedback.replaceChildren(errorState(error.message || 'No se pudo crear el trabajo.',()=>form.requestSubmit()));
         submit.disabled=false;

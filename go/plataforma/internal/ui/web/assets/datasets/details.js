@@ -9,6 +9,5 @@ export function datasetDetails(dataset){
   ['Unidades',dataset.unit ?? unknown],
   ['Procedencia',dataset.source ?? unknown],
   ['Cobertura',dataset.coverage ?? unknown],
-  ['SHA-256',dataset.sha256 ?? unknown],
 ];
 }

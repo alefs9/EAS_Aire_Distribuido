@@ -1,3 +1,4 @@
+import {executionName} from '../execution-names.js';
 import {apiRequest} from '../api.js';
 import {rememberAcceptedJob} from '../session-jobs.js';
 import {loadCatalog} from '../datasets/catalog-source.js';
@@ -127,13 +128,13 @@ export function createExecutionsView({catalog=loadCatalog, selection=datasetSele
 
   const id = document.createElement('p');
   id.className = 'job-id';
-  id.textContent = `Identificador: ${jobId}`;
+  id.textContent = executionName(jobId);
 
   const status = document.createElement('p');
   status.textContent = 'Estado: en cola';
 
   const note = document.createElement('p');
-  note.textContent = 'La aceptación HTTP ya terminó; el entrenamiento se ejecuta de forma asíncrona.';
+  note.textContent = 'La ejecución fue aceptada y se está procesando. Puedes continuar navegando.';
 
   const details = document.createElement('p');
 
@@ -230,10 +231,8 @@ export function createExecutionsView({catalog=loadCatalog, selection=datasetSele
         failures = 0;
         done = true;
         resultLink.hidden = false;
-        details.textContent = result.resultado?.origen
-          ? `Origen del clúster: ${result.resultado.origen}`
-          : 'El servicio no informó el origen del clúster.';
-        note.textContent = `Resultado disponible. job_id externo: ${result.job_id || jobId}.`;
+        details.textContent = 'El análisis ha finalizado. Puedes consultar sus grupos y concentraciones.';
+        note.textContent = 'Resultado disponible para esta ejecución.';
         submit.disabled = false;
         return;
       }
@@ -244,7 +243,7 @@ export function createExecutionsView({catalog=loadCatalog, selection=datasetSele
 
       if (error.status === 404) {
         done = true;
-        status.textContent = 'Estado: identificador no encontrado';
+        status.textContent = 'Estado: ejecución no encontrada';
         note.textContent = error.message;
         submit.disabled = false;
         return;
@@ -253,7 +252,7 @@ export function createExecutionsView({catalog=loadCatalog, selection=datasetSele
       failures++;
 
       if (failures >= MAX_TRANSIENT_ERRORS) {
-        pause('El servicio no respondió tras varios intentos. Conservamos el job_id para reanudar.');
+        pause('El servicio no respondió tras varios intentos. Puedes reanudar el seguimiento de esta ejecución.');
         return;
       }
 

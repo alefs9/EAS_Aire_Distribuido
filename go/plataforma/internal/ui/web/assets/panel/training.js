@@ -1,3 +1,5 @@
+import {formatDecimal} from '../presentation.js';
+import {executionName} from '../execution-names.js';
 import {apiRequest} from '../api.js';
 export function parseTraining(payload,id){
  const seconds=payload?.resultado?.segundos_ml;
@@ -12,7 +14,7 @@ export async function loadTrainingSummary(overview,{signal}={},request=apiReques
  return parseTraining(await response.json(),job.id);
 }
 export function renderTraining(summary){
- const root=document.createElement('div');const value=document.createElement('p');value.className='panel-status';value.textContent=`${new Intl.NumberFormat('es-PE',{maximumFractionDigits:6}).format(summary.seconds)} s de entrenamiento`;root.append(value);
- const job=document.createElement('p');job.className='panel-note panel-job-id';job.textContent=`Trabajo consultado: ${summary.id}`;root.append(job);
- const note=document.createElement('p');note.className='panel-note';note.textContent='Tiempo informado por la API en el resultado de este trabajo. No es el tiempo de respuesta HTTP ni un promedio de todos los trabajos.';root.append(note);return root;
+ const root=document.createElement('div');const value=document.createElement('p');value.className='panel-status';value.textContent=`${formatDecimal(summary.seconds)} s de entrenamiento`;root.append(value);
+ const job=document.createElement('p');job.className='panel-note panel-job-id';job.textContent=`${executionName(summary.id)}`;root.append(job);
+ const note=document.createElement('p');note.className='panel-note';note.textContent='Tiempo de entrenamiento de esta ejecución. No es el tiempo de respuesta HTTP ni un promedio de todos los trabajos.';root.append(note);return root;
 }

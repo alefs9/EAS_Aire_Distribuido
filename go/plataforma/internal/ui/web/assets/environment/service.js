@@ -9,9 +9,9 @@ export async function loadProfiles(ids,{signal,request=apiRequest,timeoutMs=1500
   controller.signal.throwIfAborted();
   return await Promise.all(ids.map(async id=>{
    const response=await request(`/jobs/${id}/results`,{signal:controller.signal});
-   if(response.status===404)throw new Error(`No se encontró el trabajo ${id}.`);
-   if(response.status===409)throw new Error(`El trabajo ${id} aún no tiene resultados. Vuelve a consultar cuando termine.`);
-   if(response.status===422)throw new Error(`El trabajo ${id} falló y no puede compararse.`);
+   if(response.status===404)throw new Error('No se encontró una de las ejecuciones seleccionadas.');
+   if(response.status===409)throw new Error('Una de las ejecuciones aún no tiene resultados. Vuelve a consultar cuando termine.');
+   if(response.status===422)throw new Error('Una de las ejecuciones falló y no puede compararse.');
    if(!response.ok)throw new Error('No se pudo consultar la API. Intenta nuevamente.');
    const body=await response.json();controller.signal.throwIfAborted();return parseProfile(body,id);
   }));

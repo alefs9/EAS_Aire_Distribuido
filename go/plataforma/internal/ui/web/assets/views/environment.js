@@ -5,7 +5,7 @@ import {renderProfiles} from '../environment/render.js';
 import {emptyState,errorState,loadingState} from '../states.js';
 export function environmentView({signal}={}){
  const {root,form,region,controls:c}=createShell();let profiles=[],active,version=0;
- const clear=()=>{version++;active?.abort();profiles=[];region.setAttribute('aria-busy','false');region.replaceChildren(emptyState('Consulta los perfiles','Escribe los trabajos del periodo seleccionado y pulsa Consultar perfiles.'));};
+ const clear=()=>{version++;active?.abort();profiles=[];region.setAttribute('aria-busy','false');region.replaceChildren(emptyState('Consulta los perfiles','Selecciona las ejecuciones del periodo elegido y pulsa Consultar perfiles.'));};
  const render=()=>{if(!profiles.length)return;try{region.replaceChildren(renderProfiles(selectProfiles(profiles,{period:c.period.value,pollutant:c.pollutant.value,group:c.group.value})));}catch(error){region.replaceChildren(errorState(error.message));}};
  for(const control of [c.a,c.b,c.period])control.addEventListener('input',clear);
  for(const control of [c.pollutant,c.group])control.addEventListener('change',render);

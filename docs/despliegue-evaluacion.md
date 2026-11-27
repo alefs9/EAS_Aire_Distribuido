@@ -33,3 +33,4 @@ Invoke-RestMethod http://127.0.0.1:8090/api/datasets
 Start-Process http://127.0.0.1:8090/datos
 docker compose -f go/plataforma/compose.yml logs api nodo-1 nodo-2
 docker compose -f go/plataforma/compose.yml down
+```

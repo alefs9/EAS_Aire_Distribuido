@@ -1,88 +1,77 @@
-# Interfaz web: base, inicio y navegación
+# Interfaz web e integración TB2
 
-SPA en HTML, CSS y módulos JavaScript nativos, servida por `cmd/ui` dentro del módulo Go existente. Los recursos se incluyen con `go:embed`: no requiere Node para ejecutar, compilación de frontend, CDN ni otro backend. Node solo ejecuta las pruebas de navegador sin dependencias.
+SPA de HTML, CSS y módulos JavaScript nativos, incluida mediante `go:embed` y servida por Go. No necesita Node ni compilación de frontend para ejecutarse. Esta elección mantiene el servidor existente y los componentes compartidos, sin otro backend ni CDN. Node y Playwright se usan solo para pruebas; los recursos de prueba quedan fuera de `web` para no incorporarlos al ejecutable.
 
-La revisión de `develop` no encontró una UI previa ni un enunciado TB2 adicional con restricciones de framework. Esta elección mantiene Go, evita dependencias nuevas y permite compartir el menú, las vistas y los estilos. No cambia API, TCP, MongoDB, Redis ni las pantallas de otras integrantes.
+## Inicio
 
-## Ejecutar
-
-Desde la raíz del repositorio, PowerShell:
+Desde la raíz, usar Docker según el README principal. Para ejecutar únicamente la UI contra una API ya disponible:
 
 ```powershell
 cd go/plataforma
-$env:UI_API_URL = "http://127.0.0.1:8080"
-$env:UI_ADDR = "127.0.0.1:8090"
+$env:UI_API_URL='http://127.0.0.1:8080'
+$env:UI_ADDR='127.0.0.1:8090'
 go run ./cmd/ui
 ```
 
-Abrir `http://127.0.0.1:8090/`. El inicio funciona sin bases de datos, nodos ni API. Para utilizar servicios reales, iniciar en otra terminal la API existente según [su documentación](../../../../docs/pc4/api.md), sin cambiar sus variables ni sus credenciales. También puede ejecutarse con `go build -o ui.exe ./cmd/ui` y `./ui.exe`; el ejecutable local está ignorado por Git.
+Abrir http://127.0.0.1:8090/. El inicio funciona sin API. `UI_API_URL` admite HTTP(S), sin credenciales, consulta ni fragmento, y puede contener un prefijo. `/ui-config.json` publica solo `/api`; el proxy Go de mismo origen conserva el contrato del servicio sin relajar CORS. La URL nunca debe apuntar al propio servidor UI. El puerto debe estar libre; no iniciar otra UI sobre la instancia de Compose.
 
-`UI_ADDR` vale `127.0.0.1:8090` por defecto. `UI_API_URL` vale `http://127.0.0.1:8080` y solo admite HTTP(S), sin credenciales, query ni fragmento. Si el despliegue utiliza un prefijo, puede incluirse en esa URL.
+## Rutas y contratos existentes
 
-El navegador obtiene `{ "apiBaseURL": "/api" }` de `/ui-config.json`. El servidor Go reenvía `/api/*` a la API configurada, conservando método, cuerpo, consulta y respuesta. Es un proxy de mismo origen para el servicio existente; no añade operaciones de negocio ni requiere relajar CORS. No configurar el destino hacia el propio servidor UI. La configuración no contiene secretos. Este arranque local no sustituye autenticación, TLS ni el despliegue de la API.
+- `/`: propósito, fuente OEFA y recorrido.
+- `/datos`: `GET /datasets`, conjuntos de una hora y 24 horas, metadatos presentes y selección verificada. No descarga CSV masivos.
+- `/ejecuciones`: vuelve a validar el conjunto, crea mediante `POST /jobs` y consulta `GET /jobs/{id}`. Seguimiento con backoff, hasta cinco errores consecutivos y diez minutos; navegación cancela las lecturas, no el entrenamiento remoto.
+- `/resultados?job_id=...`: consulta `GET /jobs/{id}/results`, muestra detalle y gráficos existentes, o estados pendiente, fallido e inexistente. Admite consulta manual, entrada directa, recarga y cambio de identificador en SPA. Cambiar el campo elimina la visualización anterior. Parámetros duplicados o inválidos se rechazan sin reutilizar otro trabajo.
+- `/panel`: consulta salud, catálogo y referencias conocidas de la sesión. `session-jobs.js` conserva solo IDs válidos de respuestas POST 202, máximo 50 sin duplicados. No persiste estados ni resultados. Cada actualización consulta hasta 10 referencias con concurrencia tres; las ausentes o fallidas no cuentan como confirmadas. Si el navegador impide guardar sesión, utiliza memoria de esta página. No hay listado global ni actualización push: usar la actualización de la vista.
+- `/analisis-ambiental`: consulta los trabajos introducidos y conserva la visualización ambiental existente; no predice concentraciones futuras.
 
-## Rutas y componentes compartidos
+El panel configura sus proveedores reales en `app.js`, sin endpoints adicionales. `segundos_ml` es entrenamiento y no equivale al tiempo HTTP. PM10 y PM2.5 se expresan en µg/m³ cuando la procedencia está verificada; no se mezclan periodos ni se infieren unidades de un dataset desconocido.
 
-- `/`: inicio, propósito, fuente OEFA y recorrido de tres pasos.
-- `/datos`, `/ejecuciones`, `/resultados`, `/analisis-ambiental`: estados vacíos explícitos mientras se incorporan las pantallas correspondientes. No se muestran métricas ni resultados ficticios.
-- `web/assets/routes.js`: catálogo de rutas y reglas de navegación interna. History API y `popstate` mantienen Atrás/Adelante; el servidor resuelve las rutas directas y sus actualizaciones.
-- `web/assets/app.js`: shell, menú adaptable y registro de vistas. Para incorporar una pantalla, exportar su función desde `assets/views/`, importarla en `app.js` y llamar a `registerView('/ruta', funcion)`. La función devuelve un nodo DOM. Conservar el título `id="titulo-vista" tabindex="-1"` para gestionar el foco. Si se añade una ruta nueva o parametrizada, extender también el catálogo y el handler Go, junto con sus pruebas.
-- `states.js`: `loadingState`, `emptyState`, `errorState`, con roles accesibles y reintento opcional. Los mensajes remotos se insertan con `textContent`.
-- `api.js`: configuración compartida y `apiRequest('/health')`, que devuelve la respuesta HTTP sin inventar esquemas. Cada pantalla debe manejar los errores, validar su contrato y pasar `AbortSignal` al desmontarse si mantiene consultas pendientes.
-- `styles.css`: tokens y componentes `.button`, `.card`, `.form-field`, `.field-help`, `.table-wrap`, `.data-table`, `.message`. Formularios: asociar siempre `label for` con `input id`; errores con `aria-invalid` y `aria-describedby`. Tablas: usar `caption`, encabezados con `scope` y un contenedor con nombre accesible si requiere desplazamiento.
+`app.js` importa y registra las vistas. `routes.js` resuelve rutas y `view-host.js` contiene errores y cancela el contexto anterior; cada vista recibe `{path,title,search,signal}`. Enlaces internos conservan query, Atrás y Adelante. Un fallo de renderizado permite volver a otras rutas. Un error de sintaxis/importación del módulo principal sigue siendo un error de arranque y debe detectarse con la prueba integrada.
 
-La navegación no intercepta enlaces externos, anclas, descargas, pestañas nuevas ni clics con modificadores. Hay salto al contenido, foco visible, título y enlace actual por ruta. El menú móvil admite Enter, Escape y navegación con Tab; al cambiar de vista, el foco pasa al título. Se respeta movimiento reducido y colores forzados. Los colores principales de texto, botones y foco utilizan fondos de alto contraste; esto no constituye una auditoría WCAG completa.
+`states.js`, `styles.css`, `menu.js` y los componentes existentes comparten estados, formularios y navegación. Conservar etiquetas asociadas, título enfocable, roles, foco visible y `AbortSignal`. La regla `[hidden]` evita que los estilos de componentes revelen controles todavía no disponibles. No se afirma una auditoría WCAG completa.
 
-## Contrato real y dependencias
-
-Se revisaron `internal/api/http.go`, `modelo.go`, `datos.go`, `openapi.yaml`, `cmd/api/main.go`, los módulos Go y `docs/pc4/api.md`.
-
-Las operaciones de negocio existentes son `GET /health`, `POST /jobs`, `GET /jobs/{id}` y `GET /jobs/{id}/results`. La API también publica `/docs` y `/openapi.yaml`. Actualmente no hay endpoint para catálogo de datasets ni listado de trabajos: las tareas de consulta y panel deberán documentar o resolver esas dependencias, sin inventar datos. Esta entrega no realiza consultas de negocio al abrir el inicio.
-
-Las concentraciones son PM10 y PM2.5 en µg/m³. Los periodos de una hora y 24 horas se tratan por separado. No se descargan CSV masivos, no hay carga de archivos y K-Means no se presenta como pronóstico ni clasificación clínica.
-
-## Verificar
+## Pruebas reproducibles
 
 Desde `go/plataforma`:
 
 ```powershell
-go build ./cmd/ui
-go vet ./...
-go test -count=1 ./...
-go test -race -count=1 ./internal/ui
 node --test internal/ui/tests/*.test.mjs
+go test -count=1 ./...
+go vet ./...
+go test -race -count=1 ./...
+npm ci --prefix internal/ui/tests/browser
+$env:PLAYWRIGHT_CHANNEL='msedge'
+npm --prefix internal/ui/tests/browser test
 ```
 
-Las pruebas Go cubren rutas directas, método no permitido, recursos inexistentes, configuración, rechazo de destinos inválidos, conservación del contrato a través del proxy y respuesta 502. El servidor upstream de la prueba es un doble local de HTTP, no evidencia de una ejecución científica ni de bases reales. Las pruebas JavaScript verifican resolución de rutas, preservación de interacciones propias del navegador, reintento y configuración compartida y conservación de errores HTTP.
+Playwright usa Edge instalado; alternativamente instalar Chromium con `npx playwright install chromium` desde `internal/ui/tests/browser` y no configurar `PLAYWRIGHT_CHANNEL`. Node 20 o posterior es necesario para esta dependencia de pruebas. El servidor sintético arranca en 8098 y muestra una advertencia explícita: comprueba los módulos normales, rutas, gráficos, query, cancelación, estados y referencias, pero no demuestra integración con bases ni entrenamiento real.
 
-Comprobación manual: abrir cada enlace, usar Atrás, abrir directamente `/resultados`, actualizar la página, navegar con Tab/Enter, y abrir/cerrar el menú con Enter/Escape a menos de 700 px. La API puede permanecer apagada: el inicio debe funcionar y `/api/health` devolverá 502, sin simular salud correcta.
+Si Windows bloquea los ejecutables temporales de Go, utilizar Docker sin desactivar sus políticas. Desde la **raíz del repositorio**:
 
-## Evidencias conservadas
+```powershell
+docker run --rm --mount "type=bind,source=$($PWD.Path),target=/src,readonly" --mount type=volume,source=eas-tb2-go-cache,target=/root/.cache/go-build --mount type=volume,source=eas-tb2-go-mod,target=/go/pkg/mod -w /src/go/plataforma golang:1.27-bookworm sh -c 'go test -count=1 ./... && go vet ./... && go test -race -count=1 ./...'
+docker run -d --name eas-tb2-fixtures -p 127.0.0.1:8098:8098 -e TB2_FIXTURE_ADDR=:8098 --mount "type=bind,source=$($PWD.Path),target=/src,readonly" --mount type=volume,source=eas-tb2-go-cache,target=/root/.cache/go-build --mount type=volume,source=eas-tb2-go-mod,target=/go/pkg/mod -w /src/go/plataforma golang:1.27-bookworm go run internal/ui/tests/integration_browser.go
+$env:TB2_FIXTURE_URL='http://127.0.0.1:8098'
+$env:PLAYWRIGHT_CHANNEL='msedge'
+npm --prefix go/plataforma/internal/ui/tests/browser test
+docker stop eas-tb2-fixtures
+docker rm eas-tb2-fixtures
+Remove-Item Env:TB2_FIXTURE_URL
+```
 
-En `evidencias/`:
+Esperar a que `docker logs eas-tb2-fixtures` indique que escucha antes de lanzar Playwright. No utilizar un servicio de producción como `TB2_FIXTURE_URL`.
 
-- `inicio-escritorio.jpg`: captura real del inicio con fuente, periodos y recorrido.
-- `inicio-movil.jpg`: captura real de la composición en una columna y menú compacto.
-- `datos-movil.jpg`: estado vacío real, sin catálogo inventado.
-- `menu-teclado-movil.jpg`: menú abierto con ArrowDown y foco en el primer enlace; verificado también Escape y reinicio al cambiar de ancho.
-- `http.json`: códigos, tipos y tamaños observados en el servidor Go real; API upstream no iniciada. No contiene respuestas científicas ni credenciales.
+Para el recorrido **real** con Compose ya iniciado y una carpeta nueva de evidencias, desde la raíz:
 
-Revisión en navegador realizada el 23 de noviembre de 2026: cinco enlaces, Atrás, actualización de `/datos`, apertura directa y actualización de `/resultados`, foco en el título y enlace activo; menú móvil con Enter/Escape y cierre al navegar. Viewport solicitado 390 × 844; ancho útil observado 375 px, igual al ancho desplazable, sin desbordamiento horizontal. Se revisó visualmente el inicio de escritorio y móvil. Las capturas no prueban datos reales ni ejecución del algoritmo.
+```powershell
+$env:PLAYWRIGHT_CHANNEL='msedge'
+node go/plataforma/internal/ui/tests/browser/real-compose.mjs results/evaluacion-web/nueva-campana
+```
 
-Resultado automatizado actualizado: `go build ./...` y `go vet ./...` correctos; nueve pruebas JavaScript aprobadas. Las pruebas de `cmd/ui` pasaron al incorporar el arranque y cierre. En la última ejecución de `go test -count=1 ./...`, Windows bloqueó el binario temporal de `cmd/ui`; API, clúster, persistencia, protocolo e `internal/ui` pasaron. No se considera aprobada la ejecución final completa. `-race` permanece pendiente por CGO deshabilitado.
+Este comando crea un trabajo real de 24 horas (k=4, semilla=42, tolerancia=0.0001, máximo 100 iteraciones, dos nodos), guarda respuestas y capturas y exige el mismo ID en Ejecuciones, Resultados y Panel. Incluye verificación de recarga y vista ambiental. Usa una sesión limpia y publica resultados solo si pasan las comprobaciones. Puede configurarse `TB2_UI_URL` para otra URL local. El nombre de carpeta debe ser nuevo para preservar campañas anteriores.
 
-Las pruebas no incluyen lector de pantalla, auditoría WCAG completa, despliegue público ni una sesión real con MongoDB/Redis. No se ejecutaron cálculos K-Means para esta tarea. Un bloqueo inicial de Windows al binario temporal de pruebas no cambió las políticas del equipo; la ejecución posterior del módulo completo sí pudo completarse.
+## Evidencias y alcance
 
-Esta rama entrega solo la base. No hacer merge automático. Iniciar consulta de datasets únicamente cuando este PR esté integrado en `develop` y se indique continuar; crear entonces `feature/ui-datasets` desde `develop` actualizado.
+La campaña de integración del 27/11/2026 está en `results/evaluacion-web/2026-11-27-integracion-web-tb2-110325`, desde la raíz. Su nota separa pruebas sintéticas y servicios reales e identifica revisiones y límites. Las capturas de Resultados y Análisis ambiental muestran la integración de las vistas existentes; no deben atribuirse como desarrollo exclusivo de Alexandra.
 
-## Robustez adicional de la base
-
-El servidor anuncia su disponibilidad solo tras abrir el puerto y explica los conflictos de dirección. Los módulos y estilos se revalidan para evitar versiones antiguas después de actualizar la interfaz.
-
-El cliente compartido valida configuración y rutas antes de consultar: rechaza destinos externos, traversal, separadores codificados y rutas malformadas. La configuración tiene un plazo de 5 segundos y las consultas 15 segundos hasta recibir sus encabezados; `apiRequest` admite `timeoutMs` y `signal`. La lectura posterior de un cuerpo se gestiona en cada pantalla, según su contrato.
-
-`view-host.js` admite vistas síncronas o promesas: muestra carga, contiene errores y cancela el contexto anterior al navegar. La función de vista recibe `{path, title, signal}`; debe pasar `signal` a sus consultas. Una resolución tardía no puede reemplazar una vista más reciente. Los errores permiten reintentar sin perder el menú.
-
-`menu.js` comparte el control del menú: ArrowDown entra al primer enlace, Escape restaura el foco cuando corresponde, un clic exterior lo cierra sin robar el foco y un cambio de breakpoint reinicia su estado. Estas utilidades pertenecen exclusivamente a la base: no implementan consulta o selección de datasets, panel general, configuración de trabajos ni resultados.
-
-La API publica creación asíncrona y consulta de estado por `GET /jobs/{id}`, pero no implementa WebSocket ni notificaciones push. Por eso la pantalla consulta periódicamente el estado, con backoff ante fallos transitorios, máximo de cinco errores consecutivos y plazo de seguimiento de diez minutos. Al navegar se cancela la consulta. Si se alcanza el límite, se conserva `job_id` y se permite reanudar manualmente. El entrenamiento se informa por `resultado.segundos_ml`; no se confunde con la latencia HTTP
+`evidencias/` conserva la revisión histórica de la base del 23/11/2026, realizada sin API. Sus pantallas vacías y conteos de pruebas describen ese momento; no sustituyen el estado actual. Las campañas históricas de datasets, panel y despliegue también se conservan, sin presentar sus mediciones como nuevas. No se certifican despliegue público, autenticación, TLS, auditoría integral de accesibilidad ni predicción temporal.

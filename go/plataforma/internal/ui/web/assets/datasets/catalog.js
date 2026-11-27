@@ -14,7 +14,7 @@ export function renderCatalog(datasets,{onSelect,selectedId=null}){
    const card=document.createElement('article');card.className='card dataset-card';
    const choice=document.createElement('div');choice.className='dataset-choice';
    const input=document.createElement('input');input.type='radio';input.name='dataset';input.id=`dataset-${index}`;input.value=dataset.id;input.checked=dataset.id===selectedId;input.disabled=!canSelect(dataset);
-   const label=document.createElement('label');label.htmlFor=input.id;label.textContent=`${title} · ${dataset.id}`;
+   const label=document.createElement('label');label.htmlFor=input.id;label.textContent=title;
    input.addEventListener('change',()=>{if(input.checked)onSelect(dataset.id);});
    choice.append(input,label);card.append(choice);
    const details=document.createElement('dl');details.className='dataset-details';
